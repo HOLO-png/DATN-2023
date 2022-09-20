@@ -1,0 +1,44 @@
+@import '../../styles/global.scss';
+
+.Pagination {
+  div {
+    margin: 0 1rem;
+  }
+  & .Select {
+    border: 1px solid #eceef0;
+    box-sizing: border-box;
+    margin: 0px !important;
+    border-radius: 6px;
+    padding-right: 2rem !important;
+    padding-left: 1rem !important;
+    font-style: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+  .displayedRows {
+    padding: 0.4rem 1rem 0.4rem 0;
+    border-right: 1px solid $black_10;
+  }
+  .Pagination {
+    &.PaginationRoot {
+      padding: 0 1rem;
+      display: block;
+    }
+    & .ul {
+      flex-wrap: nowrap;
+      li button {
+        cursor: pointer;
+        border: 1px solid $black_20;
+        border-radius: 0.25rem;
+        &:hover {
+          border: 1px solid $primary !important;
+          color: $primary !important;
+          background-color: $white;
+        }
+        .PageActive {
+          background-color: $primary !important;
+        }
+      }
+    }
+  }
+}
