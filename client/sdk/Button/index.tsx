@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@mui/material'
+import { Button, ButtonProps, IconButton as MUIIconButton } from '@mui/material'
 import clsx from 'clsx'
 import styles from './style.module.scss'
 
@@ -8,7 +8,9 @@ export const PrimaryButton = (props: ButtonProps) => {
       {...props}
       variant='contained'
       className={clsx(styles.BaseButton, styles.PrimaryButton, styles.Button, props.className)}
-    />
+    >
+      {props.children}
+    </Button>
   )
 }
 
@@ -18,7 +20,9 @@ export const GhostButton = (props: ButtonProps) => {
       {...props}
       variant='outlined'
       className={clsx(styles.BaseButton, styles.GhostButton, styles.Button, props.className)}
-    />
+    >
+      {props.children}
+    </Button>
   )
 }
 
@@ -28,6 +32,12 @@ export const TextButton = (props: ButtonProps) => {
       {...props}
       variant='outlined'
       className={clsx(styles.BaseButton, styles.TextButton, styles.Button, props.className)}
-    />
+    >
+      {props.children}
+    </Button>
   )
+}
+
+export const IconButton = (props: ButtonProps) => {
+  return <MUIIconButton {...props} />
 }

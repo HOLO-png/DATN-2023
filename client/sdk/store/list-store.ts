@@ -3,7 +3,7 @@ import { invokeRequest, onUpdateQuery } from 'sdk'
 import create, { GetState, SetState } from 'zustand'
 
 export type Data = { page: number; totalRecords: number; data: unknown[] }
-type ColumnSort = Map<string, 'asc' | 'desc' | null | string>
+export type ColumnSort = Map<string, 'asc' | 'desc' | string>
 
 interface ListView {
   url?: string
@@ -14,59 +14,18 @@ interface ListView {
 
 interface IListViewStore {
   listViewMap?: Map<string, ListView>
-  onPageChange: (id: string, page: number) => Promise<void>
-  onPageSizeChange: (id: string, size: number) => void
-  onColumnSort: (id: string, sortKey: string) => void
-  onSearch: (id: string, key: string) => void
   onDelete: (id: string, key: string) => void
   onEdit: (id: string, key: string) => void
   onLoading: (id: string) => void
   onData: (id: string, data: Data, url?: string) => void
-  onRefetch: (id: string, page?: number) => void
+  onQuery: (id: string, queryString: {}) => void
 }
 
 export const useListViewStore = create<IListViewStore>((set, get) => {
   return {
-    async onPageSizeChange(id, size) {
+    async onQuery(id, queryString) {
       const listViewMap = onLoading(id, get, set)
-      handleFetch(onUpdateQuery(listViewMap.get(id)?.url, { size, page: 1 }), (data) => {
-        onData(id, data, listViewMap, set)
-      })
-    },
-
-    async onPageChange(id, page) {
-      const listViewMap = onLoading(id, get, set)
-      handleFetch(onUpdateQuery(listViewMap.get(id)?.url, { page }), (data) => {
-        onData(id, data, listViewMap, set)
-      })
-    },
-
-    async onColumnSort(id, sortKey) {
-      const listViewMap = onLoading(id, get, set)
-      let columnSort = listViewMap.get(id)?.columnSort
-      if (!columnSort || !columnSort.get(sortKey)) {
-        columnSort = new Map()
-        columnSort.set(sortKey, 'asc')
-      } else if (columnSort.get(sortKey) === 'asc') {
-        columnSort.set(sortKey, 'desc')
-      } else {
-        columnSort = undefined
-      }
-      const sortOrder = columnSort?.get(sortKey)
-      listViewMap.set(id, { ...listViewMap.get(id), columnSort })
-      handleFetch(
-        onUpdateQuery(
-          listViewMap.get(id)?.url,
-          columnSort ? { sortKey, sortOrder } : { sortKey: undefined, sortOrder: undefined }
-        ),
-        (data) => {
-          onData(id, data, listViewMap, set)
-        }
-      )
-    },
-    onSearch(id, key) {
-      const listViewMap = onLoading(id, get, set)
-      handleFetch(onUpdateQuery(listViewMap.get(id)?.url, { keyword: key }), (data) => {
+      handleFetch(onUpdateQuery(listViewMap.get(id)?.url, queryString), (data) => {
         onData(id, data, listViewMap, set)
       })
     },
@@ -75,12 +34,6 @@ export const useListViewStore = create<IListViewStore>((set, get) => {
     },
     onDelete(id, key) {
       //TODO handle delete
-    },
-    onRefetch(id, page) {
-      const listViewMap = onLoading(id, get, set)
-      handleFetch(onUpdateQuery(listViewMap.get(id)?.url, page && { page: page }), (data) => {
-        onData(id, data, listViewMap, set)
-      })
     },
     onData(id, data, url) {
       const listViewMap = getListViewMap(get)

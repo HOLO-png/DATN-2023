@@ -1,9 +1,9 @@
 @import '../styles/global.scss';
+$black: #000000;
 
-@mixin flex($justifyContent) {
+@mixin flex() {
   display: flex;
-  align-items: center;
-  justify-content: $justifyContent;
+  align-items: flex-start;
 }
 
 @mixin text-style($textWeight, $textColor: $black_80, $textSize: 14px) {
@@ -12,49 +12,55 @@
   font-weight: $textWeight;
 }
 
-.DiaLogTitleRoot {
-  @include flex(space-between);
-  background-color: $white;
-  height: 60px;
-  border-bottom: 1px solid $black_10;
+.DialogRoot {
+  & form {
+    width: 100%;
+  }
+  & .PaperRoot {
+    border-radius: 0.5rem;
+    height: max-content;
+    width: 35rem;
+  }
 
   & .DialogTitleContent {
-    @include flex(flex-start);
-    @include text-style($Medium, $black_100, 18px);
-    margin: 0;
-    gap: 10px;
-  }
-
-  & .DialogTitleIconClose {
     color: $black_100;
-  }
-
-}
-
-.DialogRoot {
-  & .PaperRoot {
-    border-radius: 4px;
+    padding: 14px 1rem;
+    border-bottom: 1px solid $black_10;
   }
 
   & .DialogContentRoot {
-    padding: 16px 24px 24px 24px;
+    @include flex();
+    padding: 1rem;
+    flex-direction: column;
 
-    &.DialogContentTextRoot {
-      @include text-style($Regular);
-      letter-spacing: 0.1px;
-    }
-
-    & .DialogContentCheckboxText {
-      @include text-style($Medium);
-      margin: 0;
+    & .DialogContentText {
+      font-weight: 300;
+      color: $black;
     }
   }
 
   & .DialogActionsRoot {
-    padding: 0px 24px 24px 0px;
-    gap: 9px;
-    & button {
-      width: 120px;
+    padding: 1rem;
+    gap: 1rem;
+
+    & .TextButton {
+      text-transform: none !important;
+      &.TextCancel {
+        color: $black_40 !important;
+      }
     }
   }
+}
+
+.ButtonAdd {
+  display: flex;
+  justify-content: flex-end;
+  & .Text {
+    text-transform: none !important;
+  }
+}
+
+.PopupAdd {
+  padding-top: 1.5rem !important;
+  padding-bottom: 0 !important;
 }

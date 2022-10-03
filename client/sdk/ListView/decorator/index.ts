@@ -1,3 +1,5 @@
+import { DataDropdown } from 'sdk'
+
 type ColumnDecorator = (object: Object, propertyName: string) => void
 type FilterSource = { value: number; label: string }
 
@@ -31,7 +33,7 @@ export interface BaseOptions {
   width?: string | number
   sort?: boolean
   align?: 'left' | 'center' | 'right'
-  render?: (record: unknown, data?: unknown, index?: number) => JSX.Element
+  render?: (record: any, data?: unknown, index?: number) => JSX.Element
 }
 
 const _metaColumns = new Map<string, unknown>()
@@ -65,8 +67,18 @@ export function getMetadataColumns(options: Options): BaseOptions[] {
 }
 
 export type ListHeaderProps = {
+  id?: string
   title?: string
+  subheader?: string
   search?: boolean
-  sort?: string[]
+  labelDropdown?: string
+  dropdown?: Array<DataDropdown>
   extraHeader?: React.ReactNode
+  tab?: {
+    tabs: { label: string; component: JSX.Element }[]
+    className?: string
+    search?: boolean
+    dropdown?: Array<DataDropdown>
+  }
+  className?: string
 }

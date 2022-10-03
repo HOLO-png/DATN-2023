@@ -5,8 +5,9 @@
   .Appbar {
     box-shadow: none;
     color: $black_100;
+    border-bottom: 1px solid #ebebf0;
     .Toolbar {
-      background-color: $black;
+      background-color: $white;
     }
   }
 }

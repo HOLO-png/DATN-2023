@@ -1,59 +1,36 @@
-import { KeyboardArrowDown, Search } from '@mui/icons-material'
-import { Grid, MenuItem as MUIMenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import clsx from 'clsx'
-import { useState } from 'react'
-import { ContainerInputField } from '../../../sdk'
-import { useTableStore } from '../../store/table-store'
+import { ListViewSearch, Tabs } from 'sdk'
 import { ListHeaderProps } from '../decorator'
+import { ListViewDropdown } from '../ListViewDropdown'
 import styles from './style.module.scss'
 
 export const ListHeader = (props: ListHeaderProps) => {
-  const { title, search, sort, extraHeader } = props
-  const onSearch = useTableStore((store) => store.onSearch)
-  const [selected, setSelected] = useState('')
-
-  const handleChangeSelected = (event: SelectChangeEvent) => {
-    setSelected(event.target.value)
-  }
-
+  const { className, title, subheader, search, dropdown, tab, extraHeader, id = '', labelDropdown } = props
   return (
-    <Grid container className={styles.ListHeader}>
-      <Grid item xs={3}>
-        <Typography className={styles.Subhead1}>{title}</Typography>
+    <>
+      <Grid container className={clsx(styles.ListHeader, className)}>
+        <Grid item xs={4}>
+          <Typography className={styles.Subhead1}>{title}</Typography>
+          <Typography className={clsx(styles.Caption, styles.Subheader)}>{subheader}</Typography>
+        </Grid>
+        <Grid item xs={8} className={styles.Item}>
+          {dropdown && <ListViewDropdown dropdownItem={dropdown} id={id} labelDropdown={labelDropdown} />}
+          {search && <ListViewSearch id={id} />}
+          {extraHeader}
+        </Grid>
       </Grid>
-      <Grid item xs={9} className={styles.Item}>
-        {sort && (
-          <div className={styles.Sort}>
-            <Typography className={clsx(styles.Caption, styles.Text)}>Sắp xếp</Typography>
-            <Select
-              value={selected}
-              IconComponent={KeyboardArrowDown}
-              onChange={handleChangeSelected}
-              className={styles.Select}
-              classes={{
-                outlined: styles.Outlined,
-                icon: styles.Icon,
-              }}
-              displayEmpty>
-              {sort.map((item) => (
-                <MUIMenuItem value={item}>{item}</MUIMenuItem>
-              ))}
-            </Select>
-          </div>
-        )}
-
-        {search && (
-          <ContainerInputField
-            placeholder='Tìm kiếm'
-            className={styles.Search}
-            onChange={() => onSearch}
-            InputProps={{
-              startAdornment: <Search />,
-            }}></ContainerInputField>
-        )}
-
-        {extraHeader}
-      </Grid>
-    </Grid>
+      {tab && (
+        <Grid container className={clsx(styles.Tabs, tab.className)}>
+          <Grid item xs={6}>
+            <Tabs tabs={tab.tabs} />
+          </Grid>
+          <Grid item xs={6} className={styles.Item}>
+            {tab.dropdown && <ListViewDropdown dropdownItem={tab.dropdown} id={id} labelDropdown={labelDropdown} />}
+            {tab.search && <ListViewSearch id={id} />}
+          </Grid>
+        </Grid>
+      )}
+    </>
   )
 }

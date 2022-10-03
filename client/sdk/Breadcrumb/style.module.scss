@@ -1,29 +1,18 @@
-@import "../styles/global.scss";
+@import '../styles/global.scss';
 
-@mixin text-style {
-  font-size: 14px;
-  color: $black_60;
+.Breadcrumbs {
   font-family: $FontFamily;
-}
-
-.BreadcrumbsRoot {
-  .BreadcrumbsOl {
-    font-weight: 400;
-    letter-spacing: 0.1px;
-    @include text-style();
-    .BreadcrumbsLi {
-      & p {
-        @include text-style();
-      }
-
-      &:hover a {
-        text-decoration: none;
-        color: $primary;
-      }
-
-      &:last-child p {
-        color: $primary;
-      }
+  & .BreadcrumbsLi {
+    &:hover a {
+      color: $primary_light;
+    }
+    &:last-child a {
+      color: $primary_dark;
+    }
+    & .Link {
+      text-decoration: none;
+      color: $black_60;
+      font-weight: 300;
     }
   }
 }

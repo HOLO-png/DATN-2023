@@ -9,12 +9,13 @@ import {
   IconButton,
   ThemeProvider,
   Toolbar,
-  useMediaQuery,
+  useMediaQuery
 } from '@mui/material'
 import { useRef, useState } from 'react'
 import { Header } from '../Header'
-import styles from './style.module.scss'
 import { SideMenu } from '../SideMenu/SideMenu'
+import { PageHeading, PageHeadingProps } from './PageHeading'
+import styles from './style.module.scss'
 
 const drawerWidth = 260
 
@@ -22,7 +23,7 @@ const theme = createTheme({ typography: { fontFamily: 'Readex Pro' } })
 
 interface Props extends BoxProps {}
 
-export declare type HeaderProps = {
+export declare type HeaderProps = PageHeadingProps & {
   title?: string
   src?: string
   username?: string
@@ -45,7 +46,7 @@ export function Layout(props: Props & HeaderProps): JSX.Element {
           position='fixed'
           sx={{
             width: { md: `calc(100% - ${drawerWidth}px)` },
-            ml: { sm: `${drawerWidth}px`, md: `${drawerWidth}px` },
+            ml: { sm: `${drawerWidth}px`, md: `${drawerWidth}px` }
           }}>
           <Toolbar className={styles.Toolbar}>
             <IconButton
@@ -55,7 +56,7 @@ export function Layout(props: Props & HeaderProps): JSX.Element {
               onClick={handleDrawerToggle}
               sx={{
                 mr: 2,
-                display: { md: 'none' },
+                display: { md: 'none' }
               }}>
               <MenuIcon />
             </IconButton>
@@ -72,11 +73,11 @@ export function Layout(props: Props & HeaderProps): JSX.Element {
             open={mobileOpen}
             onClose={handleDrawerToggle}
             ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
+              keepMounted: true // Better open performance on mobile.
             }}
             sx={{
               display: { xs: 'block', sm: 'block' },
-              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
             }}>
             {drawer}
           </Drawer>
@@ -84,7 +85,7 @@ export function Layout(props: Props & HeaderProps): JSX.Element {
             variant='permanent'
             sx={{
               display: { xs: 'none', sm: 'none', md: 'block' },
-              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
             }}
             open>
             {drawer}
@@ -95,9 +96,10 @@ export function Layout(props: Props & HeaderProps): JSX.Element {
           sx={{
             padding: '15px',
             marginLeft: `${matches ? drawerWidth : 0}px`,
-            width: `calc(100% - ${matches ? drawerWidth : 0}px)`,
+            width: `calc(100% - ${matches ? drawerWidth : 0}px)`
           }}>
           <Toolbar />
+          <PageHeading {...props} />
           {props.children}
         </Box>
       </Box>

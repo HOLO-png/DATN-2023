@@ -20,7 +20,7 @@ export const useAuthStore = create<IStore>((set) => {
       set({ isSubmitting: true });
       try {
         const response = await ApiCore.post<IAuth>(endpoint, params);
-        set({ auth: response.data, isSubmitting: false });
+        set({ auth: response.data, isSubmitting: false, isError: false });
       } catch (error) {
         set({ isError: true, isSubmitting: false });
       }

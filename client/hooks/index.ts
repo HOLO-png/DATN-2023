@@ -1,6 +1,6 @@
 import { MutableRefObject, useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
-import { invokeRequest, RequestProps, useNotificationStore } from '../sdk'
+import { extractDocument, invokeRequest, RequestProps } from '../sdk'
 
 export const useWindowSize = () => {
   const [size, setSize] = useState([window.innerWidth, window.innerHeight])
@@ -24,7 +24,8 @@ interface Options {
 
 export const useAPI = (options: RequestProps & { onShowLoading?: () => void } & { timeReload?: number }) => {
   const { onShowLoading, timeReload, ...rest } = options
-  const dispatchNotification = useNotificationStore((store) => store.dispatchNotification)
+  // const dispatchNotification = useNotificationStore((store) => store.dispatchNotification)
+  const dispatchNotification = null
   let intervalId: NodeJS.Timer
 
   useEffect(() => {
@@ -43,7 +44,7 @@ export const useAPI = (options: RequestProps & { onShowLoading?: () => void } & 
 
 export default function useOnScreen(ref: MutableRefObject<any>) {
   const [isIntersecting, setIntersecting] = useState(false)
-
+  const document = extractDocument()
   const observer = new IntersectionObserver(([entry]) => setIntersecting(entry.isIntersecting))
 
   useEffect(() => {
@@ -55,15 +56,17 @@ export default function useOnScreen(ref: MutableRefObject<any>) {
 
   useEffect(() => {
     // User has switched back to the tab
-    const onFocus = () => {
-      const state = document.visibilityState
-      if (state === 'visible') setIntersecting(true)
-      else if (state === 'hidden') setIntersecting(false)
-    }
+    if (document) {
+      const onFocus = () => {
+        const state = document.visibilityState
+        if (state === 'visible') setIntersecting(true)
+        else if (state === 'hidden') setIntersecting(false)
+      }
 
-    document.addEventListener('visibilitychange', onFocus)
-    return () => {
-      document.removeEventListener('visibilitychange', onFocus)
+      document.addEventListener('visibilitychange', onFocus)
+      return () => {
+        document.removeEventListener('visibilitychange', onFocus)
+      }
     }
   }, [])
 

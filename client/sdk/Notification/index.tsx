@@ -2,6 +2,7 @@ import { Close } from '@mui/icons-material'
 import { Alert, AlertClasses, AlertProps, AlertTitle, IconButton, Snackbar } from '@mui/material'
 import clsx from 'clsx'
 import { SyntheticEvent, useState } from 'react'
+import { useNotificationStore } from '../store'
 import styles from './notification.module.scss'
 
 interface CustomAlertProps {
@@ -11,7 +12,7 @@ interface CustomAlertProps {
 const alertClasses: Partial<AlertClasses> = {
   icon: styles.AlertIcon,
   action: styles.AlertAction,
-  message: styles.AlertMessage,
+  message: styles.AlertMessage
 }
 
 const AlertBase = (props: AlertProps) => {
@@ -94,4 +95,33 @@ export const ErrorNotification = (props: AlertProps & CustomAlertProps) => {
       {children}
     </AlertBase>
   )
+}
+
+export enum Type {
+  INFO = 'info',
+  ERROR = 'error',
+  WARNING = 'warning',
+  SUCCESS = 'success'
+}
+
+export const NotificationProvider = () => {
+  const notification = useNotificationStore((store) => store.notification)
+
+  if (notification) {
+    const { description, label, type } = notification
+    switch (type) {
+      case Type.INFO:
+        return <InfoNotification label={label}>{description}</InfoNotification>
+      case Type.SUCCESS:
+        return <SuccessNotification label={label}>{description}</SuccessNotification>
+      case Type.ERROR:
+        const message = label || 'There is something wrong. Please try again later!'
+        return <ErrorNotification label={message}>{description}</ErrorNotification>
+      case Type.WARNING:
+        return <WarningNotification label={label}>{description}</WarningNotification>
+      default:
+        return <></>
+    }
+  }
+  return <></>
 }

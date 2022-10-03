@@ -7,15 +7,16 @@ import styles from './style.module.scss'
 const InputClasses = {
   root: styles.Button,
   disabled: styles.InputDisabled,
-  iconOpen: styles.IconOpen,
+  iconOpen: styles.IconOpen
 }
 
-type LabelProps = {
+type DropdownProps = {
   flexDirection?: 'row' | 'column'
+  dropdownClasses?: { label?: string; select?: string }
 }
 
-export const BaseDropdown = (props: SelectProps & LabelProps) => {
-  const { className, label, defaultOpen, inputProps, flexDirection, children, ...rest } = props
+export const BaseDropdown = (props: SelectProps & DropdownProps) => {
+  const { label, defaultOpen, inputProps, flexDirection, children, dropdownClasses, ...rest } = props
   const [selected, setSelected] = useState('')
   const handleChangeSelected = (event: SelectChangeEvent<any>) => {
     setSelected(event.target.value)
@@ -25,17 +26,17 @@ export const BaseDropdown = (props: SelectProps & LabelProps) => {
     <Grid display='flex' flexDirection={flexDirection}>
       {label && (
         <Grid item display='flex' alignItems={'center'}>
-          <Typography className={clsx(styles.Caption, styles.Text)}>{label}</Typography>
+          <Typography className={clsx(styles.Caption, styles.Text, dropdownClasses?.label)}>{label}</Typography>
         </Grid>
       )}
       <Grid item>
         <Select
-          className={clsx(styles.BaseDropdown, className)}
+          className={clsx(styles.BaseDropdown, dropdownClasses?.select)}
           value={selected}
           onChange={handleChangeSelected}
           inputProps={{
             classes: { ...InputClasses },
-            ...inputProps,
+            ...inputProps
           }}
           IconComponent={KeyboardArrowDownRounded}
           {...rest}>
@@ -46,29 +47,28 @@ export const BaseDropdown = (props: SelectProps & LabelProps) => {
   )
 }
 
-export const DropdownContained = (props: SelectProps & LabelProps) => {
+export const DropdownContained = (props: SelectProps & DropdownProps) => {
   const { className, classes, children, ...rest } = props
 
   return (
     <BaseDropdown
       {...rest}
       variant='outlined'
-      flexDirection='column'
       className={clsx(styles.DropdownContained, className)}
       classes={{
         outlined: styles.Outlined,
-        ...classes,
+        ...classes
       }}>
       {children}
     </BaseDropdown>
   )
 }
 
-export const DropdownLine = (props: SelectProps & LabelProps) => {
+export const DropdownLine = (props: SelectProps & DropdownProps) => {
   const { className, children, ...rest } = props
 
   return (
-    <BaseDropdown {...rest} variant='standard' className={clsx(styles.DropdownLine, className)}>
+    <BaseDropdown {...rest} flexDirection='column' variant='standard' className={clsx(styles.DropdownLine, className)}>
       {children}
     </BaseDropdown>
   )

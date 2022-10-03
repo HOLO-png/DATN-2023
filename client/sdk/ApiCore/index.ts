@@ -1,7 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { default as queryString } from 'query-string'
 import { DispatchNotification } from '../store'
-import { getCookie, removeCookie } from '../utils'
 
 export enum HttpMethod {
   GET = 'GET',
@@ -10,23 +9,10 @@ export enum HttpMethod {
   DELETE = 'DELETE'
 }
 
-axios.defaults.headers.common['Authorization'] = `Bearer ${getCookie('access')}`
-
 axios.interceptors.request.use(function (config) {
-  config.baseURL = (process.env.BASE_URL || '') + '/api'
+  config.baseURL = process.env.BASE_URL
   return config
 })
-
-axios.interceptors.response.use(
-  (resp) => resp,
-  function (error: AxiosError) {
-    if (error.response?.status === 401) {
-      removeCookie('access')
-      location.replace('/login?redirectUrl=' + location.pathname + location.search)
-    }
-    return error
-  }
-)
 
 export const ApiCore = {
   get: axios.get,
@@ -42,9 +28,6 @@ export const handleError = (err: AxiosError, dispatchNotification?: DispatchNoti
     location.replace('/login')
   } else if (statusErr === 403) {
     location.replace('/not-found')
-  } else if (statusErr === 400) {
-    const { message } = err.response?.data as { message: string }
-    dispatchNotification && dispatchNotification('error', 'API request failed', message)
   } else {
     dispatchNotification && dispatchNotification('error', 'API request failed')
   }
@@ -59,15 +42,8 @@ export type RequestProps = {
 }
 
 export const onUpdateQuery = (url = '', query = {}) => {
-  const currentQuery = queryString.parse(location.search, { parseNumbers: true })
-  return (
-    url +
-    '?' +
-    queryString.stringify(Object.assign(currentQuery, query), {
-      skipEmptyString: true,
-      skipNull: true
-    })
-  )
+  const currentQuery = queryString.parse(location.search)
+  return url + '?' + queryString.stringify(Object.assign(currentQuery, query))
 }
 
 export const invokeRequest = async (options: RequestProps) => {
@@ -81,9 +57,7 @@ export const invokeRequest = async (options: RequestProps) => {
     else if (method === HttpMethod.POST) response = await ApiCore.post(endpointRequest, params)
     else response = await ApiCore.get(endpointRequest)
 
-    if (response instanceof AxiosError) {
-      handleError(response, onError)
-    } else onSuccess(response.data)
+    onSuccess(response.data)
   } catch (error) {
     handleError(error as AxiosError, onError)
   }

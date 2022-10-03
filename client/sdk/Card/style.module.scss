@@ -14,6 +14,23 @@
       @include setColor($dark_blue);
     }
   }
+  & .CardHeader {
+    padding: 0.5rem 1rem;
+    & .Title {
+      @include setColor($black_100);
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-word;
+      flex: 1;
+    }
+    & .Date {
+      font-weight: 300;
+      @include setColor($black_60);
+    }
+  }
 }
 
 .Menu {
@@ -33,11 +50,59 @@
   }
 }
 
-.ListCard {
-  & .CardHeader {
-    padding: 0.5rem 1rem;
+.PlayListItemCard {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: none;
+  margin-left: 1rem;
+  margin-top: 1rem;
+  width: 100%;
+  & .CardMedia {
+    position: absolute;
+    width: 15%;
+    height: 80%;
+    border-radius: 8px;
+  }
+  & .CardContent {
+    margin-left: 15%;
+    width: 85%;
     & .Title {
       @include setColor($black_100);
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.5rem;
+      letter-spacing: 0.1px;
     }
+    & .Subhead {
+      & ul {
+        font-size: 14px;
+        display: flex;
+        color: #90a0b7;
+        font-weight: 500;
+        line-height: 20px;
+        align-items: center;
+        letter-spacing: 0.1px;
+        margin-left: -40px;
+        & li {
+          padding-right: 20px;
+        }
+      }
+      & ul :first-child {
+        list-style-type: none;
+      }
+    }
+  }
+  & .YoutubeIcon {
+    color: red;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  & .line {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
   }
 }

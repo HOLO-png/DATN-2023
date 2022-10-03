@@ -1,55 +1,53 @@
-import styles from './style.module.scss'
-import { Pagination as MUIPagination, TablePagination } from '@mui/material'
-import { useState } from 'react'
-import { useTableStore } from '../../store/table-store'
+import { UsePaginationProps } from '@mui/lab'
+import { Pagination as MUIPagination, PaginationItem, TablePagination } from '@mui/material'
 import clsx from 'clsx'
+import { useState } from 'react'
+import { useListViewStore } from 'sdk'
+import styles from './style.module.scss'
 
-type PaginationProps = {
-  id: string
-  count: number
-}
-
-export const PaginationAction = (props: PaginationProps) => {
-  const { id, count } = props
-  const onPageChange = useTableStore((store) => store.onPageChange)
-  const [page, setPage] = useState(0)
-
-  const handleChangePage = (event: React.ChangeEvent<unknown>, newPage: number) => {
-    event.stopPropagation()
-    setPage(newPage)
-    onPageChange(id, newPage)
-  }
-
+export const PaginationAction = (props: UsePaginationProps) => {
   return (
     <MUIPagination
-      count={count}
-      page={page}
-      color='primary'
+      {...props}
       siblingCount={1}
       defaultPage={6}
-      onChange={handleChangePage}
       className={styles.Pagination}
+      renderItem={(item) => (
+        <PaginationItem {...item} classes={{ selected: styles.PageActive, disabled: styles.Disabled }} />
+      )}
       classes={{ root: styles.PaginationRoot, ul: styles.ul }}
     />
   )
 }
 
-export const Pagination = (props: PaginationProps) => {
-  const { id, count } = props
+export const Pagination = (props: Partial<UsePaginationProps> & { id: string }) => {
   const [rowsPerPage, setRowsPerPage] = useState(10)
-  const onPageSizeChange = useTableStore((store) => store.onPageSizeChange)
-  const TotalPage = count % rowsPerPage !== 0 ? Math.floor(count / rowsPerPage) + 1 : count / rowsPerPage
+  const [page, setPage] = useState(1)
+
+  const data = useListViewStore((store) => store.listViewMap?.get(props.id)?.data)
+  const onQuery = useListViewStore((store) => store.onQuery)
+
+  const count = data?.totalRecords || 0
+  const totalPages = count % rowsPerPage !== 0 ? Math.floor(count / rowsPerPage) + 1 : count / rowsPerPage
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const pageSize = parseInt(event.target.value, 10)
-    onPageSizeChange(id, pageSize)
+    setPage(1)
+    onQuery(props.id, { size: pageSize, page: 1 })
     setRowsPerPage(pageSize)
   }
+
+  const handleChangePage = (event: React.ChangeEvent<unknown>, newPage: number) => {
+    setPage(newPage)
+    onQuery(props.id, { page: newPage })
+  }
+
   return (
     <TablePagination
       component='div'
-      ActionsComponent={() => <PaginationAction count={TotalPage} id={id} />}
-      labelRowsPerPage='Rows per page'
+      ActionsComponent={() => <PaginationAction count={totalPages} onChange={handleChangePage} page={page} />}
+      labelRowsPerPage=''
+      labelDisplayedRows={({ from, to, count }) => `${from}-${to} trong số ${count}`}
       count={count}
       rowsPerPage={rowsPerPage}
       onRowsPerPageChange={handleChangeRowsPerPage}
@@ -59,7 +57,7 @@ export const Pagination = (props: PaginationProps) => {
       classes={{
         select: styles.Select,
         selectLabel: styles.Body2,
-        displayedRows: clsx(styles.displayedRows, styles.Body2),
+        displayedRows: clsx(styles.displayedRows, styles.Body2)
       }}
     />
   )

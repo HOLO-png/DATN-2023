@@ -1,11 +1,11 @@
-import styles from './style.module.scss'
 import { CircularProgress, Fade } from '@mui/material'
-import { useTableStore } from '../../store/table-store'
 import { useEffect, useRef } from 'react'
+import { useListViewStore } from 'sdk'
+import styles from './style.module.scss'
 
 export const TableRowLoading = (props: { id: string }) => {
   const { id } = props
-  const isFetching = useTableStore((store) => store.tableMap?.get(id)?.isFetching)
+  const isFetching = useListViewStore((store) => store.listViewMap?.get(id)?.isFetching)
   const loaderRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {

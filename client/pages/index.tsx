@@ -9,8 +9,6 @@ export default function Home() {
         <title>Housewife</title>
         <link href="https://fonts.googleapis.com/css2?family=Readex+Pro&display=swap" rel="stylesheet"/>
       </Head>
-      {/* header */}
-      <Header/>
     </Container>
   )
 }

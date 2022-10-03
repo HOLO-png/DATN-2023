@@ -1,40 +1,43 @@
-@import '../../../sdk/styles/global.scss';
+@import 'sdk/styles/global.scss';
 
 .ListHeader {
-  margin-bottom: 1rem;
   display: flex;
   align-items: center;
-  & .Item {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    & .Sort {
-      display: flex;
-      align-items: center;
-      & .Text {
-        padding: 0 0.5rem;
-        font-weight: 300;
-        color: $black_60;
-      }
-      & .Select {
-        & .Outlined {
-          min-width: 10rem;
-          border: 1px solid $black_40;
-          width: 100%;
-          color: $black_100;
-          padding: 0.5rem 1rem;
-          padding-right: 2rem !important;
-        }
-        & .Icon {
-          color: $black_60;
-        }
-      }
-    }
-    & .Search {
-      padding-left: 0.5rem;
-      input {
-        padding: 0.5rem;
-      }
+  padding: 1rem;
+  padding-top: 0;
+  & .Subheader {
+    font-weight: 300;
+    color: $black_60;
+  }
+}
+.Item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  & .Action {
+    border-left: 1px solid $black_10;
+    padding: 0;
+    padding-left: 0.5rem;
+    button {
+      padding: 0;
+      color: $black_40;
     }
   }
+
+  & .ExtraHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 1rem;
+    color: $black_40;
+    & .Text {
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+.Tabs {
+  padding-top: 0.5rem;
+  padding-right: 1rem;
+  border-bottom: none !important;
 }

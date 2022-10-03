@@ -9,6 +9,7 @@
 
 .Container {
   position: relative;
+  padding: 1rem;
 }
 
 .TableBody {
@@ -28,7 +29,7 @@
 
 .TableHeader {
   padding: 0;
-  background-color: $background_blue;
+  @include setBorderBottom($black_20);
   & .TableRow {
     padding: 0 8px;
     border-bottom: none;

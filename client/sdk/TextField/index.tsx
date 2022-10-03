@@ -1,16 +1,16 @@
-import { TextField, TextFieldProps } from '@mui/material';
-import clsx from 'clsx';
-import styles from './style.module.scss';
+import { Box, TextField, TextFieldProps } from '@mui/material'
+import clsx from 'clsx'
+import styles from './style.module.scss'
 
 const InputBaseClasses = {
   root: styles.InputBaseRoot,
   focused: styles.InputBaseFocused,
   error: styles.InputBaseError,
-  disabled: styles.InputBaseDisabled,
+  disabled: styles.InputBaseDisabled
 }
 
 const InputLabelClasses = {
-  root: styles.LabelRoot,
+  root: clsx(styles.LabelRoot, styles.Caption),
   focused: styles.LabelFocused,
   error: styles.LabelError,
   disabled: styles.LabelDisabled
@@ -18,65 +18,62 @@ const InputLabelClasses = {
 
 const FormHelperTextClasses = {
   root: styles.HelperTextRoot,
-  error: styles.HelperTextError,
+  error: styles.HelperTextError
 }
 
 const BaseInputField = (props: TextFieldProps) => {
-  const {
-    InputLabelProps,
-    FormHelperTextProps,
-    className,
-    ...rest
-  } = props;
+  const { InputLabelProps, FormHelperTextProps, className, variant, ...rest } = props
 
   return (
-    <TextField
-      {...rest}
-      className={className}
-      InputLabelProps={{
-        shrink: true,
-        classes: InputLabelClasses,
-        ...InputLabelProps,
-      }}
-      FormHelperTextProps={{
-        classes: FormHelperTextClasses,
-        ...FormHelperTextProps,
-      }}
-    />
-  );
+    <Box className={variant === 'outlined' ? styles.ContainerBox : styles.LineBox}>
+      <TextField
+        {...rest}
+        className={className}
+        InputLabelProps={{
+          shrink: true,
+          classes: InputLabelClasses,
+          ...InputLabelProps
+        }}
+        FormHelperTextProps={{
+          classes: FormHelperTextClasses,
+          ...FormHelperTextProps
+        }}
+      />
+    </Box>
+  )
 }
 
 export const LineInputField = (props: TextFieldProps) => {
   return (
     <BaseInputField
       {...props}
-      variant="standard"
+      variant='standard'
       className={clsx(styles.InputField, styles.LineInputField, props.className)}
       InputProps={{
         classes: {
-          ...InputBaseClasses,
+          ...InputBaseClasses
         },
-        ...props.InputProps,
+        ...props.InputProps
       }}
     />
-  );
+  )
 }
 
 export const ContainerInputField = (props: TextFieldProps) => {
   return (
     <BaseInputField
       {...props}
-      variant="outlined"
+      variant='outlined'
       className={clsx(styles.InputField, styles.ContainerInputField, props.className)}
       InputProps={{
         classes: {
           ...InputBaseClasses,
           notchedOutline: styles.NotchedOutline
         },
-        ...props.InputProps,
+        ...props.InputProps
       }}
     />
-  );
+  )
 }
 
 export const TextareaField = (props: TextFieldProps) => {
@@ -89,7 +86,7 @@ export const TextareaField = (props: TextFieldProps) => {
     minRows = 1,
     label,
     ...rest
-  } = props;
+  } = props
 
   return (
     <TextField
@@ -98,31 +95,29 @@ export const TextareaField = (props: TextFieldProps) => {
       multiline
       maxRows={maxRows}
       minRows={minRows}
-      variant="outlined"
-      className={
-        clsx(
-          styles.InputField,
-          styles.ContainerInputField,
-          label ? styles.TextareaField : styles.TextareaNoLabel,
-          className
-        )
-      }
+      variant='outlined'
+      className={clsx(
+        styles.InputField,
+        styles.ContainerInputField,
+        label ? styles.TextareaField : styles.TextareaNoLabel,
+        className
+      )}
       InputProps={{
         classes: {
           ...InputBaseClasses,
           notchedOutline: styles.NotchedOutline
         },
-        ...InputProps,
+        ...InputProps
       }}
       InputLabelProps={{
         shrink: true,
         classes: InputLabelClasses,
-        ...InputLabelProps,
+        ...InputLabelProps
       }}
       FormHelperTextProps={{
         classes: FormHelperTextClasses,
-        ...FormHelperTextProps,
+        ...FormHelperTextProps
       }}
     />
-  );
+  )
 }
