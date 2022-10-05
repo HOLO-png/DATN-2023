@@ -51,7 +51,7 @@ function LoginSocial(props) {
         if (social.items) {
           return (
             <div key={social.title}>
-              <Tooltip title="" arrow placement="top" >
+              <Tooltip title={social.desc} arrow placement="top" >
                 <ListItemButton onClick={handleClick}>
                   <>
                     <ListItemAvatar>

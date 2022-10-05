@@ -1,4 +1,4 @@
-import initContract from 'truffle-contract';
+import initContract from '@truffle/contract';
 
 const getContract = async (web3, contractDefinition) => {
   const contract = initContract(contractDefinition);
