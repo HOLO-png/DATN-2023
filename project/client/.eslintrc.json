@@ -9,6 +9,7 @@
   "extends": [
     "eslint:recommended",
     // "airbnb",
+    // "react-app",
     // "airbnb/hooks",
     "plugin:react/recommended",
     "plugin:import/errors",

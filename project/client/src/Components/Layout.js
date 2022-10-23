@@ -1,5 +1,5 @@
 // import Link from "next/link";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import Head from "next/head";
 import { connect } from "react-redux";
 import actions from "../../redux/actions";
@@ -10,10 +10,23 @@ import Header from "./Header";
 import Footer from "./Footer";
 import MobileHeader from "./MobileHeader";
 import { initGA, logPageView } from "../../utils/analytics";
+import { BackTop, Tooltip } from "antd";
+import { ArrowUpOutlined } from "@ant-design/icons";
 
 Router.onRouteChangeStart = () => NProgress.start();
 Router.onRouteChangeComplete = () => NProgress.done();
 Router.onRouteChangeError = () => NProgress.done();
+
+const backTopStyle = {
+  height: 35,
+  width: 35,
+  lineHeight: "40px",
+  borderRadius: 4,
+  backgroundColor: "#1088e9",
+  color: "#fff",
+  textAlign: "center",
+  fontSize: 20,
+};
 
 class Layout extends Component {
   componentDidMount() {
@@ -28,7 +41,7 @@ class Layout extends Component {
     const {
       children,
       title = "Home",
-      menuCate
+      menuCate,
       // isAuthenticated,
       // deauthenticate,
     } = this.props;
@@ -38,7 +51,18 @@ class Layout extends Component {
         <Head>
           <title>{title || "Housewife"}</title>
         </Head>
-
+        <Tooltip
+          placement="top"
+          title="Scroll to the top"
+          style={{ right: "76px", bottom: "100px" }}
+          color="#4267b2"
+        >
+          <BackTop>
+            <div style={backTopStyle}>
+              <ArrowUpOutlined />
+            </div>
+          </BackTop>
+        </Tooltip>
         <Header data={menuCate} />
         <MobileHeader />
 

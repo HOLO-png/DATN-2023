@@ -9,5 +9,5 @@ export const provider = () => {
       openNotification("Error", "Please Install Metamask!");
       return null;
     }
-  }
+  } 
 };

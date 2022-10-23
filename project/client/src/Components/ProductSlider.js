@@ -7,6 +7,7 @@ import PrevArrow from "./Includes/PrevArrow";
 import NextArrow from "./Includes/NextArrow";
 import { connect } from "react-redux";
 import actions from "../../redux/actions";
+import { Empty } from "antd";
 
 class ProductSlider extends Component {
   // state = {
@@ -68,11 +69,26 @@ class ProductSlider extends Component {
         },
       ],
     };
+    if (this.props.data?.products.length === 0) {
+      return (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          style={{ height: "150px" }}
+        />
+      );
+    }
+
     return (
       <section className="product-slider">
         <Slider {...settings}>
           {this.props.data?.products?.map((product, i) => {
-            return <ProductCard key={i} data={product} sliderName={this.props.sliderName} />;
+            return (
+              <ProductCard
+                key={i}
+                data={product}
+                sliderName={this.props.sliderName}
+              />
+            );
           })}
         </Slider>
       </section>

@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
 
-
 const pointSchema = new mongoose.Schema({
     type: {
         type: String,

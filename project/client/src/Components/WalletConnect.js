@@ -13,7 +13,7 @@ function WalletConnect(props) {
   const [isOpen, setIsOpen] = useState(false);
 
   const connectWalletHandler = () => {
-    provider().send("eth_requestAccounts", []).then(async () => {
+     provider()?.send("eth_requestAccounts", []).then(async () => {
       const addressWallet = await provider().getSigner().getAddress();
       const body = {
         name: "Unnamed",

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Row, Col, Input, Button } from "antd";
-import { SearchOutlined } from '@ant-design/icons'
+import { Row, Col, Input, Button, Avatar } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 
 import { getUserInfo } from "../../utils/common";
@@ -9,6 +9,7 @@ import actions from "../../redux/actions";
 import Router, { withRouter } from "next/router";
 import { AutoComplete } from "antd";
 import { debounce, isEmpty } from "lodash";
+import { IMAGE_BASE_URL } from "../../utils/constants";
 class Header extends Component {
   state = {
     search: "",
@@ -21,7 +22,7 @@ class Header extends Component {
     allCategories: [],
     currentChildCate: [],
     currentChildChildCate: [],
-    handleDelay: ''
+    handleDelay: "",
   };
 
   componentDidMount() {
@@ -30,7 +31,7 @@ class Header extends Component {
     }
     let loginToken = this.props.authentication.token;
     let userInfo = getUserInfo(loginToken);
-
+    console.log(loginToken);
     let slug = this.props.router.asPath?.split("/")[1];
 
     if (slug === "search") {
@@ -90,60 +91,75 @@ class Header extends Component {
   };
 
   selectKeyword = (keyword) => {
-    this.searchSelectedProduct(keyword)
-  }
+    this.searchSelectedProduct(keyword);
+  };
 
   searchSelectedProduct = debounce((keyword) => {
     Router.push("/search/[slug]", "/search/" + keyword);
     this.setState({ searchValue: keyword });
-  }, 500)
+  }, 500);
 
   getSearchKeywordsDeb = (search) => {
     this.setState({ searchValue: search });
-    this.debouceSearchKeywords(search)
-  }
+    this.debouceSearchKeywords(search);
+  };
 
   debouceSearchKeywords = debounce((keyword) => {
     this.props.getSearchKeywords(keyword);
-  }, 500)
+  }, 500);
 
   getCurrentChildCates = (cate) => {
-    this.setState({ currentMenu: cate, currentChildCate: cate.childCate, currentChildChildCate: [] })
-  }
+    this.setState({
+      currentMenu: cate,
+      currentChildCate: cate.childCate,
+      currentChildChildCate: [],
+    });
+  };
 
   getCurrentChildChildCates = (cate) => {
-    this.setState({ currentChildChildCate: cate.childCate, currentActiveChildId: cate._id })
-  }
+    this.setState({
+      currentChildChildCate: cate.childCate,
+      currentActiveChildId: cate._id,
+    });
+  };
 
   render() {
     let { loginToken } = this.state;
-    let parentCate = this.props.menu.menuCategories || []
+    let userInfo = getUserInfo(loginToken);
+    let parentCate = this.props.menu.menuCategories || [];
+    const { name, photo, socialPhoto } = userInfo;
+    let userPhoto = photo ? `${IMAGE_BASE_URL}/${photo}` : socialPhoto;
+
     return (
       <React.Fragment>
         <div className="top-header">
-          <div>
-            Customer Care: +9779856321452
-          </div>
+          <div>Customer Care: +9779856321452</div>
           <div>
             <ul>
               <li>Sell On Kindeem</li>
               <li className="about-top-head">About Us</li>
               <li className="profile-top-head">
                 <Link href="/myprofile/manageAccount">
-                  <a>
-                    {loginToken ? "My Profile" : "Login"}
-                  </a>
+                  {loginToken ? (
+                    <div className="profile-user-head">
+                      <img
+                        src={userPhoto || "/images/default-user.png"}
+                        className="head-user-thumbnail"
+                      />
+                      {name}
+                    </div>
+                  ) : (
+                    "Login"
+                  )}
                 </Link>
               </li>
-              {!loginToken &&
+              {!loginToken && (
                 <li className="register-top-head">
                   <Link href="/register">
-                    <a>
-                      Register
-                    </a>
+                    <a>Register</a>
                   </Link>
                 </li>
-              }
+              )}
             </ul>
           </div>
         </div>
@@ -169,62 +185,55 @@ class Header extends Component {
                         // }}
                         className="auto-search"
                         onSelect={(select) => {
-                          this.selectKeyword(select)
+                          this.selectKeyword(select);
                         }}
                         onSearch={(search) => {
-                          this.getSearchKeywordsDeb(search)
+                          this.getSearchKeywordsDeb(search);
                         }}
                         placeholder="Search for products, brands and more"
                       >
                         {/* <SearchOutlined /> */}
                         {/* <Input size="large" placeholder="Search for products, brands and more"/> */}
                       </AutoComplete>
-                      <div className="search-btn" onClick={() => this.selectKeyword(this.state.searchValue)}>
+                      <div
+                        className="search-btn"
+                        onClick={() =>
+                          this.selectKeyword(this.state.searchValue)
+                        }
+                      >
                         <SearchOutlined />
                       </div>
                     </div>
                     {/* <img src="/images/search-icon.png" /> */}
                   </form>
-
                 </Col>
               </Row>
             </Col>
             <Col lg={4} sm={4} className="menu-right">
               <div className="menu-right-items">
-                {
-                  loginToken ? (
-                    <Link href="/myprofile/myWishlist">
-                      <a>
-                        <div className="list-icon">
-                          <img src="/images/heart.png" />
-                        </div>
-                        <div className="list-text">Wishlist</div>
-                      </a>
-                    </Link>
-                  ) : (
-                    <Link href={`/login?origin=${this.props.router.asPath}`}>
-                      <a>
-                        <div className="list-icon">
-                          <img src="/images/heart.png" />
-                        </div>
-                        <div className="list-text">Wishlist</div>
-                      </a>
-                    </Link>
-                  )
-                }
+                {loginToken ? (
+                  <Link href="/myprofile/myWishlist">
+                    <a>
+                      <div className="list-icon">
+                        <img src="/images/heart.png" />
+                      </div>
+                      <div className="list-text">Wishlist</div>
+                    </a>
+                  </Link>
+                ) : (
+                  <Link href={`/login?origin=${this.props.router.asPath}`}>
+                    <a>
+                      <div className="list-icon">
+                        <img src="/images/heart.png" />
+                      </div>
+                      <div className="list-text">Wishlist</div>
+                    </a>
+                  </Link>
+                )}
               </div>
               <div className="menu-right-items">
-                {
-                  loginToken ? (
-                    <Link href="/cart">
-                      <a>
-                        <div className="list-icon">
-                          <img src="/images/bag.png" />
-                        </div>
-                        <div className="list-text">Cart</div>
-                      </a>
-                    </Link>
-                  ) : <Link href={`/login?origin=${this.props.router.asPath}`}>
+                {loginToken ? (
+                  <Link href="/cart">
                     <a>
                       <div className="list-icon">
                         <img src="/images/bag.png" />
@@ -232,7 +241,16 @@ class Header extends Component {
                       <div className="list-text">Cart</div>
                     </a>
                   </Link>
-                }
+                ) : (
+                  <Link href={`/login?origin=${this.props.router.asPath}`}>
+                    <a>
+                      <div className="list-icon">
+                        <img src="/images/bag.png" />
+                      </div>
+                      <div className="list-text">Cart</div>
+                    </a>
+                  </Link>
+                )}
               </div>
             </Col>
           </Row>
@@ -252,8 +270,8 @@ class Header extends Component {
                 >
                   Home
                 </div>
-                {
-                  !isEmpty(parentCate) && parentCate.map((cate, i) => {
+                {!isEmpty(parentCate) &&
+                  parentCate.map((cate, i) => {
                     return (
                       <div
                         className={"parent-cate "}
@@ -261,91 +279,105 @@ class Header extends Component {
                         onMouseEnter={() => {
                           this.getCurrentChildCates(cate);
                           this.setState({
-                            currentActiveChildId: ''
-                          })
+                            currentActiveChildId: "",
+                          });
                         }}
                       >
                         {cate.displayName}
                       </div>
-                    )
-                  })
-                }
+                    );
+                  })}
               </div>
-              {
-                !isEmpty(this.state.currentChildCate) &&
+              {!isEmpty(this.state.currentChildCate) && (
                 <div className="child-cates-cover">
-                  <Row className="child-cates-row" style={{ background: '#fff' }}>
+                  <Row
+                    className="child-cates-row"
+                    style={{ background: "#fff" }}
+                  >
                     <Col
                       lg={7}
                       sm={7}
-                      className={`${!isEmpty(this.state.currentChildChildCate) && 'child-cates-col'}`}
+                      className={`${
+                        !isEmpty(this.state.currentChildChildCate) &&
+                        "child-cates-col"
+                      }`}
                     >
                       <div>
-                        {
-                          this.state.currentChildCate?.map((cate, i) => {
-                            return (
-                              <div
-                                // id={"child"+i}
-                                className={"child-cate " + (cate._id === this.state.currentActiveChildId ? 'active' : '')}
-                                key={i}
-                                onClick={(e) =>
-                                  this.searchProducts(
-                                    e,
-                                    cate.slug,
-                                    cate._id
-                                  )
-                                }
+                        {this.state.currentChildCate?.map((cate, i) => {
+                          return (
+                            <div
+                              // id={"child"+i}
+                              className={
+                                "child-cate " +
+                                (cate._id === this.state.currentActiveChildId
+                                  ? "active"
+                                  : "")
+                              }
+                              key={i}
+                              onClick={(e) =>
+                                this.searchProducts(e, cate.slug, cate._id)
+                              }
+                            >
+                              <span
+                                onMouseEnter={() => {
+                                  this.getCurrentChildChildCates(cate);
+                                }}
                               >
-                                <span
-                                  onMouseEnter={() => {
-                                    this.getCurrentChildChildCates(cate);
-                                  }}
-                                >{cate.displayName}</span>
-                              </div>
-                            )
-                          })
-                        }
+                                {cate.displayName}
+                              </span>
+                            </div>
+                          );
+                        })}
                       </div>
                     </Col>
                     <Col
                       lg={7}
                       sm={7}
-                      className={`${!isEmpty(this.state.currentChildChildCate) && 'child-child-cates-col'}`}
+                      className={`${
+                        !isEmpty(this.state.currentChildChildCate) &&
+                        "child-child-cates-col"
+                      }`}
                     >
                       <div>
-                        {
-                          this.state.currentChildChildCate?.map((cate, i) => {
-                            return (
-                              <div
-                                className={"child-cate " + (cate._id === this.state.currentActiveChildChildId ? 'active' : '')}
-                                onMouseLeave={() => this.setState({ currentActiveChildChildId: '' })}
-                                onMouseEnter={() => this.setState({ currentActiveChildChildId: cate._id })}
-                                key={i}
-                                onClick={(e) =>
-                                  this.searchProducts(
-                                    e,
-                                    cate.slug,
-                                    cate._id
-                                  )
-                                }
-                              >
-                                <span>{cate.displayName}</span>
-                              </div>
-                            )
-                          })
-                        }
+                        {this.state.currentChildChildCate?.map((cate, i) => {
+                          return (
+                            <div
+                              className={
+                                "child-cate " +
+                                (cate._id ===
+                                this.state.currentActiveChildChildId
+                                  ? "active"
+                                  : "")
+                              }
+                              onMouseLeave={() =>
+                                this.setState({ currentActiveChildChildId: "" })
+                              }
+                              onMouseEnter={() =>
+                                this.setState({
+                                  currentActiveChildChildId: cate._id,
+                                })
+                              }
+                              key={i}
+                              onClick={(e) =>
+                                this.searchProducts(e, cate.slug, cate._id)
+                              }
+                            >
+                              <span>{cate.displayName}</span>
+                            </div>
+                          );
+                        })}
                       </div>
                     </Col>
-                    <Col lg={10} sm={10} style={{ textAlign: 'right' }}>
-                      <div><img src="/images/elect-imag.jpg" /></div>
+                    <Col lg={10} sm={10} style={{ textAlign: "right" }}>
+                      <div>
+                        <img src="/images/elect-imag.jpg" />
+                      </div>
                     </Col>
                   </Row>
-
                 </div>
-              }
+              )}
             </div>
           </div>
-
         </div>
       </React.Fragment>
     );

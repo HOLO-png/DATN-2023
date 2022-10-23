@@ -131,6 +131,8 @@ export const openNotification = (title, description) => {
     message.success(description, 10);
   } else if (title === "Error") {
     message.error(description, 10);
+  } else if (title === "Warning") {
+    message.warning(description, 10);
   }
 };
 
@@ -160,4 +162,8 @@ export function previousQuery(value) {
     ref.current = value;
   }, [value]);
   return ref.current;
+}
+
+export function isEmpty(val) {
+  return val === undefined || val == null || val.length <= 0 ? true : false;
 }

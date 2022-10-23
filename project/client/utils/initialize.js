@@ -9,7 +9,7 @@ export default function (ctx) {
       ctx.store.dispatch(actions.reauthenticate(getCookie("token", ctx.req), getCookie("refresh-token", ctx.req), ctx));
     }
   } else {
-    const token = ctx.store.getState().authentication.token;
+    const token = ctx.store?.getState().authentication.token;
 
     if (token && (ctx.pathname === "/signin" || ctx.pathname === "/signup")) {
       setTimeout(function () {

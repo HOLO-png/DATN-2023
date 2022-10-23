@@ -5,7 +5,8 @@ import initialize from "../initialize";
 const index = "/";
 
 const checkUserAuthentication = (ctx) => {
-  let auth = ctx.store.getState().authentication.token;
+  let auth = ctx.store?.getState().authentication.token;
+  console.log(auth);
   return { auth };
 };
 

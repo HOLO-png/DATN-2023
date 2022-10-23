@@ -169,7 +169,7 @@ exports.calculateShippingCharge = async (req, res) => {
 exports.createOrder = async (req, res) => {
   const {products,shipto,shippingCharge,orderID,method} = req.body;
   //vaidate address
-  if (!shipto.region || !shipto.area || !shipto.city || !shipto.address || !shipto.phoneno) {
+  if (!shipto.province || !shipto.ward || !shipto.district || !shipto.addressDetail || !shipto.phoneno) {
     return res.status(403).json({ error: "Address fields are required." });
   }
   //validate products
@@ -243,10 +243,10 @@ exports.createOrder = async (req, res) => {
     newOrder.quantity = product.quantity;
     newOrder.productAttributes = product.productAttributes;
     newOrder.shipto = {
-      region: shipto.region,
-      city: shipto.city,
-      area: shipto.area,
-      address: shipto.address,
+      province: shipto.province,
+      district: shipto.district,
+      ward: shipto.ward,
+      addressDetail: shipto.addressDetail,
       phoneno: shipto.phoneno,
     };
     if (shipto.lat && shipto.long) {

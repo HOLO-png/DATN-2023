@@ -11,7 +11,7 @@ import wishlistReducer from "./wishlistReducer";
 import orderReducer from "./orderReducer";
 import locationReducer from "./locationReducer";
 
-const rootReducer = combineReducers({
+const rootReducers = combineReducers({
   authentication: authReducer,
   products: productReducer,
   menu: menuReducer,
@@ -25,4 +25,4 @@ const rootReducer = combineReducers({
   location: locationReducer,
 });
 
-export default rootReducer;
+export default rootReducers;

@@ -27,8 +27,8 @@ export const postTokenService = async (url, method, body) => {
     } else {
       if (data.error === "jwt expired") {
         initStore().dispatch(deauthenticate());
-        if(window){
-          window.location.href = "/"
+        if (window) {
+          window.location.href = "/";
         }
         return {
           isSuccess: false,
@@ -57,8 +57,8 @@ export const getTokenService = async (url, method, ctx, accessToken) => {
         "x-auth-token": getCookie("token", ctx?.req, accessToken),
       },
     });
-
     const data = await resp.json();
+
     if (resp.status >= 200 && resp.status < 300) {
       return {
         isSuccess: true,
@@ -126,8 +126,8 @@ export const getLocationService = async (url, method, body) => {
       method,
       headers: {
         "content-type": "application/json",
-        "token": process.env.NEXT_PUBLIC_GHN_TOKEN,
-        "shopId": process.env.NEXT_PUBLIC_SHOP_ID
+        token: process.env.NEXT_PUBLIC_GHN_TOKEN,
+        shopId: process.env.NEXT_PUBLIC_SHOP_ID,
       },
       body: JSON.stringify(body),
     });
@@ -209,7 +209,7 @@ export const uploadImageService = async (url, method, formData) => {
   }
 };
 
-const refreshTheToken = async (url, method, ctx, callbackUrl) => {
+export const refreshTheToken = async (url, method, ctx, callbackUrl) => {
   const body = JSON.stringify({
     refreshToken: getCookie("refresh-token", ctx?.req),
   });
@@ -227,11 +227,13 @@ const refreshTheToken = async (url, method, ctx, callbackUrl) => {
     setCookie("token", newdata.accessToken, ctx?.req, ctx?.res);
     setCookie("refresh-token", newdata.refreshToken, ctx?.req, ctx?.res);
     initStore().dispatch({ type: AUTHENTICATE, payload: newdata.accessToken });
-    const resp = await callbackUrl(url, method, ctx, newdata.accessToken);
-    return resp;
+    if (callbackUrl) {
+      const resp = await callbackUrl(url, method, ctx, newdata.accessToken);
+      return resp;
+    }
   } else {
     initStore().dispatch({ type: DEAUTHENTICATE });
-    ctx?.store.dispatch({
+    ctx?.store?.dispatch({
       type: DEAUTHENTICATE,
     });
     if (ctx?.res) {
@@ -240,7 +242,9 @@ const refreshTheToken = async (url, method, ctx, callbackUrl) => {
       });
       ctx.res.end();
     } else {
-      window.location.href = "/login";
+      if(typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
     }
   }
 };

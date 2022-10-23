@@ -15,7 +15,7 @@ import actions from "../redux/actions";
 // utils
 import { openNotification } from "../utils/common";
 import withUnAuth from "../utils/auth/withUnAuth";
-import { EMAIL_REGEX } from "../constants";
+import { EMAIL_REGEX } from "../utils/constants";
 
 var jwt = require("jsonwebtoken");
 

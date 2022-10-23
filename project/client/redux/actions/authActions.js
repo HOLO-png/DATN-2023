@@ -130,7 +130,7 @@ const authenticate3rdSoftLogin = (body) => {
 const reauthenticate = (token, refreshToken, ctx) => {
   if (!token || !refreshToken) {
     return (dispatch) => {
-      // dispatch(deauthenticate("/", ctx));
+      dispatch(deauthenticate("/", ctx));
       removeCookie("token");
       dispatch({ type: DEAUTHENTICATE });
     };
