@@ -37,7 +37,7 @@ export const getCookieFromBrowser = (key) => {
 };
 
 export const getCookieFromServer = (key, req, accessToken) => {
-  if (!req.headers.cookie) {
+  if (!req?.headers.cookie) {
     return undefined;
   }
   const rawCookie = req.headers.cookie

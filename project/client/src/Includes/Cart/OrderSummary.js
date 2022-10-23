@@ -15,14 +15,14 @@ import initialize from "../../../utils/initialize";
 import EditAddressModal from "../../Components/EditAddressModal";
 import { isEmpty } from "lodash";
 
-const shortid = require('shortid');
+const shortid = require("shortid");
 
 class OrderSummary extends Component {
   state = {
     userData: [],
     activeLocation: {},
     showEditAddressModal: false,
-    loading: false
+    loading: false,
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -48,55 +48,53 @@ class OrderSummary extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (
-      this.props.orderResp !== prevProps.orderResp &&
-      this.props.orderResp
-    ) {
+    if (this.props.orderResp !== prevProps.orderResp && this.props.orderResp) {
       this.setState({
-        loading: false
-      })
+        loading: false,
+      });
     }
   }
 
   placeOrderItems = () => {
-
     let { checkoutItems, userData } = this.props;
 
     let products = checkoutItems.carts.map((item) => {
-
       return {
         p_slug: item.product.slug,
         quantity: checkoutItems.totalQty || item.quantity,
       };
     });
 
-    let activeAddress = {}
+    let activeAddress = {};
     userData.location.map((loc) => {
       if (loc.isActive) {
-        activeAddress = loc
+        activeAddress = loc;
       }
     });
 
     let body = {
       products,
       shipto: {
-        region: activeAddress.region,
-        city: activeAddress.city,
-        area: activeAddress.area,
-        address: activeAddress.address,
+        province: activeAddress.province.ProvinceName,
+        ward: activeAddress.ward.WardName,
+        district: activeAddress.district.DistrictName,
+        addressDetail: activeAddress.addressDetail,
         lat: activeAddress.geolocation.coordinates[0],
         long: activeAddress.geolocation.coordinates[1],
         phoneno: activeAddress.phoneno,
       },
       shippingCharge: this.props.shippingCharge ? this.props.shippingCharge : 0,
       orderID: shortid.generate(),
-      method: "Cash on Delivery"
+      method: "Cash on Delivery",
     };
-    this.setState({
-      loading: true
-    }, () => {
-      this.props.placeOrder(body)
-    })
+    this.setState(
+      {
+        loading: true,
+      },
+      () => {
+        this.props.placeOrder(body);
+      }
+    );
   };
 
   render() {
@@ -105,18 +103,23 @@ class OrderSummary extends Component {
     let totalCheckoutItems = 0;
     if (!this.props.checkoutItems?.totalAmount) {
       this.props.checkoutItems?.map((items) => {
-        totalCheckoutItems += items.quantity * getDiscountedPrice(
-          items.product.price.$numberDecimal,
-          items.product.discountRate
-        );
+        totalCheckoutItems +=
+          items.quantity *
+          getDiscountedPrice(
+            items.product.price.$numberDecimal,
+            items.product.discountRate
+          );
       });
     } else {
       totalCheckoutItems = this.props.checkoutItems.totalAmount;
     }
 
-    let deliveryCharges = this.props.showShippingAddress === 'showDisplay' ? this.props.shippingCharge : (this.props.shippingCharge && this.props.checkoutItems.length)
-      ? this.props.shippingCharge
-      : 0;
+    let deliveryCharges =
+      this.props.showShippingAddress === "showDisplay"
+        ? this.props.shippingCharge
+        : this.props.shippingCharge && this.props.checkoutItems.length
+        ? this.props.shippingCharge
+        : 0;
     return (
       <div className="order-shipping">
         <EditAddressModal
@@ -134,8 +137,11 @@ class OrderSummary extends Component {
                 <div className="name">
                   <div>{userData?.name}</div>
                   <div className="address">
-                    {activeLocation?.area}{activeLocation?.area ? ',' : ''} {activeLocation?.address}{activeLocation?.address ? ',' : ''} <br />
-                    {activeLocation?.city}{activeLocation?.city ? ',' : ''} {activeLocation?.region}
+                    {activeLocation?.province.ProvinceName}
+                    {activeLocation?.province.ProvinceName ? "," : ""} {activeLocation?.addressDetail}
+                    {activeLocation?.addressDetail ? "," : ""} <br />
+                    {activeLocation?.district.DistrictName}
+                    {activeLocation?.district.DistrictName ? "," : ""} {activeLocation?.ward.WardName}
                   </div>
                 </div>
               </div>
@@ -149,13 +155,12 @@ class OrderSummary extends Component {
           </div>
           <div className="ti-pr">
             <div className="ti">
-              {
-                activeLocation?.phoneno &&
+              {activeLocation?.phoneno && (
                 <div className="name-add">
                   <PhoneOutlined />
                   <div className="name">{activeLocation?.phoneno}</div>
                 </div>
-              }
+              )}
             </div>
             {/* <div className="pr edit">EDIT</div> */}
           </div>
@@ -215,38 +220,40 @@ class OrderSummary extends Component {
                 </Button>
               </div>
             ) : (
-                <div
-                  className="order-procced"
-                  onClick={() =>
-                    this.props.saveCheckoutItems({
-                      carts: this.props.checkoutItems,
-                      totalCount: this.props.checkoutItems.length,
-                      totalAmount: totalCheckoutItems,
-                    })
-                  }
-                >
-                  <Link href="/checkout">
-                    <a>
-                      <Button
-                        className={"btn " + this.props.diableOrderBtn}
-                        disabled={
-                          (this.props.diableOrderBtn === "disableBtn" ||
-                            isEmpty(this.props.userResp?.location))
-                            ? true
-                            : false
-                        }
-                      >
-                        {this.props.orderTxt}
-                      </Button>
-                    </a>
-                  </Link>
+              <div
+                className="order-procced"
+                onClick={() =>
+                  this.props.saveCheckoutItems({
+                    carts: this.props.checkoutItems,
+                    totalCount: this.props.checkoutItems.length,
+                    totalAmount: totalCheckoutItems,
+                  })
+                }
+              >
+                <Link href="/checkout">
+                  <a>
+                    <Button
+                      className={"btn " + this.props.diableOrderBtn}
+                      disabled={
+                        this.props.diableOrderBtn === "disableBtn" ||
+                        isEmpty(this.props.userResp?.location)
+                          ? true
+                          : false
+                      }
+                    >
+                      {this.props.orderTxt}
+                    </Button>
+                  </a>
+                </Link>
 
-                  {
-                    isEmpty(this.props.userResp?.location) &&
-                    <div className="checkout-note">Note: Please add address in your profile before proceeding further.</div>
-                  }
-                </div>
-              )}
+                {isEmpty(this.props.userResp?.location) && (
+                  <div className="checkout-note">
+                    Note: Please add address in your profile before proceeding
+                    further.
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -257,7 +264,7 @@ class OrderSummary extends Component {
 const mapStatesToProps = (state) => ({
   shippingCharge: state.order.getShippingChargeResp,
   orderResp: state.order.placeOrderResp,
-  userResp: state.user.userProfile
+  userResp: state.user.userProfile,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -265,8 +272,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch({ type: STORE_CHECKOUT_ITEMS, payload: checkoutItems });
   },
   placeOrder: (body) => {
-    dispatch(actions.placeOrder(body))
-  }
+    dispatch(actions.placeOrder(body));
+  },
 });
 
 export default connect(

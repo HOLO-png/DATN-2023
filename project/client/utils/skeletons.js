@@ -220,10 +220,10 @@ export const myOrdersSkeleton = {
             },
             isPaid: false,
             shipto: {
-                region: "",
-                city: "",
-                area: "",
-                address: "",
+                province: "",
+                district: "",
+                ward: "",
+                addressDetail: "",
                 phoneno: "",
                 geolocation: {
                     coordinates: [

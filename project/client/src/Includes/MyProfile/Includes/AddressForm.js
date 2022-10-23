@@ -1,10 +1,14 @@
 import React, { Component } from "react";
-import { Form, Input, Button, Row, Col, Select } from "antd";
+import { Form, Input, Button, Row, Col, Select, Collapse, Spin } from "antd";
 import _ from "lodash";
 import { connect } from "react-redux";
 import actions from "../../../../redux/actions";
-import { openNotification } from "../../../../utils/common";
+import { isEmpty, openNotification } from "../../../../utils/common";
 import LocationMap from "../../../Components/LocationMap";
+
+const selectAddressLabels = ["home", "office", "other"];
+
+const { Panel } = Collapse;
 
 const layout = {
   labelCol: { lg: 6, xs: 24 },
@@ -14,8 +18,6 @@ const tailLayout = {
   wrapperCol: { span: 16 },
 };
 
-// const form = Form.useForm();
-
 class AddressForm extends Component {
   formRef = React.createRef();
   state = {
@@ -23,8 +25,8 @@ class AddressForm extends Component {
     fullname: "",
     label: "",
     phoneno: "",
-    long: "",
-    lat: "",
+    long: 0,
+    lat: 0,
     isActive: "false",
     province: null,
     ward: null,
@@ -60,9 +62,9 @@ class AddressForm extends Component {
         addressId: editAddressData.key,
         fullname: editAddressData.fullname,
         label: editAddressData.label,
-        phoneno: editAddressData.phoneNo,
-        long: editAddressData.geoLocation[0],
-        lat: editAddressData.geoLocation[1],
+        phoneno: editAddressData.phoneno,
+        long: editAddressData.geolocation.coordinates[0],
+        lat: editAddressData.geolocation.coordinates[1],
         province: editAddressData.province,
         ward: editAddressData.ward,
         district: editAddressData.district,
@@ -74,12 +76,12 @@ class AddressForm extends Component {
         addressId: editAddressData.key,
         fullname: editAddressData.fullname,
         label: editAddressData.label,
-        phoneno: editAddressData.phoneNo,
-        long: editAddressData.geoLocation[0],
-        lat: editAddressData.geoLocation[1],
-        province: editAddressData.province,
-        ward: editAddressData.ward,
-        district: editAddressData.district,
+        phoneno: editAddressData.phoneno,
+        long: editAddressData.geolocation.coordinates[0],
+        lat: editAddressData.geolocation.coordinates[1],
+        province: editAddressData.province?.ProvinceName,
+        ward: editAddressData.ward?.WardName,
+        district: editAddressData.district?.DistrictName,
         isActive: editAddressData.isActive ? "true" : "false",
         addressDetail: editAddressData.addressDetail,
       });
@@ -88,19 +90,43 @@ class AddressForm extends Component {
 
   onFinish = (values) => {
     let body = values;
-    if (this.state.long && this.state.lat) {
+    const { long, lat, province, ward, district, addressDetail } = this.state;
+    const {
+      province: provinceEdit,
+      ward: wardEdit,
+      district: districtEdit,
+      addressDetail: addressDetailEdit,
+      geolocation,
+    } = this.props.editAddressData;
+
+    if (!isEmpty(long) && !isEmpty(lat)) {
       body = {
         ...body,
-        long: this.state.long,
-        lat: this.state.lat,
+        long,
+        lat,
+        province,
+        ward,
+        district,
       };
     }
-    console.log(body);
-    // if (!_.isEmpty(this.props.editAddressData)) {
-    //   this.props.editAddress(this.state.addressId, body);
-    // } else {
-    //   this.props.addAddress(body);
-    // }
+
+    if (!_.isEmpty(this.props.editAddressData)) {
+      const isValidateGeoMap =
+        province.ProvinceID === provinceEdit.ProvinceID ||
+        ward.WardCode === wardEdit.WardCode ||
+        district.DistrictID === districtEdit.DistrictID ||
+        (addressDetail === addressDetailEdit &&
+          long === geolocation.coordinates[0]);
+
+      isValidateGeoMap
+        ? openNotification(
+            "Warning",
+            "you should update your google map address!"
+          )
+        : this.props.editAddress(this.state.addressId, body);
+    } else {
+      this.props.addAddress(body);
+    }
   };
 
   onFinishFailed = (errorInfo) => {
@@ -121,7 +147,7 @@ class AddressForm extends Component {
   dispatchGetDistrict = () => {
     if (this.state.province) {
       const body = {
-        provinceId: this.state.province.ProvinceID,
+        province_id: this.state.province.ProvinceID,
       };
       this.props.getDistrict(body);
     }
@@ -129,7 +155,6 @@ class AddressForm extends Component {
 
   dispatchGetWard = () => {
     if (this.state.district) {
-      console.log(this.state.district);
       const body = {
         district_id: this.state.district.DistrictID,
       };
@@ -137,8 +162,24 @@ class AddressForm extends Component {
     }
   };
 
+  handleSetState = ({ long, lat }) => {
+    this.setState({
+      long,
+      lat,
+    });
+  };
+
   render() {
-    const { province, ward, district } = this.state;
+    const {
+      province,
+      ward,
+      district,
+      long,
+      lat,
+      addressDetail,
+      phoneno,
+      label,
+    } = this.state;
     const { location } = this.props;
     
     return (
@@ -160,9 +201,15 @@ class AddressForm extends Component {
                   rules={[
                     { required: true, message: "Please input your label!" },
                   ]}
-                  initialValue={this.state.label}
                 >
-                  <Input />
+                  <Select>
+                    {selectAddressLabels?.map((label) => (
+                      <Option key={label} value={label}>
+                        {label}
+                      </Option>
+                    ))}
+                    <Spin />
+                  </Select>
                 </Form.Item>
               </Col>
             )}
@@ -176,7 +223,7 @@ class AddressForm extends Component {
                     message: "Please input your Phone Number!",
                   },
                 ]}
-                initialValue={this.state.phoneno}
+                initialValue={phoneno}
               >
                 <Input />
               </Form.Item>
@@ -191,11 +238,11 @@ class AddressForm extends Component {
                     message: "Please select your province!",
                   },
                 ]}
-                initialValue={this.state.province}
               >
                 <Select
                   value={province ? province.ProvinceName : "Province"}
                   onClick={this.dispatchGetProvince}
+                  loading={location.loading}
                   onChange={(data) =>
                     this.setState({ province: location.dataProvince[data] })
                   }
@@ -203,6 +250,7 @@ class AddressForm extends Component {
                   {location.dataProvince?.map((province, index) => (
                     <Option key={index}>{province.ProvinceName}</Option>
                   ))}
+                  <Spin />
                 </Select>
               </Form.Item>
             </Col>
@@ -218,6 +266,7 @@ class AddressForm extends Component {
                   value={district ? district.DistrictName : "District"}
                   onClick={this.dispatchGetDistrict}
                   disabled={!province}
+                  loading={location.loading}
                   onChange={(data) =>
                     this.setState({ district: location.dataDistrict[data] })
                   }
@@ -240,7 +289,10 @@ class AddressForm extends Component {
                   value={ward ? ward.WardName : "Ward"}
                   onClick={this.dispatchGetWard}
                   disabled={!district}
-                  onChange={(data) => this.setState({ ward: data })}
+                  loading={location.loading}
+                  onChange={(data) =>
+                    this.setState({ ward: location.dataWard[data] })
+                  }
                 >
                   {location.dataWard?.map((ward, index) => (
                     <Option key={index}>{ward.WardName}</Option>
@@ -250,20 +302,26 @@ class AddressForm extends Component {
             </Col>
             <Col lg={12} xs={24}>
               <Form.Item
-                label="Description"
-                name="description"
+                label="Address detail"
+                name="addressDetail"
                 rules={[
                   { required: true, message: "Please input your description!" },
                 ]}
-                initialValue={this.state.city}
+                initialValue={addressDetail}
               >
                 <Input disabled={!ward} />
               </Form.Item>
             </Col>
-
             <Col lg={20} xs={24}>
               <Form.Item label="Map Location">
-                <LocationMap setState={() => this.setState} />
+                <Collapse defaultActiveKey={[addressDetail ? "1" : ""]}>
+                  <Panel header="Map Location" key="1" showArrow>
+                    <LocationMap
+                      handleSetState={this.handleSetState}
+                      lngLat={{ long, lat }}
+                    />
+                  </Panel>
+                </Collapse>
               </Form.Item>
             </Col>
             <Col lg={24} xs={24}>

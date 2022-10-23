@@ -7,13 +7,13 @@ import {
   UPDATE_PROFILE_PICTURE,
   MY_PROFILE_REVIEWS,
   GET_REVIEWS_START,
-  GET_USER_PROFILE_START
+  GET_USER_PROFILE_START,
 } from "../types";
 import { UserService } from "../services/userService";
 
 const getUserProfile = (id, ctx) => {
   return async (dispatch) => {
-    await dispatch({ type: GET_USER_PROFILE_START })
+    await dispatch({ type: GET_USER_PROFILE_START });
     const userService = new UserService();
     const response = await userService.getUserProfile(id, ctx);
     if (response.isSuccess) {

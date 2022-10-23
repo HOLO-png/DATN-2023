@@ -10,7 +10,7 @@ import CheckoutItems from "../src/Includes/Cart/CheckoutItems";
 // utils
 import initialize from "../utils/initialize";
 import withPrivate from "../utils/auth/withPrivate";
-import { getCookieFromBrowser } from "../utils/cookie";
+import { getCookie, getCookieFromBrowser } from "../utils/cookie";
 import { getUserInfo } from "../utils/common";
 
 // next router
@@ -79,7 +79,7 @@ CheckoutCart.getInitialProps = async (ctx) => {
   initialize(ctx);
 
   if (ctx.isServer) {
-    let cart = ctx.store.getState().cart.checkoutItems;
+    let cart = ctx.store?.getState().cart.checkoutItems;
     if (isEmpty(cart)) {
       if (ctx.res) {
         ctx.res.writeHead(302, {

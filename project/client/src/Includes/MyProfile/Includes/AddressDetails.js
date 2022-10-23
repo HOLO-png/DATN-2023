@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { capitalize } from "lodash";
 import { Table, Space, Button, Empty, message } from "antd";
-
+import { EditOutlined } from "@ant-design/icons";
 // includes
 import AddressForm from "./AddressForm";
 
@@ -31,9 +31,8 @@ const AddressDetails = (props) => {
   useEffect(() => {
     if (props.userData) {
       setUserData(props.userData);
-      setAllAddress(props.allAddress);
     }
-  }, [props.userData]);
+  }, [props?.userData]);
 
   const prevToggleActiveAddResp = previousQuery(toggleActiveAddResp);
 
@@ -74,24 +73,24 @@ const AddressDetails = (props) => {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: "Province",
+      dataIndex: "province",
+      key: "province",
     },
     {
-      title: "Area",
-      dataIndex: "area",
-      key: "area",
+      title: "Ward",
+      dataIndex: "ward",
+      key: "ward",
     },
     {
-      title: "City",
-      dataIndex: "city",
-      key: "city",
+      title: "District",
+      dataIndex: "district",
+      key: "district",
     },
     {
-      title: "Region",
-      dataIndex: "region",
-      key: "region",
+      title: "Address detail",
+      dataIndex: "addressDetail",
+      key: "addressDetail",
     },
     {
       title: "Phone Number",
@@ -111,34 +110,36 @@ const AddressDetails = (props) => {
     {
       title: "Action",
       key: "action",
-      render: (record) => (
-        <Space size="middle">
-          <a
-            onClick={() => {
-              setEditAddressData(record);
-              changeShow("form");
-            }}
-          >
-            Edit
-          </a>
-        </Space>
-      ),
+      // eslint-disable-next-line react/display-name
+      render: (record, _, idx) => {
+        return (
+          <Space size="middle">
+            <Button
+              type="primary"
+              icon={<EditOutlined />}
+              onClick={() => {
+                setEditAddressData({...record, ...props?.allAddress[idx]});
+                changeShow("form");
+              }}
+            />
+          </Space>
+        );
+      },
     },
   ];
 
-  let data = [];
-
   useEffect(() => {
+    const { allAddress } = props;
     if (allAddress && allAddress.length > 0) {
-      allAddress.map((address) => {
-        let ele = {
+      const dataAddressTable = allAddress.map((address) => {
+        return {
           key: address._id,
           fullname: userData.name,
           label: address.label,
-          address: address.address,
-          area: address.area,
-          city: address.city,
-          region: address.region,
+          province: address.province.ProvinceName,
+          ward: address.ward.WardName,
+          district: address.district.DistrictName,
+          addressDetail: address.addressDetail,
           phoneNo: address.phoneno ? address.phoneno : "-",
           geoLocation:
             address.geolocation.coordinates[0] +
@@ -146,7 +147,6 @@ const AddressDetails = (props) => {
             address.geolocation.coordinates[1],
           isActive: (
             <div className="yes-no">
-              <span>No</span>
               <label className="switch">
                 <input
                   type="checkbox"
@@ -157,16 +157,15 @@ const AddressDetails = (props) => {
                 />
                 <span className="slider round"></span>
               </label>
-              <span>Yes</span>
             </div>
           ),
           // isActive: address.isActive ? "true" : "false",
         };
-
-        data.push(ele);
       });
+
+      setAllAddress(dataAddressTable);
     }
-  }, [allAddress]);
+  }, [props?.allAddress, userData]);
 
   return (
     <div className="address-details">
@@ -195,10 +194,11 @@ const AddressDetails = (props) => {
         <Table
           className="orders-table table-wrapper"
           columns={columns}
-          dataSource={data}
+          dataSource={allAddress}
           pagination={false}
           loading={userProfileLoading}
           expandable={{
+            // eslint-disable-next-line react/display-name
             expandedRowRender: (record) => (
               <table className="expanded-table">
                 <tbody>
@@ -213,7 +213,7 @@ const AddressDetails = (props) => {
                           <td>
                             <button
                               type="button"
-                              class="ant-table-row-expand-icon"
+                              className="ant-table-row-expand-icon"
                               style={{ visibility: "hidden" }}
                             ></button>
                           </td>
@@ -227,7 +227,7 @@ const AddressDetails = (props) => {
                     <td>
                       <button
                         type="button"
-                        class="ant-table-row-expand-icon"
+                        className="ant-table-row-expand-icon"
                         style={{ visibility: "hidden" }}
                       ></button>
                     </td>

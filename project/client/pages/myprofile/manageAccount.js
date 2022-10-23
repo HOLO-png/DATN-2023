@@ -97,7 +97,7 @@ ManageAccount.getInitialProps = async (ctx) => {
   if (ctx.isServer) {
     let loginToken = getCookie("token", ctx.req);
     let userInfo = getUserInfo(loginToken);
-
+    
     if (userInfo?._id) {
       await ctx.store.dispatch(actions.getUserProfile(userInfo._id, ctx));
     }

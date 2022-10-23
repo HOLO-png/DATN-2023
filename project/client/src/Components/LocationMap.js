@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -11,6 +11,7 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import { formatRelative } from "date-fns";
 import { Button, Select } from "antd";
+import { CompassOutlined } from "@ant-design/icons";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -21,18 +22,22 @@ const options = {
   zoomControl: true,
 };
 
-const center = {
-  lat: 43.6532,
-  lng: -79.3832,
-};
-
-export default function LocationMap({ setState }) {
+export default function LocationMap({ handleSetState, lngLat }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY,
     libraries,
   });
 
-  const [markers, setMarkers] = useState([]);
+  const center = {
+    lng: lngLat.long,
+    lat: lngLat.lat
+  };
+
+  const [markers, setMarkers] = useState([{
+    lng: lngLat.long,
+    lat: lngLat.lat
+  }]);
+
   const [selected, setSelected] = useState(null);
 
   const onMapClick = React.useCallback((e) => {
@@ -43,6 +48,10 @@ export default function LocationMap({ setState }) {
         time: new Date(),
       },
     ]);
+    handleSetState({
+      lat: e.latLng.lat(),
+      long: e.latLng.lng(),
+    })
   }, []);
 
   const mapRef = React.useRef();
@@ -53,6 +62,7 @@ export default function LocationMap({ setState }) {
   const panTo = React.useCallback(async ({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(14);
+
     setMarkers(() => [
       {
         lat,
@@ -60,10 +70,11 @@ export default function LocationMap({ setState }) {
         time: new Date(),
       },
     ]);
-    setState({
+
+    handleSetState({
       long: lng,
       lat: lat,
-    });
+    })
   }, []);
 
   if (loadError) return "Error";
@@ -71,7 +82,8 @@ export default function LocationMap({ setState }) {
 
   return (
     <div className="map-box">
-      <div className="empty-component"></div>
+      {lngLat.long && lngLat.lat ? "" : <div className="empty-component"></div>}
+
       <Locate panTo={panTo} />
       <Search panTo={panTo} />
 
@@ -133,6 +145,7 @@ function Locate({ panTo }) {
           () => null
         );
       }}
+      icon={<CompassOutlined />}
     >
       My Location
     </Button>
@@ -151,7 +164,7 @@ function Search({ panTo }) {
       location: { lat: () => 0, lng: () => 0 },
       radius: 100 * 1000,
     },
-  });;
+  });
 
   const handleInput = (value) => {
     setValue(value);
