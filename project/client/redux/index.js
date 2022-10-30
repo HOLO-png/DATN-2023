@@ -1,16 +1,35 @@
-import { createWrapper } from "next-redux-wrapper";
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
-import rootReducers from "./reducers";
-import { composeWithDevTools } from 'redux-devtools-extension';
+import rootReducer from "./reducers/index";
 
-export const initStore = (initialState = {}) => {
-  return createStore(rootReducers, initialState, applyMiddleware(thunk));
+export const initStore = (initialState, options) => {
+  let store;
+  const isClient = typeof window !== "undefined";
+
+  if (isClient) {
+    const { persistStore, persistReducer } = require("redux-persist");
+    const storage = require("redux-persist/lib/storage").default;
+
+    const persistConfig = {
+      key: "root",
+      storage,
+    };
+
+    store = createStore(
+      persistReducer(persistConfig, rootReducer),
+      initialState,
+      composeWithDevTools(applyMiddleware(thunk))
+    );
+
+    store.__PERSISTOR = persistStore(store);
+  } else {
+    store = createStore(
+      rootReducer,
+      initialState,
+      composeWithDevTools(applyMiddleware(thunk))
+    );
+  }
+
+  return store;
 };
-
-const middleware = [thunk];
-const makeStore = () =>
-  createStore(rootReducers, compose(composeWithDevTools(applyMiddleware(...middleware))));
-//const store = createStore(rootReducer, compose(applyMiddleware(...middleware)))
-export const wrapper = createWrapper(makeStore);
-

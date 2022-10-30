@@ -17,7 +17,6 @@ const layout = {
 const tailLayout = {
   wrapperCol: { span: 16 },
 };
-
 class AddressForm extends Component {
   formRef = React.createRef();
   state = {
@@ -39,15 +38,13 @@ class AddressForm extends Component {
       this.props.user.editAddressResp !== prevProps.user.editAddressResp &&
       this.props.user.editAddressResp
     ) {
-      openNotification("Success", "Address Updated Successfully");
-      this.props.changeShow("table", this.props.user.editAddressResp.user);
+      this.props.changeShow("table", this.props.user.editAddressResp.userID);
     }
     if (
       this.props.user.addAddressResp !== prevProps.user.addAddressResp &&
       this.props.user.addAddressResp
     ) {
-      openNotification("Success", "Address added Successfully");
-      this.props.changeShow("table", this.props.user.editAddressResp.user);
+      this.props.changeShow("table", this.props.user.addAddressResp.userID);
     }
     if (this.props.location && this.props.location.hasError) {
       openNotification("Error", "Get API address failed");
@@ -126,6 +123,7 @@ class AddressForm extends Component {
         : this.props.editAddress(this.state.addressId, body);
     } else {
       this.props.addAddress(body);
+      this.props.changeShow("table", this.props.user.userProfile._id);
     }
   };
 

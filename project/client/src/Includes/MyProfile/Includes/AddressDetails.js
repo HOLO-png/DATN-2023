@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { capitalize } from "lodash";
-import { Table, Space, Button, Empty, message } from "antd";
-import { EditOutlined } from "@ant-design/icons";
+import { Table, Space, Button, Empty, message, Popconfirm } from "antd";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 // includes
 import AddressForm from "./AddressForm";
 
@@ -23,7 +23,7 @@ const AddressDetails = (props) => {
   );
 
   let [show, setShow] = useState("table");
-  let [userData, setUserData] = useState([]);
+  let [userData, setUserData] = useState({});
   let [allAddress, setAllAddress] = useState([]);
   let [editAddressData, setEditAddressData] = useState([]);
   let [showAddNewForm, setShowAddNewForm] = useState("addTable");
@@ -41,15 +41,14 @@ const AddressDetails = (props) => {
       toggleActiveAddResp !== prevToggleActiveAddResp &&
       toggleActiveAddResp
     ) {
-      message.success("Active address changed successfully");
-      dispatch(actions.getUserProfile(userData._id));
+      if (props?.userData)
+        dispatch(actions.getUserProfile(props?.userData._id));
     }
-  }, [toggleActiveAddResp]);
+  }, [toggleActiveAddResp, props?.userData]);
 
   const changeShow = (show, userId) => {
     setShow(show);
     setShowAddNewForm("addTable");
-
     if (userId) {
       dispatch(actions.getUserProfile(userId));
     }
@@ -113,16 +112,31 @@ const AddressDetails = (props) => {
       // eslint-disable-next-line react/display-name
       render: (record, _, idx) => {
         return (
-          <Space size="middle">
-            <Button
-              type="primary"
-              icon={<EditOutlined />}
-              onClick={() => {
-                setEditAddressData({...record, ...props?.allAddress[idx]});
-                changeShow("form");
-              }}
-            />
-          </Space>
+          <>
+            <Space size="middle">
+              <Button
+                type="primary"
+                icon={<EditOutlined />}
+                onClick={() => {
+                  setEditAddressData({ ...record, ...props?.allAddress[idx] });
+                  changeShow("form");
+                }}
+              />
+            </Space>
+            <Space size="middle" style={{ marginLeft: "10px" }}>
+              <Popconfirm
+                title="Are you sure to delete this location?"
+                onConfirm={() => {
+                  actions.deleteAddress(record.key);
+                  changeShow("table", userData._id);
+                }}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button type="primary" danger icon={<DeleteOutlined />} />
+              </Popconfirm>
+            </Space>
+          </>
         );
       },
     },
@@ -131,14 +145,15 @@ const AddressDetails = (props) => {
   useEffect(() => {
     const { allAddress } = props;
     if (allAddress && allAddress.length > 0) {
+      console.log(allAddress);
       const dataAddressTable = allAddress.map((address) => {
         return {
           key: address._id,
           fullname: userData.name,
           label: address.label,
-          province: address.province.ProvinceName,
-          ward: address.ward.WardName,
-          district: address.district.DistrictName,
+          province: address.province?.ProvinceName,
+          ward: address.ward?.WardName,
+          district: address.district?.DistrictName,
           addressDetail: address.addressDetail,
           phoneNo: address.phoneno ? address.phoneno : "-",
           geoLocation:
@@ -162,7 +177,6 @@ const AddressDetails = (props) => {
           // isActive: address.isActive ? "true" : "false",
         };
       });
-
       setAllAddress(dataAddressTable);
     }
   }, [props?.allAddress, userData]);
@@ -241,6 +255,16 @@ const AddressDetails = (props) => {
                           }}
                         >
                           Edit
+                        </a>
+                      </Space>
+                      <Space size="middle">
+                        <a
+                          onClick={() => {
+                            setEditAddressData(record);
+                            changeShow("form");
+                          }}
+                        >
+                          Delete
                         </a>
                       </Space>
                     </td>

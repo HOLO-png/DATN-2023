@@ -4,55 +4,79 @@
   padding: 5px 60px;
   background: #bc61ce;
   color: #fff;
+
   @media screen and (max-width: 998px) {
     padding: 5px 20px;
     font-size: 13px;
   }
+
   @media screen and (max-width: 576px) {
     padding: 5px 15px;
     font-size: 11px;
   }
+
   @media screen and (max-width: 360px) {
     font-size: 10px;
   }
+
   // @media screen and (max-width: 576px) {
   //   display: none;
   // }
   ul {
     padding: 0;
+
     li {
       display: inline-block;
       margin-left: 10px;
       border-right: 2px solid #fff;
       padding-right: 10px;
       cursor: pointer;
+
       &:last-child {
         border: 0;
         padding: 0;
       }
+
       @media screen and (max-width: 576px) {
         padding-right: 5px;
         margin-left: 5px;
       }
+
       &.profile-top-head,
       &.register-top-head {
         @media screen and (max-width: 576px) {
           display: none;
         }
       }
+
       &.about-top-head {
         @media screen and (max-width: 576px) {
           border: 0;
         }
       }
+
       & .head-user-thumbnail {
         width: 20px;
         height: 20px;
         border-radius: 50%;
+        margin-right: 10px;
       }
+
       a {
         color: #fff;
       }
     }
+  }
+}
+.popover-user p {
+  cursor: pointer;
+  margin: 0;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  &:hover {
+    color: rgb(35, 46, 91);
+    background-color: rgb(217, 221, 255);
   }
 }

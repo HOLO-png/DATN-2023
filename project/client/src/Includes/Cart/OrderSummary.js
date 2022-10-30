@@ -19,22 +19,24 @@ const shortid = require("shortid");
 
 class OrderSummary extends Component {
   state = {
-    userData: [],
+    userResp: [],
     activeLocation: {},
     showEditAddressModal: false,
     loading: false,
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.userData !== prevState.userData && nextProps.userData) {
+    console.log(nextProps.userResp !== prevState.userResp && nextProps.userResp.location);
+
+    if (nextProps.userResp !== prevState.userResp && nextProps.userResp) {
       let activeLocation = {};
-      nextProps.userData.location.map((loc) => {
+      nextProps.userResp.location.map((loc) => {
         if (loc.isActive) {
           activeLocation = loc;
         }
       });
       return {
-        userData: nextProps.userData,
+        userResp: nextProps.userResp,
         activeLocation,
       };
     }
@@ -56,7 +58,7 @@ class OrderSummary extends Component {
   }
 
   placeOrderItems = () => {
-    let { checkoutItems, userData } = this.props;
+    let { checkoutItems, userResp } = this.props;
 
     let products = checkoutItems.carts.map((item) => {
       return {
@@ -66,7 +68,7 @@ class OrderSummary extends Component {
     });
 
     let activeAddress = {};
-    userData.location.map((loc) => {
+    userResp.location.map((loc) => {
       if (loc.isActive) {
         activeAddress = loc;
       }
@@ -98,7 +100,7 @@ class OrderSummary extends Component {
   };
 
   render() {
-    let { activeLocation, userData } = this.state;
+    let { activeLocation, userResp } = this.state;
 
     let totalCheckoutItems = 0;
     if (!this.props.checkoutItems?.totalAmount) {
@@ -120,13 +122,14 @@ class OrderSummary extends Component {
         : this.props.shippingCharge && this.props.checkoutItems.length
         ? this.props.shippingCharge
         : 0;
+
     return (
       <div className="order-shipping">
         <EditAddressModal
           title="Quick View Product"
           visible={this.state.showEditAddressModal}
           onCancel={this.handleCancel}
-          data={userData}
+          data={userResp}
         />
         <div className={"shipping-details " + this.props.showShippingAddress}>
           <div className="os-title">Shipping & Billing</div>
@@ -135,13 +138,15 @@ class OrderSummary extends Component {
               <div className="name-add">
                 <EnvironmentOutlined />
                 <div className="name">
-                  <div>{userData?.name}</div>
+                  <div>{userResp?.name}</div>
                   <div className="address">
                     {activeLocation?.province.ProvinceName}
-                    {activeLocation?.province.ProvinceName ? "," : ""} {activeLocation?.addressDetail}
+                    {activeLocation?.province.ProvinceName ? "," : ""}{" "}
+                    {activeLocation?.addressDetail}
                     {activeLocation?.addressDetail ? "," : ""} <br />
                     {activeLocation?.district.DistrictName}
-                    {activeLocation?.district.DistrictName ? "," : ""} {activeLocation?.ward.WardName}
+                    {activeLocation?.district.DistrictName ? "," : ""}{" "}
+                    {activeLocation?.ward.WardName}
                   </div>
                 </div>
               </div>
@@ -168,7 +173,7 @@ class OrderSummary extends Component {
             <div className="ti">
               <div className="name-add">
                 <MailOutlined />
-                <div className="name">{userData?.email}</div>
+                <div className="name">{userResp?.email}</div>
               </div>
             </div>
             {/* <div className="pr edit">EDIT</div> */}

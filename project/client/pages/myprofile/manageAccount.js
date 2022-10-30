@@ -32,12 +32,10 @@ const ManageAccount = (props) => {
   let userInfo = getUserInfo(loginToken);
 
   useEffect(() => {
-    if (!props.isServer) {
-      if (userInfo?._id) {
-        dispatch(actions.getUserProfile(userInfo._id));
-      }
+    if (userInfo?._id) {
+      dispatch(actions.getUserProfile(userInfo._id));
     }
-  }, []);
+  }, [userInfo?._id, dispatch]);
 
   let prevUserProfile = previousQuery(userProfile);
 
@@ -52,7 +50,7 @@ const ManageAccount = (props) => {
       setUserData(userProfile);
       setActiveLoc(activeLoc);
     }
-  }, [userProfile]);
+  }, [userProfile, prevUserProfile]);
 
   const renderTabBar = (props, DefaultTabBar) => (
     <Sticky bottomOffset={80}>
@@ -97,9 +95,8 @@ ManageAccount.getInitialProps = async (ctx) => {
   if (ctx.isServer) {
     let loginToken = getCookie("token", ctx.req);
     let userInfo = getUserInfo(loginToken);
-    
     if (userInfo?._id) {
-      await ctx.store.dispatch(actions.getUserProfile(userInfo._id, ctx));
+      // await ctx.store.dispatch(actions.getUserProfile(userInfo._id, ctx));
     }
   }
   return {

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Input, Button, Avatar } from "antd";
+import { Row, Col, Input, Button, Avatar, Popover } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 
@@ -10,6 +10,11 @@ import Router, { withRouter } from "next/router";
 import { AutoComplete } from "antd";
 import { debounce, isEmpty } from "lodash";
 import { IMAGE_BASE_URL } from "../../utils/constants";
+import {
+  WalletOutlined,
+  UserOutlined,
+  LogoutOutlined,
+} from "@ant-design/icons";
 class Header extends Component {
   state = {
     search: "",
@@ -31,7 +36,6 @@ class Header extends Component {
     }
     let loginToken = this.props.authentication.token;
     let userInfo = getUserInfo(loginToken);
-    console.log(loginToken);
     let slug = this.props.router.asPath?.split("/")[1];
 
     if (slug === "search") {
@@ -127,7 +131,7 @@ class Header extends Component {
     let { loginToken } = this.state;
     let userInfo = getUserInfo(loginToken);
     let parentCate = this.props.menu.menuCategories || [];
-    const { name, photo, socialPhoto } = userInfo;
+    const { name, photo, socialPhoto, addressWallet } = userInfo;
     let userPhoto = photo ? `${IMAGE_BASE_URL}/${photo}` : socialPhoto;
 
     return (
@@ -141,13 +145,43 @@ class Header extends Component {
               <li className="profile-top-head">
                 <Link href="/myprofile/manageAccount">
                   {loginToken ? (
-                    <div className="profile-user-head">
-                      <img
-                        src={userPhoto || "/images/default-user.png"}
-                        className="head-user-thumbnail"
-                      />
-                      {name}
-                    </div>
+                    <Popover
+                      content={
+                        <div className="popover-user">
+                          {addressWallet && (
+                            <p>
+                              <WalletOutlined />
+                              {addressWallet}
+                            </p>
+                          )}
+                          <Link href="/myprofile/manageAccount">
+                            <p>
+                              <UserOutlined /> My Account
+                            </p>
+                          </Link>
+                          <p onClick={() => this.props.deauthenticate()}>
+                            <LogoutOutlined />
+                            Log out
+                          </p>
+                        </div>
+                      }
+                      title={
+                        <div>
+                          <Avatar
+                            src={userPhoto || "/images/default-user.png"}
+                          />{" "}
+                          {name}
+                        </div>
+                      }
+                    >
+                      <div className="profile-user-head">
+                        <img
+                          src={userPhoto || "/images/default-user.png"}
+                          className="head-user-thumbnail"
+                        />
+                        {name}
+                      </div>
+                    </Popover>
                   ) : (
                     "Login"
                   )}
