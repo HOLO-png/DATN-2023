@@ -5,20 +5,13 @@ import { connect } from "react-redux";
 import actions from "../../redux/actions";
 
 class GlobalErrorComponent extends Component {
-  componentDidMount() {
-    if (this.props.globalError) {
-      this.props.globalError.hasError &&
-        this.openNotification(this.props.globalError);
-    }
-  }
-
   componentDidUpdate(prevProps) {
     if (
-      this.props.globalError !== prevProps.globalError &&
-      this.props.globalError.hasError
+      this.props.store.getState().globalError !== prevProps.store.getState().globalError &&
+      this.props.store.getState().globalError.hasError
     ) {
-      this.props.globalError.hasError &&
-        this.openNotification(this.props.globalError);
+      this.props.store.getState().globalError.hasError &&
+        this.openNotification(this.props.store.getState().globalError);
     }
   }
 

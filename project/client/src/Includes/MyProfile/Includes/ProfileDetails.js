@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col } from "antd";
+import { Row, Col, Empty } from "antd";
 import { Table } from "antd";
 import { isEmpty } from "lodash";
 
@@ -34,7 +34,7 @@ const ProfileDetails = (props) => {
       setUserData(props.userData);
       setActiveLoc(props.activeLoc);
     }
-  }, [props.userData]);
+  }, [props?.userData, props?.activeLoc]);
 
   const prevProfilePicResp = previousQuery(profilePictureResp);
 
@@ -62,22 +62,38 @@ const ProfileDetails = (props) => {
 
   let data = [];
 
-  if (!isEmpty(activeLoc.address) && !isEmpty(userData)) {
+  if (!isEmpty(activeLoc) && !isEmpty(userData)) {
+    const addressDetail =
+      activeLoc.label +
+      " ~ " +
+      activeLoc.addressDetail +
+      " ~ " +
+      activeLoc.ward?.WardName +
+      " ~ " +
+      activeLoc.district?.DistrictName +
+      " ~ " +
+      activeLoc.province?.ProvinceName;
+
     data = [
+      {
+        key: "0",
+        name: "Date of Birth",
+        age: userData.name,
+      },
       {
         key: "1",
         name: "Date of Birth",
-        age: userData.dob,
+        age: userData.dob || "empty",
       },
       {
         key: "2",
         name: "Gender",
-        age: userData.gender,
+        age: userData.gender || "empty",
       },
       {
         key: "3",
         name: "Address",
-        age: activeLoc.address,
+        age: addressDetail,
       },
       {
         key: "4",
@@ -148,7 +164,8 @@ const ProfileDetails = (props) => {
                 {!isEmpty(userData.addressWallet) && (
                   <div>
                     <span className="medium-line">
-                      {!checkSekelton && "Address crypto wallet:"} {userData.addressWallet}
+                      {!checkSekelton && "Address crypto wallet:"}{" "}
+                      {userData.addressWallet}
                     </span>
                   </div>
                 )}
@@ -166,14 +183,14 @@ const ProfileDetails = (props) => {
       </div>
       <div className="profile-bottom">
         <h4>Profile Details</h4>
-        {!isEmpty(activeLoc) && (
+        {!isEmpty(activeLoc) ? (
           <Table
             columns={columns}
             dataSource={data}
             showHeader={false}
             pagination={false}
           />
-        )}
+        ) : <Empty/>}
       </div>
     </div>
   );

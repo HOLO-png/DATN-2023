@@ -9,9 +9,10 @@ const Fawn = require("fawn");
 const task = Fawn.Task();
 
 exports.profile = async (req, res, next) => {
-  const user = await User.findById(req.params.id)
+  const user = await User.findOne({ _id: req.params.id })
     .select("-password -salt -resetPasswordLink -emailVerifyLink")
     .populate("location");
+
   if (!user) {
     return res.status(404).json({ error: "User not found with this id" });
   }
@@ -21,7 +22,11 @@ exports.profile = async (req, res, next) => {
 
 // getProfile
 exports.getProfile = async (req, res) => {
-  res.json(req.profile);
+  if (req.profile) {
+    const user = await User.findById(req.params.id);
+    console.log({get:user});
+    return res.status(200).json(req.profile);
+  }
 };
 
 // update or complete profile
@@ -98,9 +103,9 @@ exports.addAddress = async (req, res) => {
     return res.status(403).json({ error: "Address label undefined." });
   }
 
-  if (profile.location.length === 3) {
-    return res.status(403).json({ error: "Cannot add more address." });
-  }
+  // if (profile.location.length === 3) {
+  //   return res.status(403).json({ error: "Cannot add more address." });
+  // }
 
   //if there is already same label of address of the user then do not create new Address.
   let addresses = profile.location;
@@ -110,8 +115,8 @@ exports.addAddress = async (req, res) => {
       .status(403)
       .json({ error: `There is already address of label ${req.body.label}` });
   }
-
   let newAddress = new Address(req.body);
+
   //if newAddress is the first address and label is not ship-to, then it should be active
   if (!profile.location.length && newAddress.label !== "ship-to") {
     newAddress.isActive = Date.now();
@@ -136,8 +141,7 @@ exports.addAddress = async (req, res) => {
     .run({ useMongoose: true });
 
   await task.save(newAddress).run({ useMongoose: true });
-
-  res.json(results[1]);
+  res.json(results[0]);
 };
 
 exports.editAddress = async (req, res) => {
@@ -163,21 +167,51 @@ exports.editAddress = async (req, res) => {
   res.json(address);
 };
 
+exports.deleteAddress = async (req, res) => {
+  if (!req.user.location.includes(req.params.address_id)) {
+    return res.status(403).json({ error: "Cannot delete address." });
+  }
+
+  let address = await Address.findById(req.params.address_id);
+
+  let user = await User.findById(req.user._id);
+
+  if (!address) {
+    return res.status(404).json({ error: "Address not found." });
+  }
+
+  if (address.isActive) {
+    return res.status(403).json({ error: "This address cannot be deleted." });
+  }
+
+  user.location = user.location.filter(
+    (addId) => req.params.address_id !== addId.toString()
+  );
+  console.log({delete: user});
+  await user.save();
+  await address.delete();
+  res.json(address);
+};
+
 exports.toggleAddressActiveness = async (req, res) => {
   let activeAddress = await Address.findOne({
     user: req.user._id,
     isActive: { $ne: null },
   });
+
   if (!activeAddress) {
     return res.status(404).json({ error: "Current active address not found." });
   }
-  if (activeAddress.label == req.query.label) {
+
+  if (activeAddress.label === req.query.label) {
     return res.json({ address: activeAddress });
   }
+
   let tobeActiveAddress = await Address.findOne({
     user: req.user._id,
     label: req.query.label,
   });
+
   if (!tobeActiveAddress) {
     return res
       .status(404)

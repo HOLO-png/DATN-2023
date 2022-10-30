@@ -6,7 +6,8 @@ import {
   UPDATE_PROFILE_PICTURE,
   MY_PROFILE_REVIEWS,
   GET_REVIEWS_START,
-  GET_USER_PROFILE_START
+  GET_USER_PROFILE_START,
+  DELETE_ADDRESS,
 } from "../types";
 
 const initialState = {
@@ -15,7 +16,8 @@ const initialState = {
   addAddressResp: null,
   toggleActiveAddResp: null,
   profilePictureResp: null,
-  myReviews: null
+  deleteAddressResp: null,
+  myReviews: null,
 };
 
 export default (state = initialState, action) => {
@@ -25,17 +27,55 @@ export default (state = initialState, action) => {
     case GET_USER_PROFILE_START:
       return { ...state, hasError: false, userProfileLoading: true };
     case USER_PROFILE:
-      return { ...state, userProfile: action.payload, hasError: false, loading: false, userProfileLoading: false };
+      return {
+        ...state,
+        userProfile: action.payload,
+        hasError: false,
+        loading: false,
+        userProfileLoading: false,
+      };
     case UPDATE_PROFILE_PICTURE:
-      return { ...state, profilePictureResp: action.payload, hasError: false, loading: false };
+      return {
+        ...state,
+        profilePictureResp: action.payload,
+        hasError: false,
+        loading: false,
+      };
     case ADD_ADDRESS:
-      return { ...state, addAddressResp: action.payload, hasError: false, loading: false };
+      return {
+        ...state,
+        addAddressResp: action.payload,
+        hasError: false,
+        loading: false,
+      };
     case EDIT_ADDRESS:
-      return { ...state, editAddressResp: action.payload, hasError: false, loading: false };
+      return {
+        ...state,
+        editAddressResp: action.payload,
+        hasError: false,
+        loading: false,
+      };
+    case DELETE_ADDRESS:
+      return {
+        ...state,
+        deleteAddressResp: action.payload,
+        hasError: false,
+        loading: false,
+      };
     case TOGGLE_ACTIVE_ADDRESS:
-      return { ...state, toggleActiveAddResp: action.payload, hasError: false, loading: false };
+      return {
+        ...state,
+        toggleActiveAddResp: action.payload,
+        hasError: false,
+        loading: false,
+      };
     case MY_PROFILE_REVIEWS:
-      return { ...state, myReviews: action.payload, hasError: false, reviewLoading: false };
+      return {
+        ...state,
+        myReviews: action.payload,
+        hasError: false,
+        reviewLoading: false,
+      };
     default:
       return state;
   }

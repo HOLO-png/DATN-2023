@@ -7,6 +7,7 @@ const {
   uploadPhoto,
   addAddress,
   editAddress,
+  deleteAddress,
   toggleAddressActiveness,
 } = require("../controllers/user");
 const { auth, isSameUser } = require("../controllers/user_auth");
@@ -14,16 +15,17 @@ const { auth, isSameUser } = require("../controllers/user_auth");
 const { uploadUserPhoto } = require("../middleware/helpers");
 
 const router = express.Router();
+
+router.param("id", profile);
 //address
 router.post("/add-address", auth, addAddress);
 router.put("/edit-address/:address_id", auth, editAddress);
+router.delete("/delete-address/:address_id", auth, deleteAddress);
 router.patch("/toggle-address-activeness", auth, toggleAddressActiveness);
 
 //profile
 router.put("/", auth, updateProfile); //update or complete
 router.patch("/", auth, uploadUserPhoto, uploadPhoto);
 router.get("/:id", getProfile);
-
-router.param("id", profile);
 
 module.exports = router;

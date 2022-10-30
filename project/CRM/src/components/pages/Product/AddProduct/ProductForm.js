@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Steps, Form } from "antd";
 import {
-  Steps,
-  Form,
-} from "antd";
-import { getCategories, getBrands, addProduct } from "../../../../redux/actions/product_actions";
-import BasicInformation from './BasicInformation'
-import DetailInformation from './DetailInformation'
+  getCategories,
+  getBrands,
+  addProduct,
+} from "../../../../redux/actions/product_actions";
+import BasicInformation from "./BasicInformation";
+import DetailInformation from "./DetailInformation";
 import PriceAndStock from "./PriceAndStock";
 const layout = {
   labelCol: {
@@ -41,32 +42,38 @@ const steps = [
   },
 ];
 
-const ProductForm = ({ getCategories, getBrands, brands, user , addProduct}) => {
+const ProductForm = ({
+  getCategories,
+  getBrands,
+  brands,
+  user,
+  addProduct,
+}) => {
   const [current, setCurrent] = useState(0);
   const [basicFormData, setBasicFormData] = useState({
-    name: '',
+    name: "",
     category: [],
-    brand: '',
+    brand: "",
     tags: [],
-    model: ''
-  })
+    model: "",
+  });
   const [detailFormData, setDetailFormData] = useState({
-    warranty: '',
+    warranty: "",
     color: [],
-    description: '',
+    description: "",
     size: [],
-    highlights: '',
-    videoURL: '',
+    highlights: "",
+    videoURL: "",
     weight: [],
-    return: '',
+    return: "",
     images: [],
-    availableDistricts: []
-  })
+    availableDistricts: [],
+  });
   const [priceAndStockFormData, setpriceAndStockFormData] = useState({
-    price: '',
-    discountRate: '',
-    quantity: ''
-  })
+    price: "",
+    discountRate: "",
+    quantity: "",
+  });
 
   useEffect(() => {
     getCategories();
@@ -78,23 +85,28 @@ const ProductForm = ({ getCategories, getBrands, brands, user , addProduct}) => 
   };
 
   const submitProductInfo = (priceAndStockFormData) => {
-    console.log('hello');
+    console.log("hello");
     // console.log(priceAndStockFormData);
-    addProduct({ id: user._id, ...basicFormData, ...detailFormData, ...priceAndStockFormData })
-  }
+    addProduct({
+      id: user._id,
+      ...basicFormData,
+      ...detailFormData,
+      ...priceAndStockFormData,
+    });
+  };
 
   const prev = (newFormData) => {
     if (current === 1) {
       setDetailFormData({
         ...detailFormData,
-        ...newFormData
-      })
+        ...newFormData,
+      });
     }
     if (current === 2) {
       setpriceAndStockFormData({
         ...priceAndStockFormData,
-        ...newFormData
-      })
+        ...newFormData,
+      });
     }
     setCurrent(current - 1);
   };
@@ -108,17 +120,17 @@ const ProductForm = ({ getCategories, getBrands, brands, user , addProduct}) => 
       </Steps>
       <Form.Provider
         onFormFinish={(name, data) => {
-          if (name === 'basic') {
+          if (name === "basic") {
             setBasicFormData({
               ...basicFormData,
               name: data.values.name,
               category: data.values.category,
               brand: data.values.brand,
               tags: data.values.tags,
-              model: data.values.model
-            })
+              model: data.values.model,
+            });
           }
-          if (name === 'detail') {
+          if (name === "detail") {
             setDetailFormData({
               ...detailFormData,
               warranty: data.values.warranty,
@@ -130,23 +142,46 @@ const ProductForm = ({ getCategories, getBrands, brands, user , addProduct}) => 
               weight: data.values.weight,
               return: data.values.return,
               images: data.values.images,
-              availableDistricts:data.values.availableDistricts
-            })
+              availableDistricts: data.values.availableDistricts,
+            });
           }
-          if (name === 'price_and_stock') {
+          if (name === "price_and_stock") {
             setpriceAndStockFormData({
               ...priceAndStockFormData,
               price: data.values.price,
               discountRate: data.values.discountRate,
-              quantity: data.values.quantity
-            })
+              quantity: data.values.quantity,
+            });
           }
         }}
       >
-
-        {current === 0 && <BasicInformation basicFormData={basicFormData} next={next} layout={layout} tailLayout={tailLayout} brands={brands} />}
-        {current === 1 && <DetailInformation detailFormData={detailFormData} next={next} prev={prev} layout={layout} tailLayout={tailLayout} />}
-        {current === 2 && <PriceAndStock priceAndStockFormData={priceAndStockFormData} submitProductInfo={submitProductInfo} prev={prev} layout={layout} tailLayout={tailLayout} />}
+        {current === 0 && (
+          <BasicInformation
+            basicFormData={basicFormData}
+            next={next}
+            layout={layout}
+            tailLayout={tailLayout}
+            brands={brands}
+          />
+        )}
+        {current === 1 && (
+          <DetailInformation
+            detailFormData={detailFormData}
+            next={next}
+            prev={prev}
+            layout={layout}
+            tailLayout={tailLayout}
+          />
+        )}
+        {current === 2 && (
+          <PriceAndStock
+            priceAndStockFormData={priceAndStockFormData}
+            submitProductInfo={submitProductInfo}
+            prev={prev}
+            layout={layout}
+            tailLayout={tailLayout}
+          />
+        )}
       </Form.Provider>
     </>
   );
@@ -161,13 +196,13 @@ ProductForm.propTypes = {
 
 const mapStateToProps = (state) => ({
   brands: state.product.brands,
-  user: state.auth.adminProfile
+  user: state.auth.adminProfile,
 });
 
 const mapDispatchToProps = {
   getCategories,
   getBrands,
-  addProduct
+  addProduct,
 };
 
 export default connect(

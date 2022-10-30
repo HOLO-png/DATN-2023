@@ -58,7 +58,6 @@ export const getTokenService = async (url, method, ctx, accessToken) => {
       },
     });
     const data = await resp.json();
-
     if (resp.status >= 200 && resp.status < 300) {
       return {
         isSuccess: true,
