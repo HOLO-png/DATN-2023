@@ -6,12 +6,12 @@ import { SaveOutlined } from '@ant-design/icons';
 
 import UploadFileImg from './UploadFileImg';
 import ChangePhoneNumber from './ChangePhoneNumber';
-import { isEmptyObject } from '../../../../utils/checkEmptyObj';
 import { useDispatch, useSelector } from 'react-redux';
 import { authSelector } from '../../../../Store/Reducer/authReducer';
 import { updateProfileUser } from '../../../../Store/Reducer/authReducer';
 
 import moment from 'moment';
+import { isEmptyObject } from '../../../../utils';
 
 const dateFormat = 'YYYY/MM/DD';
 

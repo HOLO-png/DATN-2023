@@ -1,5 +1,5 @@
 import React from 'react';
- 
+import PropTypes from 'prop-types';
 
 function Grid(props) {
     const { col, mdCol, smCol, gap, children, bgr } = props;

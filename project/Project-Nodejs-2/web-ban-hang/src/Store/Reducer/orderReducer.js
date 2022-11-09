@@ -46,7 +46,6 @@ export const handleAddOrder = createAsyncThunk(
                         headers: { Authorization: tokenAuth },
                     },
                 );
-                console.log(res.data);
                 return res.data;
             } catch (err) {
                 toast.warning(`Tạo đơn hàng thất bại!`);
@@ -193,7 +192,6 @@ export const handlePrintOrderOfUser = createAsyncThunk(
                 );
                 if (newWindow) newWindow.opener = null;
             }
-            console.log(resOrder);
             return resOrder.data;
         } catch (err) {
             toast.error(`Get orders failed!`);
@@ -275,7 +273,6 @@ const orderSlice = createSlice({
             }
         },
         [handleAddOrder.rejected]: (state, action) => {
-            console.log(action.payload);
             state.isError = true;
         },
 

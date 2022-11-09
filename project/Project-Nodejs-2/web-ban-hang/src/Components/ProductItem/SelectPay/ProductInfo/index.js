@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
- 
+import PropTypes from 'prop-types';
 import { Col, Rate, Row, Skeleton } from 'antd';
 
 function ProductInfo(props) {
@@ -42,7 +42,7 @@ function ProductInfo(props) {
                                 disabled
                                 allowHalf
                                 defaultValue={star}
-                                style={{ margin: '5px' }}
+                                style={{ margin: '5px', width: '150px' }}
                             />
                         ) : (
                             ''

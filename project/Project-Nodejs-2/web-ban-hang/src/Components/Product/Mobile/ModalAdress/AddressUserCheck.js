@@ -18,7 +18,6 @@ function AddressUserCheck({ isSetAddress }) {
     const [options, setOptions] = useState(optionLists);
 
     const onChange = (value, selectedOptions) => {
-        console.log(value, selectedOptions);
     };
 
     const loadData = (selectedOptions) => {

@@ -7,7 +7,7 @@ import {
     slide_laptop_genuine,
     slide_price_shock,
 } from '../../assets/fake-data';
-import { openNotification } from '../../utils/messageAlear';
+import { openNotification } from '../../utils';
 
 const GenuineBrandComp = styled.div`
     font-family: 'M PLUS Rounded 1c', sans-serif;

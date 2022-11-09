@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input } from 'antd';
-import numberWithCommas from '../../../utils/numberWithCommas';
+import { numberWithCommas } from '../../../utils';
 
 export default function CompleteSearch(props) {
     const {

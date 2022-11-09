@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col } from 'antd';
-import numberWithCommas from '../../../../utils/numberWithCommas';
+import { numberWithCommas } from '../../../../utils';
 
 function UnitPriceProduct(props) {
     const { product } = props;

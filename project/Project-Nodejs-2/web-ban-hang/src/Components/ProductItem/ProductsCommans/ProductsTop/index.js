@@ -1,10 +1,9 @@
 import React from 'react';
 import { Card } from 'antd';
 import Meta from 'antd/lib/card/Meta';
-import numberWithCommas from '../../../../utils/numberWithCommas';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { getProducts } from '../../../../utils/randomProduct';
+import { getProducts, numberWithCommas } from '../../../../utils';
 
 const ProductsTopItem = styled.div`
     .ant-card-cover {

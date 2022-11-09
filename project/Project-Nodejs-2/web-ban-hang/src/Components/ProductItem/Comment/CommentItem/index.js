@@ -71,6 +71,7 @@ function CommentItem(props) {
                         replyComment={replyComment}
                         setReplyComment={setReplyComment}
                         product={product}
+                        key={comment._id}
                         axiosJWT={axiosJWT}
                     />
                 );

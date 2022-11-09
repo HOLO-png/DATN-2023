@@ -19,7 +19,6 @@ import Helmet from "../../Components/Helmet";
 import { message } from "antd";
 
 import PayMethod from "../../Components/Pay/PayMethod";
-import { isEmptyObject } from "../../utils/checkEmptyObj";
 import { cartSelector } from "../../Store/Reducer/cartReducer";
 import { authSelector } from "../../Store/Reducer/authReducer";
 import {
@@ -44,6 +43,7 @@ import {
   handleAddOrder,
   orderSelector,
 } from "../../Store/Reducer/orderReducer";
+import { isEmptyObject } from "../../utils";
 const PayComponent = styled.div``;
 const override = css`
   display: block;
@@ -271,7 +271,6 @@ function Pay({ axiosJWT }) {
       );
 
       const isEmpty = Object.values(o).some((x) => x === null || x === "");
-        console.log(isEmpty);
       if (isEmpty) {
         messageToCart(false, "Lỗi Khi Tải Dữ Liệu Lên!");
       } else {

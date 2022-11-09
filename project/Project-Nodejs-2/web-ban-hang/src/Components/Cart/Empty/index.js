@@ -15,7 +15,7 @@ function EmptyComponent(props) {
                 </span>
             }
         >
-            <Link to="/home">
+            <Link to="/">
                 <Button style={{ marginBottom: 150 }} type="primary">
                     Mua Ngay
                 </Button>

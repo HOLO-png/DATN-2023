@@ -43,7 +43,6 @@ function DashboardStore(props) {
             );
         }
     };
-    console.log(userAddress);
 
     useEffect(() => {
         if (userAddress) {

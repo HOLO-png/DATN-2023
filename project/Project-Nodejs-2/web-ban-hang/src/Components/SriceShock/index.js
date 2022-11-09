@@ -3,10 +3,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Badge, Card, Progress, Row } from 'antd';
 import Slider from 'react-slick';
-import numberWithCommas from '../../utils/numberWithCommas';
 import { slide_genuine } from '../../assets/fake-data';
-import { handleChangeProductPrice } from '../../utils/handlePrice';
 import { Link } from 'react-router-dom';
+import { handleChangeProductPrice, numberWithCommas } from '../../utils';
 const { Meta } = Card;
 
 const SriceShockComp = styled.div`
@@ -229,9 +228,6 @@ function SriceShock(props) {
                                                               }
                                                           />
                                                       }
-                                                      //   onClick={
-                                                      //       handleProductCheck
-                                                      //   }
                                                   >
                                                       <Meta
                                                           title={

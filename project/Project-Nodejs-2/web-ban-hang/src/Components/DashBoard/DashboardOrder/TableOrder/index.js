@@ -4,9 +4,9 @@ import {
     EditOutlined,
     SearchOutlined,
 } from '@ant-design/icons';
-import numberWithCommas from '../../../../utils/numberWithCommas';
 import { useDispatch } from 'react-redux';
 import { handlePrintOrderOfUser } from '../../../../Store/Reducer/orderReducer';
+import { numberWithCommas } from '../../../../utils';
 
 function TableOrder({ orders, confirm, handleShowNavigation }) {
     const dispatch = useDispatch();

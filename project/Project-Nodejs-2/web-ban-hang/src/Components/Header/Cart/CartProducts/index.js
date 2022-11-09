@@ -1,6 +1,6 @@
 import React from 'react';
- 
-import numberWithCommas from '../../../../utils/numberWithCommas';
+import PropTypes from 'prop-types';
+import { numberWithCommas } from '../../../../utils';
 
 function CartProducts(props) {
     const { product } = props;

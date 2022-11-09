@@ -3,7 +3,7 @@ import { Col } from 'antd';
 
 function AmountProduct(props) {
     const { handleRemoveNum, onHandleValueNum, handleSumNum } = props;
-
+    
     return (
         <Col className="gutter-row" span={4}>
             <div className="buttons_added">

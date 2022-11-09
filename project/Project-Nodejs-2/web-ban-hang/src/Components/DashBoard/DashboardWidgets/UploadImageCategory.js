@@ -1,10 +1,10 @@
 import React, { memo, useState } from 'react';
 import { Input, Modal } from 'antd';
 import SliderImgToProduct from './SliderImgToProduct';
-import { isEmptyObjectAll } from '../../../utils/checkEmptyObjAll';
-import { imageUpload } from '../../../utils/imageUpload';
 import { useDispatch } from 'react-redux';
 import { setLoadingAction } from '../../../Store/Reducer/loadingReducer';
+import { isEmptyObjectAll } from '../../../utils';
+import { imageUpload } from '../../../utils/imageUpload';
 
 function UploadImageCategory(props) {
     const {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Menu, Row } from 'antd';
-import numberWithCommas from '../../../utils/numberWithCommas';
+import { numberWithCommas } from '../../../utils';
 
 export const menu = (capacity) => (
     <Menu>

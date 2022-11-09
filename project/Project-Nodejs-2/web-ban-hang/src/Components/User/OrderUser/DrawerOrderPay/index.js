@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Drawer, Space, Modal } from 'antd';
 import OrderUserProfile from './OrderUserProfile';
 import OrderProducts from './OrderProducts';
-import numberWithCommas from '../../../../utils/numberWithCommas';
+import { numberWithCommas } from '../../../../utils';
 
 function DrawerOrderPay(props) {
     const {

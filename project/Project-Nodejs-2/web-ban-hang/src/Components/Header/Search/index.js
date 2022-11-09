@@ -5,9 +5,9 @@ import { search_item } from '../../../assets/fake-data';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import CategorySearch from './CategorySearch';
 import { Link } from 'react-router-dom';
-import { openNotification } from '../../../utils/messageAlear';
 import { useDispatch } from 'react-redux';
 import { getSearchItemUserApi } from '../../../Store/Reducer/searchItem';
+import { openNotification } from '../../../utils';
 
 const SearchComponent = styled.div`
     .header__menu__right__item {

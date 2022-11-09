@@ -1,9 +1,8 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import Paginations from './Pagination/index';
-import { Comment} from 'antd';
+import { Avatar, Comment} from 'antd';
 import CommentItem from './CommentItem';
 import { toast } from 'react-toastify';
-import { renderPhotoAccout } from '../../../utils/avartarChange';
 import { imagesUpload } from '../../../utils/imageUpload';
 import EditorComment from './EditorComment';
 import { useHistory } from 'react-router-dom';
@@ -12,6 +11,7 @@ import {
     getCommentsToProduct,
     productItemSelector,
 } from '../../../Store/Reducer/product';
+import { humanImg } from '../../../assets/fake-data/human';
 
 function Comments(props) {
     const { commentsUser, product, handleInSertCmt, user, tokenAuth,axiosJWT } = props;
@@ -116,11 +116,7 @@ function Comments(props) {
         <>
             {user && tokenAuth && (
                 <Comment
-                    avatar={renderPhotoAccout(
-                        user.profilePicture,
-                        30,
-                        user.displayName,
-                    )}
+                    avatar={<Avatar src={user.profilePicture || humanImg} alt={user.username} size={30} />}
                     content={
                         <EditorComment
                             onChange={handleChange}

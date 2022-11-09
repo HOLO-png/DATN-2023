@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { humanImg } from "../../../../assets/fake-data/human.js";
 import { Button, Drawer } from "antd";
-import numberWithCommas from "../../../../utils/numberWithCommas.js";
 import { useDispatch } from "react-redux";
 import { handleCreateOrderToGHN } from "../../../../Store/Reducer/orderReducer.js";
+import { numberWithCommas } from "../../../../utils/index.js";
 
 function OrderDrawerBox({
   visible,
@@ -29,8 +29,6 @@ function OrderDrawerBox({
   const onClose = () => {
     setVisible(false);
   };
-
-  console.log(orderItem);
 
   const handleConfirmOrder = (order) => {
     if (orderItem) {

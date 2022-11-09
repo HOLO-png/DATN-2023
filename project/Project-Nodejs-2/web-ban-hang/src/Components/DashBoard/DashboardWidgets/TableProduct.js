@@ -1,11 +1,11 @@
 import React, { forwardRef, memo } from 'react';
 import Navigation from './Navigation';
-import numberWithCommas from '../../../utils/numberWithCommas';
 import { Empty, Popconfirm, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import Paginations from '../../ProductItem/Comment/Pagination';
 import { useDispatch } from 'react-redux';
 import { getProductToPagination } from '../../../Store/Reducer/productsDBReducer';
+import { numberWithCommas } from '../../../utils';
 
 const TableProduct = forwardRef((props, ref) => {
     const {

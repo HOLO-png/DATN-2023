@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
 import ChatList from './ChatList';
@@ -6,16 +7,13 @@ import ChatBoxContent from './ChatBoxContent';
 import ChatMessing from './ChatMessing';
 import { Input } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { messageInfoToast } from '../../../utils/messageInfoToast';
 import axios from 'axios';
+import { messageInfoToast } from '../../../utils';
 
 function DashboardChat(props) {
-    // eslint-disable-next-line no-unused-vars
     const [chatStarted, setChatStarted] = useState(true);
-    // eslint-disable-next-line no-unused-vars
     const [chatUser, setChatUser] = useState(null);
     const [message, setMessage] = useState('');
-    // eslint-disable-next-line no-unused-vars
     const [conversationsArray, setConversationsArray] = useState(null);
     const [media, setMedia] = useState([]);
     const [search, setSearch] = useState('');
@@ -41,7 +39,6 @@ function DashboardChat(props) {
         }
     }
 
-    console.log(searchUser);
     return (
         <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
             <div className="row">

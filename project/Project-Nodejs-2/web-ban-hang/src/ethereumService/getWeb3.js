@@ -1,5 +1,5 @@
 import Web3 from "web3";
-import { openNotification } from "../utils/messageAlear";
+import { openNotification } from "../utils";
 
 export const getWeb3 = async () => {
   if (window.ethereum) {

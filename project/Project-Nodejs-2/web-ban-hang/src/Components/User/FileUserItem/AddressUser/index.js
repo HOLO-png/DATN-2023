@@ -12,7 +12,6 @@ import {
 } from "../../../../Store/Reducer/apiAddress";
 
 import AddressContentBox from "./AddressContentBox";
-import { isEmptyObjectAll } from "../../../../utils/checkEmptyObjAll";
 import { authSelector } from "../../../../Store/Reducer/authReducer";
 import {
   deleteUserAddress,
@@ -23,6 +22,7 @@ import {
 import { insertUserAddress } from "../../../../Store/Reducer/userAddressReducer";
 import { updateUserAddress } from "../../../../Store/Reducer/userAddressReducer";
 import { toast } from "react-toastify";
+import { isEmptyObjectAll } from "../../../../utils";
 
 const FileUserAddress = styled.div`
   display: flex;
@@ -135,7 +135,6 @@ function AddressUser({ axiosJWT }) {
     setTimeout(() => {
       if (!isCheck) {
         dispatch(insertUserAddress({ ...dataAddress, axiosJWT }));
-        console.log(dataAddress);
       } else {
         toast.warning("Invalid User Address Data!");
       }

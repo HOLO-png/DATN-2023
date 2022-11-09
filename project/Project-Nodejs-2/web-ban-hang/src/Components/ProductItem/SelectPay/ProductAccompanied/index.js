@@ -2,7 +2,7 @@ import React from 'react';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
 import Avatar from 'antd/lib/avatar/avatar';
 import { Button, Col, Popover, Row, Skeleton } from 'antd';
-import numberWithCommas from '../../../../utils/numberWithCommas';
+import { numberWithCommas } from '../../../../utils';
 
 const contentMoveFee = (
     <div>

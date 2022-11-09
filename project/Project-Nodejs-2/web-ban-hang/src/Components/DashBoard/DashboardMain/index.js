@@ -39,8 +39,6 @@ function DashboardMain(props) {
         dispatch(getProductToPagination({ search: `?page=${1}` }));
     }, [dispatch]);
 
-    console.log(productsDB);
-
     return (
         <div className="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
             <div className="row">

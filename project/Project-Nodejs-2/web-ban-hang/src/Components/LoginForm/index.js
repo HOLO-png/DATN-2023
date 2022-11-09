@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import Signin from "./Signin";
 import Signup from "./Signup";
@@ -19,11 +19,7 @@ function LoginForm(props) {
   const { isStateLogin } = useParams();
 
   const auth = useSelector(authSelector);
-
   const [isActive, setIsActive] = useState(isStateLogin === "signup");
-
-  const user = localStorage.getItem("user");
-  const token = localStorage.getItem("token");
 
   const isShowSignup = () => {
     setIsActive(!isActive);
@@ -37,30 +33,13 @@ function LoginForm(props) {
     }, 1000);
   };
 
-  useEffect(() => {
-    if (user && token && auth.isForgetPassword) {
-      history.push("/");
-    } else if (user && token) {
-      history.goBack();
-    }
-  }, [history, token, user, auth]);
-
   const handleLoginSignup = (val) => {
     dispatch(setLoadingAction(true));
-    dispatch(fetchSignupAction(val));
+    dispatch(fetchSignupAction({val, history}));
     setTimeout(() => {
       dispatch(setLoadingAction(false));
     }, 500);
   };
-
-  useEffect(() => {
-    if (auth.register) {
-      history.push("/verify-email");
-      setTimeout(() => {
-        dispatch(setLoadingAction(false));
-      }, 500);
-    }
-  }, [dispatch, history, auth.register]);
 
   const handleFbLogin = (response) => {
     dispatch(setLoadingAction(true));
@@ -136,7 +115,7 @@ function LoginForm(props) {
       <footer className="form__footer">
         <p>
           Shop điện tử Iphone <i className="fa fa-heart" /> của
-          <a type="link" href=""> Hoàng Long</a> - Xin chân thành cảm ơn quý khách đã
+          <Link to="/"> Hoàng Long</Link> - Xin chân thành cảm ơn quý khách đã
           ghé qua ạ
         </p>
       </footer>

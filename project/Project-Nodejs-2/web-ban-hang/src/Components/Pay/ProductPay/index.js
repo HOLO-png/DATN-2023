@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Button, Col, Empty, Modal, Row, Skeleton, Tooltip } from "antd";
 import { Input } from "antd";
 import Product from "./Product";
-import numberWithCommas from "../../../utils/numberWithCommas";
+import { numberWithCommas } from "../../../utils";
 
 const { TextArea } = Input;
 
@@ -135,7 +135,6 @@ function ProductsPay(props) {
     setIsModalVisible(false);
   };
 
-  console.log(serviceFee);
   const renderProductApi = products_api.map((product, index) =>
     loading ? (
       <Skeleton.Button
@@ -159,7 +158,6 @@ function ProductsPay(props) {
   );
 
   const handleSetFeeService = (fee, index) => {
-    console.log(fee);
     setFeeServince(fee.data.total);
     setServiceTypeId(fee.service_type_id);
     setActive(index);

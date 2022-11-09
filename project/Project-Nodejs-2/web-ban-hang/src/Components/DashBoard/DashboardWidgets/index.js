@@ -14,8 +14,6 @@ import {
 import {
     tabletsSelector,
 } from '../../../Store/Reducer/tablet_api';
-import { messageInfoToast } from '../../../utils/messageInfoToast';
-import { isEmptyObjectAll } from '../../../utils/checkEmptyObjAll';
 import {
     deleteInputFieldApi,
     getInputField,
@@ -72,6 +70,7 @@ import {
     productItemSelector,
 } from '../../../Store/Reducer/product';
 import { useExitPrompt } from '../../../Hooks/useExitPrompt';
+import { isEmptyObjectAll, messageInfoToast } from '../../../utils';
 
 function DashboardWidgets({ url }) {
     const dispatch = useDispatch();

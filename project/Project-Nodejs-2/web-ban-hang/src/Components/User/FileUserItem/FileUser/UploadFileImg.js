@@ -46,7 +46,6 @@ function UploadFileImg(props) {
         const fileInput = e.target;
         if (fileInput.files && fileInput.files[0]) {
             const imageURL = await imageUpload(fileInput.files[0]);
-            console.log(imageURL);
             setImgUser(imageURL);
             importImg(imageURL);
         }

@@ -1,117 +1,19 @@
  
 import { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import Slider from 'react-slick';
 import { Col, Row, Tabs } from 'antd';
 import Helmet from '../../Helmet';
 import ProductPortfolio from './CustomSearch/ProductPortfolio';
 import AllProductMobile from './TabMobile/AllProductMobile';
 import ProductHot from './TabMobile/ProductHot';
-import { sortHightToLow, sortLowToHight } from '../../../utils/sortProduct';
 import { useDispatch } from 'react-redux';
 import {
     getSearchProductCategoryApi,
     handleSetIsLoad,
 } from '../../../Store/Reducer/searchProductCategory';
 import Paginations from '../../ProductItem/Comment/Pagination';
+import { sortHightToLow, sortLowToHight } from '../../../utils';
 const { TabPane } = Tabs;
-
-const MobileLayout = styled.div`
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 2px 2px 1px #d7d7d7;
-    .ant-list-split .ant-list-item {
-        border-bottom: none;
-    }
-    .ant-list-bordered {
-        border: none;
-    }
-    .ant-list-bordered.ant-list-sm .ant-list-item {
-        padding: 2px 16px;
-        cursor: pointer;
-        justify-content: flex-start;
-    }
-    .ant-list-header {
-        font-size: 17px;
-        color: #a8a8a8;
-    }
-    .mobile-address,
-    .mobile-service {
-        margin-top: 15px;
-    }
-    p {
-        margin: -2px 10px;
-    }
-    .mobile-price-clause {
-        margin: 16px;
-        p {
-            font-size: 15px;
-            color: #878787;
-        }
-        .ant-input-number,
-        .ant-btn {
-            margin: 10px;
-        }
-    }
-    .mobile-title {
-        display: flex;
-        margin: 10px 0;
-        font-size: 25px;
-        color: #b6b6b6;
-        font-weight: 300;
-        p {
-            font-size: 26px;
-            margin: 0 10px;
-            color: #333;
-        }
-    }
-    button.slick-arrow.slick-prev {
-        background: #3333331f;
-        position: absolute;
-        left: 0%;
-        width: 4%;
-        height: 162px;
-        z-index: 1;
-    }
-    button.slick-arrow.slick-next {
-        background: #3333331f;
-        position: absolute;
-        right: 0%;
-        width: 4%;
-        height: 162px;
-        z-index: 1;
-    }
-    .mobile-tabs {
-        .ant-tabs.ant-tabs-top {
-            margin: 15px 0px;
-        }
-        .ant-tabs-tab {
-            width: 100px;
-            justify-content: center;
-        }
-    }
-    .ant-tabs.ant-tabs-top.mobile-tabs {
-        margin-top: 20px;
-    }
-    .mobile-source {
-        font-size: 20px;
-        color: #d7d7d7;
-    }
-    .product-cart {
-        width: 98%;
-        margin-left: 2px;
-    }
-    span {
-        margin-left: 10px;
-    }
-    ul.ant-rate.ant-rate-disabled {
-        font-size: 15px;
-    }
-    .product-optional span {
-        margin-left: 0;
-    }
-`;
 
 function CategoryPage(props) {
     const {
@@ -202,7 +104,7 @@ function CategoryPage(props) {
 
     return (
         <Helmet title={title}>
-            <MobileLayout>
+            <div className='MobileLayout'>
                 <div className="mobile-source">
                     <p>
                         Home <i className="fal fa-chevron-right"></i> {title}
@@ -291,7 +193,7 @@ function CategoryPage(props) {
                         )}
                     </Col>
                 </Row>
-            </MobileLayout>
+            </div>
         </Helmet>
     );
 }

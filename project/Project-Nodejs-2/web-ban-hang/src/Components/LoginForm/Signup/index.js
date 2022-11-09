@@ -4,6 +4,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, Form, Input } from "antd";
 import { LockOutlined } from "@ant-design/icons";
+import { loadingSelector } from "../../../Store/Reducer/loadingReducer";
+import { useSelector } from "react-redux";
 
 Signup.propTypes = {
   onSubmit: PropTypes.func,
@@ -13,6 +15,7 @@ Signup.defaultProps = {
 };
 
 function Signup(props) {
+  const loading = useSelector(loadingSelector);
   const onFinishFailed = (error) => {
     console.log(error);
   };
@@ -87,11 +90,10 @@ function Signup(props) {
           <Input.Password
             prefix={<LockOutlined className="site-form-item-icon" />}
             placeholder="Xác nhận mật khẩu của bạn"
-            autoComplete={false}
           />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={loading}>
             Đăng ký
           </Button>
         </Form.Item>

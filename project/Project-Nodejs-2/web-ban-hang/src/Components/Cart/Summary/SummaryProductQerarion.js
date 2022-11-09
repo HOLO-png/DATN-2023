@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Checkbox, Col, Row, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
-import numberWithCommas from '../../../utils/numberWithCommas';
+import { numberWithCommas } from '../../../utils';
 
 function SummaryProductQerarion(props) {
     const {
@@ -81,7 +81,7 @@ function SummaryProductQerarion(props) {
                 </p>
             </Col>
             <Col className="gutter-row" span={4}>
-                <Link to={handleBuyProductToPay()}>
+                <Link to={handleBuyProductToPay() || '/#'}>
                     <Button
                         type="danger"
                         size="large"

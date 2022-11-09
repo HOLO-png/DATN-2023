@@ -12,7 +12,6 @@ export const handleSearchSimilar = createAsyncThunk(
                 `${url}/cart/search-similar`,
                 dataSearchToObj,
             );
-            console.log(res.data);
 
             return res.data;
         } catch (err) {
@@ -29,7 +28,6 @@ export const searchProductToDB = createAsyncThunk(
             const res = await axios.get(
                 `${url}/products/search-productDB?keys=${keys}`,
             );
-            console.log(res.data);
             return res.data;
         } catch (err) {
             console.log(err);

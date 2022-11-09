@@ -41,6 +41,7 @@ function AllProductMobile({ isload, products }) {
                                     star={item.star}
                                     amount={item.amount}
                                     category={item.category}
+                                    product={item}
                                     capacity={item.capacity}
                                     varation={item.varation}
                                     image={item.image}

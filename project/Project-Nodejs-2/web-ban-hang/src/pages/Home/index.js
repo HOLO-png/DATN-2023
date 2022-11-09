@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-
 import heroSlides, {
   skeletonProduct,
   slide_home,
@@ -13,17 +11,15 @@ import PoliceCart from "../../Components/PoliceCart";
 import Section, { SectionBody, SectionTitle } from "../../Components/Section";
 import Grid from "../../Components/Grid";
 import ProductCart from "../../Components/ProductCart";
-import { BackTop, Carousel, Col, Divider, Row, Tooltip } from "antd";
-import { VerticalAlignTopOutlined } from "@ant-design/icons";
+import { Carousel, Col, Divider, Row } from "antd";
 import Sidebar from "../../Components/Sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import GenuineBrand from "../../Components/GenuineBrand";
 import SriceShock from "../../Components/SriceShock";
-import CatgorySelect from "../../Components/CatgorySelect";
-import { getProducts } from "../../utils/randomProduct";
+import CategorySelect from "../../Components/CategorySelect";
 
 import AOS from "aos";
-import EvaluateWebs from "../../Components/EvaluateWebs";
+// import EvaluateWebs from "../../Components/EvaluateWebs";
 import {
   handleSetLoadingSkeleton,
   productsSelector,
@@ -32,27 +28,16 @@ import {
 import { setLoadingAction } from "../../Store/Reducer/loadingReducer";
 import SkeletonProducts from "../../Components/SkeletonProducts";
 import { toast } from "react-toastify";
-const text = <span>Cuộn lên đầu trang</span>;
+import { getProducts } from "../../utils";
 
-const style = {
-  height: 40,
-  width: 40,
-  lineHeight: "40px",
-  borderRadius: 4,
-  backgroundColor: "#1088e9",
-  color: "#fff",
-  textAlign: "center",
-  fontSize: 33,
-};
-
-export default function Home({ axiosJWT }) {
+export default function Home() {
   const dispatch = useDispatch();
   const height = "auto";
   const products_api = useSelector(productsSelector);
   const [mobileAndTablet, setMobileAndTablet] = useState([]);
   const [productsSelect, setProductsSelect] = useState([]);
   const [pageNum, setPageNum] = useState(1);
- 
+
   const observer = useRef(null);
   const { error, isLoading } = useGetAllProductsQuery({ pageNum, limitNum: 5 });
 
@@ -70,12 +55,6 @@ export default function Home({ axiosJWT }) {
 
   useEffect(() => {
     dispatch(setLoadingAction(isLoading));
-  }, [dispatch, isLoading]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(setLoadingAction(isLoading));
-    }, 500);
   }, [dispatch, isLoading, pageNum]);
 
   useEffect(() => {
@@ -164,19 +143,13 @@ export default function Home({ axiosJWT }) {
           <SectionBody>
             <Grid col={4} mdCol={2} smCol={1} gap={20}>
               {police.map((item, index) => (
-                <Link
-                  to="/policy"
+                <PoliceCart
+                  name={item.name}
+                  description={item.description}
+                  icon={item.icon}
                   key={index}
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                >
-                  <PoliceCart
-                    name={item.name}
-                    description={item.description}
-                    icon={item.icon}
-                    // onClick={handleShowMessage}
-                  />
-                </Link>
+                  // onClick={handleShowMessage}
+                />
               ))}
             </Grid>
           </SectionBody>
@@ -208,6 +181,7 @@ export default function Home({ axiosJWT }) {
                     star={item.star}
                     amount={item.amount}
                     category={item.category}
+                    product={item}
                     capacity={item.capacity}
                     varation={item.varation}
                     image={item.image}
@@ -217,12 +191,12 @@ export default function Home({ axiosJWT }) {
                     img_width="100%"
                     right="11px"
                     sold={item.sold}
-                  ></ProductCart>
+                  />
                 </div>
               ))}
             </Grid>
           </SectionBody>
-          {handleFilterCategoryProducts("Laptop")?.length ? (
+          {handleFilterCategoryProducts("Laptop")?.length && (
             <>
               <Divider
                 orientation="center"
@@ -236,15 +210,16 @@ export default function Home({ axiosJWT }) {
               <SectionBody>
                 <Grid col={4} mdCol={2} smCol={1} gap={20}>
                   {getProducts(4, handleFilterCategoryProducts("Laptop")).map(
-                    (item, index) => (
-                      <div data-aos="fade-up" key={index}>
+                    (item) => (
+                      <div data-aos="fade-up" key={item._id}>
                         <ProductCart
                           data-aos="fade-up"
                           id={item._id}
                           name={item.name}
-                          price={item.price}
+                          price={+item.price}
                           status={item.status}
                           star={item.star}
+                          product={item}
                           amount={item.amount}
                           category={item.category}
                           capacity={item.capacity}
@@ -263,12 +238,10 @@ export default function Home({ axiosJWT }) {
                 </Grid>
               </SectionBody>
             </>
-          ) : (
-            ""
           )}
         </Section>
         {/* end selling section */}
-        <CatgorySelect
+        <CategorySelect
           handleImportProduct={handleImportProduct}
           productAll={products_api.products}
           handleFilerLogoProducts={handleFilerLogoProducts}
@@ -281,31 +254,13 @@ export default function Home({ axiosJWT }) {
             <Grid col={5} mdCol={2} smCol={1} gap={0}>
               {productsSelect &&
                 productsSelect.map((item, index) => {
-                  if (productsSelect.length === index + 1) {
-                    return (
-                      <div data-aos="fade-up" key={index} ref={lastProductCart}>
-                        <ProductCart
-                          id={item._id}
-                          name={item.name}
-                          price={item.price}
-                          status={item.status}
-                          star={item.star}
-                          amount={item.amount}
-                          category={item.category}
-                          capacity={item.capacity}
-                          varation={item.varation}
-                          image={item.image}
-                          description={item.description}
-                          priceOld={item.priceOld}
-                          height="350"
-                          img_width="90%"
-                          right="5px"
-                          sold={item.sold}
-                        />
-                      </div>
-                    );
-                  } else {
-                    return (
+                  const isShow = productsSelect.length === index + 1;
+                  return (
+                    <div
+                      data-aos="fade-up"
+                      key={index}
+                      ref={isShow ? lastProductCart : null}
+                    >
                       <ProductCart
                         id={item._id}
                         name={item.name}
@@ -315,6 +270,7 @@ export default function Home({ axiosJWT }) {
                         amount={item.amount}
                         category={item.category}
                         capacity={item.capacity}
+                        product={item}
                         varation={item.varation}
                         image={item.image}
                         description={item.description}
@@ -324,8 +280,8 @@ export default function Home({ axiosJWT }) {
                         right="5px"
                         sold={item.sold}
                       />
-                    );
-                  }
+                    </div>
+                  );
                 })}
             </Grid>
 
@@ -338,18 +294,6 @@ export default function Home({ axiosJWT }) {
           </div>
         </SectionBody>
 
-        <Tooltip
-          placement="top"
-          title={text}
-          style={{ right: "76px", bottom: "100px" }}
-          color="#4267b2"
-        >
-          <BackTop>
-            <div style={style}>
-              <VerticalAlignTopOutlined />
-            </div>
-          </BackTop>
-        </Tooltip>
         <Sidebar />
         <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
           <Col className="gutter-row" span={12} data-aos="fade-right">
@@ -369,10 +313,10 @@ export default function Home({ axiosJWT }) {
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
-            ></iframe>
+            />
           </Col>
         </Row>
-        <EvaluateWebs />
+        {/* <EvaluateWebs /> */}
         {/* <BoxChat /> */}
       </div>
     </Helmet>

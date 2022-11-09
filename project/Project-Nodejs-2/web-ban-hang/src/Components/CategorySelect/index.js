@@ -1,62 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { Affix, Button, Col, Row } from 'antd';
-import styled from 'styled-components';
-import { getProducts } from '../../utils/randomProduct';
-
-const CatgorySelectStyled = styled.div`
-    margin-bottom: 10px;
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    .category-select-title {
-        height: 50px;
-        display: flex;
-        align-items: center;
-        margin: 0 20px;
-        font-size: 22px;
-        color: #197468;
-        i.fad.fa-lightbulb-on {
-            margin-right: 15px;
-            font-size: 30px;
-            color: #e69707;
-        }
-    }
-    .ant-col.ant-col-3.gutter-row {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        padding: 0;
-    }
-    .category-select-img {
-        width: 30%;
-        height: 55%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    img {
-        width: 100%;
-    }
-    .category-select-card {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        cursor: pointer;
-        &:nth-child(8) {
-            border-right: none;
-        }
-    }
-`;
+import { getProducts } from '../../utils';
 
 const importantCategory = {
     title: 'Dành cho bạn',
     image: 'https://salt.tikicdn.com/cache/w100/ts/upload/6d/56/64/3c4a8a3a7475311d8c6892d9ede8ead7.png.webp',
 };
-function CatgorySelect(props) {
+
+function CategorySelect(props) {
     const { productAll, handleImportProduct, handleFilerLogoProducts } = props;
     const [productState, setProductState] = useState([]);
     const [categoryProducts, setCategoryProducts] = useState([]);
@@ -77,7 +29,6 @@ function CatgorySelect(props) {
         return () => {
             clearInterval(onChangeCategorySearch);
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [handleFilerLogoProducts]);
 
     const handleCategory = (name) => {
@@ -102,6 +53,7 @@ function CatgorySelect(props) {
         }
         setActive(index);
     };
+
 
     const renderCategoryProduct = () =>
         [importantCategory, ...categoryProducts].map((item, index) => (
@@ -128,7 +80,7 @@ function CatgorySelect(props) {
         ));
     return (
         <Affix offsetTop={80}>
-            <CatgorySelectStyled>
+            <div className='category-style'>
                 <div className="category-select-title">
                     <i className="fad fa-lightbulb-on"></i> Gợi Ý Hôm Nay
                 </div>
@@ -143,11 +95,11 @@ function CatgorySelect(props) {
                 >
                     {renderCategoryProduct()}
                 </Row>
-            </CatgorySelectStyled>
+            </div>
         </Affix>
     );
 }
 
-CatgorySelect.propTypes = {};
+CategorySelect.propTypes = {};
 
-export default CatgorySelect;
+export default CategorySelect;

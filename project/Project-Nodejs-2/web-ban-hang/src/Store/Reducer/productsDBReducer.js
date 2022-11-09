@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { messageInfoToast } from '../../utils/messageInfoToast';
+import { messageInfoToast } from '../../utils';
 
 const url = 'http://localhost:8800/api';
 

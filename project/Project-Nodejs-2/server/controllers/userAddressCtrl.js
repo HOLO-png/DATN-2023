@@ -6,7 +6,6 @@ const userAddressCtrl = {
     try {
       if (req.user.id) {
         const { address, username, phoneNumber, status, long, lat } = req.body;
-        console.log(req.user);
         const userAddress = await UserAddress.findOne({
           userId: req.user.id,
         });
@@ -224,7 +223,6 @@ const userAddressCtrl = {
       const userAddressAdmin = await UserAddress.findOne({
         userId: user._id.toString(),
       });
-      console.log({ userId: user._id.toString() }, userAddressAdmin);
       return res.status(200).json({ userAddressAdmin });
     } catch (err) {
       console.log(err);

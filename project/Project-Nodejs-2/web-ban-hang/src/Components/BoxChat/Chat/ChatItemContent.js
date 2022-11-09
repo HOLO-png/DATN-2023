@@ -1,5 +1,5 @@
+import { Avatar } from 'antd';
 import React, { useEffect, useRef } from 'react';
-import { renderPhotoAccout } from '../../../utils/avartarChange';
 
 function ChatItemContent(props) {
     const { con } = props;
@@ -12,11 +12,7 @@ function ChatItemContent(props) {
     return (
         <div className="chat-msg" ref={messageRef}>
             <div className="chat-image-user">
-                {renderPhotoAccout(
-                    'https://pdp.edu.vn/wp-content/uploads/2021/01/hinh-anh-girl-xinh-toc-ngan-de-thuong.jpg',
-                    30,
-                    'ok',
-                )}
+                <Avatar src={'https://pdp.edu.vn/wp-content/uploads/2021/01/hinh-anh-girl-xinh-toc-ngan-de-thuong.jpg'} alt="" size={30} />
             </div>
             <div className="chat-content-text">
                 <p>{con.message}</p>

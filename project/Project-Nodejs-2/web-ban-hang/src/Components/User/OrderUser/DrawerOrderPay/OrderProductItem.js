@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Image } from 'antd';
-import numberWithCommas from '../../../../utils/numberWithCommas';
+import { numberWithCommas } from '../../../../utils';
 
 function OrderProductItem(props) {
     const { item } = props;

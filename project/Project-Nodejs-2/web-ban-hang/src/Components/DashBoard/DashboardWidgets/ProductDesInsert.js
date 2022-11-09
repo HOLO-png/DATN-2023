@@ -17,17 +17,15 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import parse from "html-react-parser";
 import UploadImageCategory from "./UploadImageCategory";
 import Slider from "react-slick";
-import { isEmptyObjectAll } from "../../../utils/checkEmptyObjAll";
-import { ObjectID } from "bson";
-import numberWithCommas from "../../../utils/numberWithCommas";
 import { Link, Prompt } from "react-router-dom";
 import { setLoadingAction } from "../../../Store/Reducer/loadingReducer";
-import { imageUpload } from "../../../utils/imageUpload";
 import {
   handleUpdateIsEdit,
   handleUpdateLogoToProduct,
   updateDetailToProduct,
 } from "../../../Store/Reducer/productConfig";
+import { imageUpload } from "../../../utils/imageUpload";
+import { isEmptyObjectAll, newObjectId, numberWithCommas } from "../../../utils";
 
 const clone = (obj) => Object.assign({}, obj);
 
@@ -216,7 +214,7 @@ function ProductDesInsert(props) {
       if (item._id === id) {
         handleImportImgPush({
           _id: id,
-          image: [...item.image, { _id: new ObjectID().toString(), data: img }],
+          image: [...item.image, { _id: newObjectId(), data: img }],
         });
       }
     });
@@ -914,7 +912,6 @@ function ProductDesInsert(props) {
                   </Slider>
                   <p className="input-field">Thông Tin Sản Phẩm</p>
                   {handleRenderUIInputSelectDemo()}
-
                   <p className="input-field">Thông Tin Sản Phẩm Chi Tiết</p>
                   <div className="product-detail">
                     {parse(product_config.detail || addData)}

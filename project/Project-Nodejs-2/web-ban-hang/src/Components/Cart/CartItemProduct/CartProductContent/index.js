@@ -14,7 +14,7 @@ function CartProductContent(props) {
         handleRemoveNum,
         onHandleValueNum,
         handleSumNum,
-        amout,
+        amount,
         activeSearchSimilar,
         index,
         handleShowSearchProductActive,
@@ -41,7 +41,7 @@ function CartProductContent(props) {
                     handleSumNum={handleSumNum}
                 />
 
-                <TotalPriceProduct amout={amout} product={product} />
+                <TotalPriceProduct amount={amount} product={product} />
 
                 <QuerationProduct
                     product={product}

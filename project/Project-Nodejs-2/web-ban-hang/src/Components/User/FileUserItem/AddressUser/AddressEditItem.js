@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from 'react';
 import SelecteValue from '../../../Pay/DeliveryAddress/ModalAddress/SelecteValue';
 import { Form, Input, Button, Modal } from 'antd';
-import { isEmptyObject } from '../../../../utils/checkEmptyObj';
+import { isEmptyObject } from '../../../../utils';
 
 function AddressEditItem(props) {
     const { address_api, item, importAddressUserItem } = props;

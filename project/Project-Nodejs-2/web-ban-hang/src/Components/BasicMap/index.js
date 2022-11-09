@@ -86,7 +86,7 @@ export default function LocationMap({ setLngLat, lngLat }) {
   if (!isLoaded) return "Loading...";
 
   return (
-    <div className="map-box" style={{position: 'relative'}}>
+    <div className="map-box" style={{ position: "relative", width: "100%" }}>
       {lngLat.long && lngLat.lat ? "" : <div className="empty-component"></div>}
 
       <Locate panTo={panTo} />
@@ -196,7 +196,7 @@ function Search({ panTo }) {
         value={value}
         disabled={!ready}
         onSearch={handleInput}
-        style={{width: '100%'}}
+        style={{ width: "100%" }}
       >
         {status === "OK" &&
           data.map(({ id, description }) => (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { toast } from 'react-toastify';
-import {videoShow, imageShow} from '../../../utils/mediaShow.js'
+import { imageShow, videoShow } from '../../../utils/imageUpload';
 
 function ChatMessing(props) {
     const { handleSubmitMessage, message, setMessage, setMedia, media } = props;

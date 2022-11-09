@@ -1,14 +1,12 @@
 /* eslint-disable no-useless-escape */
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
-  authSelector,
   forgotPasswordCall,
 } from "../../../Store/Reducer/authReducer";
-import { setLoadingAction } from "../../../Store/Reducer/loadingReducer";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 
 ForgotPassword.propTypes = {
   onSubmit: PropTypes.func,
@@ -17,28 +15,18 @@ ForgotPassword.defaultProps = {
   onSubmit: null,
 };
 
-function ForgotPassword(props) {
+function ForgotPassword() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const auth = useSelector(authSelector);
-
   const handleSubmit = (val) => {
-    dispatch(forgotPasswordCall(val.email));
+    dispatch(forgotPasswordCall({email: val.email, history}));
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
+    message.error(errorInfo);
   };
-
-  useEffect(() => {
-    if (auth.isForgetPassword) {
-      history.push("/verify-email");
-      setTimeout(() => {
-        dispatch(setLoadingAction(false));
-      }, 500);
-    }
-  }, [dispatch, history, auth.isForgetPassword]);
 
   return (
     <div className="form">
@@ -65,16 +53,18 @@ function ForgotPassword(props) {
             >
               <Input />
             </Form.Item>
-            <Link to="/buyer/signin">
-              <Button type="button" className="btn-outline-light">
-                Cancel
-              </Button>
-            </Link>
-            <Form.Item className="btn-action">
-              <Button type="primary" htmlType="submit">
-                Search
-              </Button>
-            </Form.Item>
+            <div className="btn-actions">
+              <Link to="/buyer/signin">
+                <Button type="button" className="btn-outline-light">
+                  Cancel
+                </Button>
+              </Link>
+              <Form.Item className="btn-action">
+                <Button type="primary" htmlType="submit">
+                  Search
+                </Button>
+              </Form.Item>
+            </div>
           </Form>
         </div>
       </div>

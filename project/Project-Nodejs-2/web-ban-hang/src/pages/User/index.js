@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Row, Col, Button, Menu } from 'antd';
+import { Row, Col, Button, Menu, Avatar } from 'antd';
 import { Link, Switch } from 'react-router-dom';
-
 import { Redirect, useParams } from 'react-router';
 import styled from 'styled-components';
 import Helmet from '../../Components/Helmet';
@@ -15,9 +14,9 @@ import {
 import SubMenu from 'antd/lib/menu/SubMenu';
 import { FILE_USER, NOTIFICATION_USER, ORDER_WHEEL } from '../../constans';
 import Userlayout from '../../Common/UserLayout';
-import { renderPhotoAccout } from '../../utils/avartarChange';
 import { useSelector } from 'react-redux';
 import { authSelector } from '../../Store/Reducer/authReducer';
+import { humanImg } from '../../assets/fake-data/human';
 
 const UserSetting = styled.div`
     display: flex;
@@ -112,12 +111,7 @@ function PurchaseOrder({axiosJWT}) {
                     style={{ background: '#fff', padding: '20px' }}
                 >
                     <UserSetting>
-                        {user &&
-                            renderPhotoAccout(
-                                user.profilePicture,
-                                50,
-                                user.username,
-                            )}
+                        <Avatar src={user?.profilePicture || humanImg} alt={user?.username} size={50} />
                         <div className="user-settings">
                             <p className="user-title">
                                 {user && user.username}

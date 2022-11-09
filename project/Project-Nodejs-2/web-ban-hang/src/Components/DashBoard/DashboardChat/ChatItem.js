@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import { renderPhotoAccout } from '../../../utils/avartarChange';
+import { Avatar } from 'antd';
+import { humanImg } from '../../../assets/fake-data/human';
 
 function ChatItem(props) {
     const { activeClass, user, onClick } = props;
@@ -13,7 +14,7 @@ function ChatItem(props) {
             <li class="left clearfix" style={{ display: 'flex' }}>
                 <div className="col-lg-2" style={{ marginTop: 8 }}>
                     <span class="chat-img pull-left">
-                        {renderPhotoAccout(user.photoURL, 50, user.displayName)}
+                    <Avatar src={user.photoURL || humanImg} alt={user.displayName} size={50} />
                     </span>
                 </div>
                 <div className="col-lg-9">

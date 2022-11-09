@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button, Col, Row, Skeleton } from 'antd';
-import numberWithCommas from '../../../utils/numberWithCommas';
 import MethodPay from './MethodPay';
+import { numberWithCommas } from '../../../utils';
 
 const PaymentComponent = styled.div`
     height: auto;

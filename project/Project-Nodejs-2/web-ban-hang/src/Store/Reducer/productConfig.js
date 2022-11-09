@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ObjectID } from 'bson';
+import { newObjectId } from '../../utils';
 
 const productConfigSlice = createSlice({
     name: 'productConfig',
@@ -13,7 +13,7 @@ const productConfigSlice = createSlice({
     reducers: {
         handleCreateProductConfig: (state, action) => {
             const dataImg = {
-                _id: new ObjectID().toString(),
+                _id: newObjectId(),
                 image: [],
             };
             state.productConfig = {

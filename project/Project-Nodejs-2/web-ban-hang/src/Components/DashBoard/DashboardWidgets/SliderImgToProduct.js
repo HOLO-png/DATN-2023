@@ -26,7 +26,7 @@ function SliderImgToProduct(props) {
               {image_field &&
                 image_field.image.map((item, index) => (
                   <Draggable
-                    key={item._id}
+                    key={item.index}
                     draggableId={item._id}
                     index={index}
                   >

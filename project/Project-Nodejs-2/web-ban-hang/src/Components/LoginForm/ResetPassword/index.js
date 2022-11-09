@@ -78,7 +78,6 @@ function ForgotPassword(props) {
               <Input.Password
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 placeholder="Xác nhận mật khẩu mới của bạn"
-                autoComplete={false}
                 width={200}
               />
             </Form.Item>

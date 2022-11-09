@@ -1,19 +1,15 @@
 import "./App.css";
 import { BrowserRouter, Switch } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {
-  DASHBOARD_MAIN,
-  LOGIN_ROUTES,
-  MAIN_ROUTES,
-} from "../../constans";
+import { DASHBOARD_MAIN, LOGIN_ROUTES, MAIN_ROUTES } from "../../constans";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Layout from "../../Common/Layout";
 import Footer from "../../Components/Footer";
 import Header from "../../Components/Header";
 import LoginLayout from "../../Common/LoginLayout";
-import ScrollToTop from "../../utils/scroll";
 import { useDispatch, useSelector } from "react-redux";
+import { VerticalAlignTopOutlined } from "@ant-design/icons";
 import {
   addSearchItemUserApi,
   deleteSearchItemUserApi,
@@ -38,6 +34,8 @@ import {
 } from "../../Store/Reducer/cartReducer";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import ScrollToTop from "../../Components/ScrollToTop";
+import { BackTop, Tooltip } from "antd";
 
 const override = css`
   display: block;
@@ -45,6 +43,19 @@ const override = css`
   border-color: red;
   transition: display 0.5s ease;
 `;
+
+const text = <span>Cuộn lên đầu trang</span>;
+
+const style = {
+  height: 40,
+  width: 40,
+  lineHeight: "40px",
+  borderRadius: 4,
+  backgroundColor: "#1088e9",
+  color: "#fff",
+  textAlign: "center",
+  fontSize: 33,
+};
 
 function App() {
   const searchItem = useSelector(searchItemSelector);
@@ -80,7 +91,6 @@ function App() {
         const decodeToken = jwt_decode(auth.tokenAuth);
         if (decodeToken.exp < date.getTime() / 1000) {
           const data = await refreshToken();
-          console.log(data);
           dispatch(signingSuccess(data));
           config.headers["Authorization"] = data.access_token;
         }
@@ -113,14 +123,14 @@ function App() {
     if (auth.tokenAuth) {
       dispatch(getOrCreateCartToUserApi({ token: auth.tokenAuth, axiosJWT }));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, auth.tokenAuth]);
 
   useEffect(() => {
     if (auth.tokenAuth) {
       dispatch(getUserByToken({ token: auth.tokenAuth, axiosJWT }));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, auth.tokenAuth]);
 
   const insertSearchItemUser = (data) => {
@@ -211,7 +221,7 @@ function App() {
           />
         </div>
       )}
-      
+
       <BrowserRouter
         getUserConfirmation={(message, callback) => {
           return UserLeaveConfirmation(
@@ -223,12 +233,25 @@ function App() {
         }}
       >
         <ToastContainer />
-        <ScrollToTop />
-        <Switch>
-          {renderDashboardRoute()}
-          {renderLoginRoute()}
-          {renderMain()}
-        </Switch>
+        <Tooltip
+          placement="top"
+          title={text}
+          style={{ right: "76px", bottom: "100px" }}
+          color="#4267b2"
+        >
+          <BackTop>
+            <div style={style}>
+              <VerticalAlignTopOutlined />
+            </div>
+          </BackTop>
+        </Tooltip>
+        <ScrollToTop>
+          <Switch>
+            {renderDashboardRoute()}
+            {renderLoginRoute()}
+            {renderMain()}
+          </Switch>
+        </ScrollToTop>
       </BrowserRouter>
     </>
   );

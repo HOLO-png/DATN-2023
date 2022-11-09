@@ -72,6 +72,9 @@ export default function Header(props) {
             let progress = (window.pageYOffset / totalHeight) * 100;
             setWidth(progress);
         };
+        return () => {
+            window.onscroll = null;
+        };
     }, [totalHeight]);
 
     return (
@@ -96,14 +99,14 @@ export default function Header(props) {
                         className="header__menu__mobile-toggle"
                         onClick={menuToggle}
                     >
-                        <box-icon name="menu-alt-left"></box-icon>
+                        <box-icon name="menu-alt-left"/>
                     </div>
                     <div className="header__menu__left" ref={menuLeft}>
                         <div
                             className="header__menu__left__close"
                             onClick={menuToggle}
                         >
-                            <box-icon name="x-circle"></box-icon>
+                            <box-icon name="x-circle"/>
                         </div>
                         {mainNav.map((item, index) => (
                             <div

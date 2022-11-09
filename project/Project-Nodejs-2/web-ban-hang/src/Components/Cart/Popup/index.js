@@ -20,8 +20,8 @@ function Popup(props) {
             onCancel={() => setModalVisibleCancel()}
             className="popup-product-cart"
         >
-            {currentProduct.map((item) => (
-                <p key={item.id}>{item.name}</p>
+            {currentProduct.map((item, index) => (
+                <p key={index}>{item.name}</p>
             ))}
         </Modal>
     );

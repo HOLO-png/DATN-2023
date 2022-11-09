@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Skeleton, Tag } from 'antd';
-import numberWithCommas from '../../../../utils/numberWithCommas';
+import { numberWithCommas } from '../../../../utils';
 
 function ProductPrice(props) {
     const { productPrice, productPriceOld, productObj, loading, product } =

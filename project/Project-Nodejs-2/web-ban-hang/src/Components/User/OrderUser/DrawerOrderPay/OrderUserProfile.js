@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Avatar } from 'antd';
-import numberWithCommas from '../../../../utils/numberWithCommas';
+import { numberWithCommas } from '../../../../utils';
 
 function OrderUserProfile(props) {
     const { photoURL, dataOrder } = props;
@@ -15,7 +15,6 @@ function OrderUserProfile(props) {
         }
     }, [dataOrder]);
 
-    console.log(dataOrder);
     return (
         <div className="row">
             <div className="col-lg-12">

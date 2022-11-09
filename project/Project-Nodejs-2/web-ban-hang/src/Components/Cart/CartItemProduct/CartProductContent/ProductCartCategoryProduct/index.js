@@ -124,7 +124,7 @@ function ProductCartCategoryProduct(props) {
                                               alignItems: 'center',
                                               marginTop: 20,
                                           }}
-                                          // key={index}
+                                          key={item}
                                           className="product-similar-seklentor"
                                       />
                                   ))
@@ -140,6 +140,7 @@ function ProductCartCategoryProduct(props) {
                                               price={item.price}
                                               status={false}
                                               star={item.star}
+                                              product={item}
                                               amount={item.amount}
                                               category={item.category}
                                               capacity={item.capacity}
@@ -150,7 +151,7 @@ function ProductCartCategoryProduct(props) {
                                               height="350"
                                               img_width="90%"
                                               right="5px"
-                                          ></ProductCart>
+                                          />
                                       </div>
                                   ))}
                         </Slider>

@@ -36,7 +36,6 @@ export const getUser = createAsyncThunk(
     async ({ userId }) => {
         try {
             const res = await axios.get(`${url}/users/${userId}`);
-            console.log(res.data);
 
             return res.data;
         } catch (err) {

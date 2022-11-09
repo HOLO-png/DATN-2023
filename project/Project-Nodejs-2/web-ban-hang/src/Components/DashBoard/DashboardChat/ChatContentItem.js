@@ -1,5 +1,6 @@
+import { Avatar } from 'antd';
 import React, { useEffect, useRef } from 'react';
-import { renderPhotoAccout } from '../../../utils/avartarChange';
+import { humanImg } from '../../../assets/fake-data/human';
 
 function ChatContentItem(props) {
     const { con, chatUser } = props;
@@ -14,11 +15,7 @@ function ChatContentItem(props) {
             <li class="left clearfix-chat-content-item">
                 <div className="col-lg-">
                     <span class="chat-img pull-left" style={{ marginLeft: 20 }}>
-                        {renderPhotoAccout(
-                            chatUser.photoURL,
-                            30,
-                            chatUser.displayName,
-                        )}
+                    <Avatar src={chatUser.photoURL || humanImg} alt={chatUser.displayName} size={30} />
                     </span>
                 </div>
                 <div

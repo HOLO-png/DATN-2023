@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Badge } from 'antd';
-import numberWithCommas from '../../../../utils/numberWithCommas';
-import { renderPhotoAccout } from '../../../../utils/avartarChange';
+import { Avatar, Badge } from 'antd';
+import { humanImg } from '../../../../assets/fake-data/human';
+import { numberWithCommas } from '../../../../utils';
 
 const OrderPayProductStyles = styled.div`
     padding: 10px 10px;
@@ -128,7 +128,7 @@ function OrderPayProduct(props) {
                         count={order.products.length}
                         style={{ zIndex: 1 }}
                     />
-                    {renderPhotoAccout(photoURL, 50, 'avatar')}
+                    <Avatar src={photoURL || humanImg} alt="avatar" size={50} />
                 </div>
                 <div className="user-order__pay-product-item__content">
                     <div className="user-order__pay-product-item__title">
