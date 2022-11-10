@@ -80,7 +80,7 @@ function Sidebar(props) {
               isShow={isShow}
               changeDataCategory={changeDataCategory}
             />
-            {data.categoryMenu.map((item, index) => (
+            {data?.categoryMenu.map((item, index) => (
               <Button
                 type="text"
                 onMouseEnter={() => someHandler(item, index)}
