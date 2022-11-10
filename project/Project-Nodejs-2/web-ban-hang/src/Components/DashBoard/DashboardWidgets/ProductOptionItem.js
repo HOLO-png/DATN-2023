@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 
@@ -26,7 +27,7 @@ function ProductOptionItem(props) {
             className="row product-hunt"
             id="product-hunt"
             onClick={() => handleShowTableProduct(item.title)}
-            onMouseEnter={() => someHandler(index)}
+            // onMouseEnter={() => someHandler(index)}
         >
             <div className="col-xs-2 col-md-2 date">
                 <img alt="" src={item.image} style={{ width: '180%' }} />

@@ -7,7 +7,7 @@ function ChatBox(props) {
             <div className="col-lg-8">
                 <div className="col-lg-2" style={{ marginTop: 8 }}>
                     <span
-                        class="chat-img pull-left"
+                        className="chat-img pull-left"
                         style={{ marginBottom: 9 }}
                     >
                         {/* {renderPhotoAccout(
@@ -18,16 +18,16 @@ function ChatBox(props) {
                     </span>
                 </div>
                 <div className="col-lg-9">
-                    <div class="chat-body clearfix">
-                        <div class="clearfix-header">
-                            <strong class="primary-font">
+                    <div className="chat-body clearfix">
+                        <div className="clearfix-header">
+                            <strong className="primary-font">
                                 {/* {chatStarted ? chatUser.displayName : ''} */}
                             </strong>
                             <br />
                             {/* {chatUser.isOnline ? (
                                 <div className="active-acount">
                                     <div className="active-acount-check"></div>
-                                    <small class="text-muted">
+                                    <small className="text-muted">
                                         Đang hoạt động
                                     </small>
                                 </div>

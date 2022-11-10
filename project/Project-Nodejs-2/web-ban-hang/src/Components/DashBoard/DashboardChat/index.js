@@ -40,7 +40,7 @@ function DashboardChat(props) {
     }
 
     return (
-        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+        <div className="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
             <div className="row">
                 <ol className="breadcrumb">
                     <li>
@@ -70,14 +70,14 @@ function DashboardChat(props) {
                                         data-toggle="dropdown"
                                         href="#"
                                     >
-                                        <i class="far fa-clipboard-user"></i>
+                                        <i className="far fa-clipboard-user"></i>
                                     </a>
                                     <ul className="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <ul className="dropdown-settings">
                                                 <li>
                                                     <a>
-                                                        <i class="fad fa-user-tag"></i>{' '}
+                                                        <i className="fad fa-user-tag"></i>{' '}
                                                         Xem Thông Tin (Chỉ 1
                                                         người)
                                                     </a>
@@ -85,21 +85,21 @@ function DashboardChat(props) {
                                                 <li className="divider" />
                                                 <li>
                                                     <a href="#">
-                                                        <i class="fad fa-user-minus"></i>{' '}
+                                                        <i className="fad fa-user-minus"></i>{' '}
                                                         Xoá Ra Khỏi Danh Sách
                                                     </a>
                                                 </li>
                                                 <li className="divider" />
                                                 <li>
                                                     <a href="#">
-                                                        <i class="fad fa-user-lock"></i>{' '}
+                                                        <i className="fad fa-user-lock"></i>{' '}
                                                         Chặn Người Này
                                                     </a>
                                                 </li>
                                                 <li className="divider" />
                                                 <li>
                                                     <a href="#">
-                                                        <i class="fad fa-user-cog"></i>{' '}
+                                                        <i className="fad fa-user-cog"></i>{' '}
                                                         Sửa Thông Tin (Chỉ 1
                                                         Người)
                                                     </a>
@@ -110,13 +110,13 @@ function DashboardChat(props) {
                                 </li>
                             </ul>
                             <span className="pull-right clickable panel-toggle panel-button-tab-left">
-                                <i class="fad fa-user-plus"></i>
+                                <i className="fad fa-user-plus"></i>
                             </span>
                         </div>
                         <form onClick={handleProcessingSearchers}>
-                            <div class="form-group">
+                            <div className="form-group">
                                 <Input size="large" placeholder="large size" prefix={<UserOutlined />} onChange={(e) => setSearch(e.target.value)} />
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
                             </div>
                         </form>
                         <div className="panel-body articles-container container-chat-box">
@@ -135,14 +135,14 @@ function DashboardChat(props) {
                                         data-toggle="dropdown"
                                         href="#"
                                     >
-                                        <i class="far fa-clipboard-user"></i>
+                                        <i className="far fa-clipboard-user"></i>
                                     </a>
                                     <ul className="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <ul className="dropdown-settings">
                                                 <li>
                                                     <a>
-                                                        <i class="fad fa-user-tag"></i>{' '}
+                                                        <i className="fad fa-user-tag"></i>{' '}
                                                         Xem Thông Tin (Chỉ 1
                                                         người)
                                                     </a>
@@ -150,21 +150,21 @@ function DashboardChat(props) {
                                                 <li className="divider" />
                                                 <li>
                                                     <a href="#">
-                                                        <i class="fad fa-user-minus"></i>{' '}
+                                                        <i className="fad fa-user-minus"></i>{' '}
                                                         Xoá Ra Khỏi Danh Sách
                                                     </a>
                                                 </li>
                                                 <li className="divider" />
                                                 <li>
                                                     <a href="#">
-                                                        <i class="fad fa-user-lock"></i>{' '}
+                                                        <i className="fad fa-user-lock"></i>{' '}
                                                         Chặn Người Này
                                                     </a>
                                                 </li>
                                                 <li className="divider" />
                                                 <li>
                                                     <a href="#">
-                                                        <i class="fad fa-user-cog"></i>{' '}
+                                                        <i className="fad fa-user-cog"></i>{' '}
                                                         Sửa Thông Tin (Chỉ 1
                                                         Người)
                                                     </a>
@@ -175,7 +175,7 @@ function DashboardChat(props) {
                                 </li>
                             </ul>
                             <span className="pull-right clickable panel-toggle panel-button-tab-left">
-                                <i class="fad fa-user-plus"></i>
+                                <i className="fad fa-user-plus"></i>
                             </span>
                         </div>
                         <div className="panel-body articles-container">

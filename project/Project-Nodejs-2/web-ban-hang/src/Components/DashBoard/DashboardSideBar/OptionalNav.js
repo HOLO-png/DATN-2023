@@ -1,15 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { nav_dashboard } from '../../../assets/fake-data';
 import { useDispatch } from 'react-redux';
 import { handleLogout } from '../../../Store/Reducer/authReducer';
 
 function OptionalNav(props) {
+    const history = useHistory();
     const dispatch = useDispatch()
     const handleUpdateLink = (item) => {
         if(item.name === 'Logout') {
-            dispatch(handleLogout());
+            dispatch(handleLogout(history));
             return item.link;
         }else {
             return item.link;

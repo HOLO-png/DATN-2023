@@ -42,14 +42,14 @@ function ChatMessing(props) {
             </div>
             <div className="row chat-messing">
                 <div className="col-lg-1">
-                    <i class="fad fa-plus-circle"></i>
+                    <i className="fad fa-plus-circle"></i>
                 </div>
                 <div className="col-lg-1 image-file">
-                    <i class="fad fa-file-image"></i>
+                    <i className="fad fa-file-image"></i>
                     <input type="file" className="image-file-input" name="file" id="file" multiple accept='image/*,video/*' onChange={handleChangeMedia} />
                 </div>
                 <div className="col-lg-1">
-                    <i class="fad fa-photo-video"></i>
+                    <i className="fad fa-photo-video"></i>
                 </div>
                 <div className="col-lg-8">
                     <div className="input-form">
@@ -61,7 +61,7 @@ function ChatMessing(props) {
                     </div>
                 </div>
                 <div className="col-lg-1" onClick={handleSubmitMessage}>
-                    <i class="fad fa-paper-plane"></i>
+                    <i className="fad fa-paper-plane"></i>
                 </div>
             </div>
         </div>

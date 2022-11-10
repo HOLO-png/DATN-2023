@@ -61,6 +61,7 @@ function Signup(props) {
           name="password"
           rules={[
             { required: true, message: "Vui lòng nhập mật khẩu của bạn!" },
+            { min: 9, message: "Độ dài mật khẩu phải trên 8 kí tự" },
           ]}
         >
           <Input.Password placeholder="Nhập mật khẩu" />

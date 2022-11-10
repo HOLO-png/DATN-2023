@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-
-import Voucher from "../../Components/Pay/Voucher";
 import DeliveryAddress from "../../Components/Pay/DeliveryAddress";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -17,7 +15,6 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 import Payment from "../../Components/Pay/Payment/Payment";
 import Helmet from "../../Components/Helmet";
 import { message } from "antd";
-
 import PayMethod from "../../Components/Pay/PayMethod";
 import { cartSelector } from "../../Store/Reducer/cartReducer";
 import { authSelector } from "../../Store/Reducer/authReducer";
@@ -29,7 +26,7 @@ import {
   updateUserAddress,
   userAddressSelector,
 } from "../../Store/Reducer/userAddressReducer";
-import { toast } from "react-toastify";
+
 import {
   loadingSelector,
   setLoadingAction,
@@ -157,20 +154,22 @@ function Pay({ axiosJWT }) {
 
   useEffect(() => {
     if (userAddress) {
-      if (!userAddress.items.length) {
+      if (!userAddress?.items.length) {
         setVisible(true);
       } else {
-        userAddress.items.forEach((item) => {
+        userAddress?.items.forEach((item) => {
           if (item.status) {
             setObjAddress(item.address);
             setvalueAddress(item.address);
             setAddress_user_api(item);
             item && setInputName(item.username || "");
             item && setInputNumber(item.phoneNumber || "");
-            setLngLat({
-              long: item.geolocation.coordinates[0],
-              lat: item.geolocation.coordinates[1],
-            });
+            if (item.geolocation) {
+              setLngLat({
+                long: item.geolocation.coordinates[0] || 0,
+                lat: item.geolocation.coordinates[1] || 0,
+              });
+            }
           }
         });
         setVisible(false);
@@ -251,7 +250,7 @@ function Pay({ axiosJWT }) {
     setInputNumber(e.target.value);
   };
 
-  const handleOk = () => {
+  const handleOk = useCallback(() => {
     setModalText("The modal will be closed after two seconds");
     setConfirmLoading(true);
     setTimeout(() => {
@@ -323,8 +322,6 @@ function Pay({ axiosJWT }) {
                     axiosJWT,
                   })
                 );
-              } else {
-                toast.warning("Bị trùng địa chỉ rồi bro!");
               }
             }
           }
@@ -337,7 +334,20 @@ function Pay({ axiosJWT }) {
       setUserAddressDefault(null);
       setVisible(false);
     }, 1000);
-  };
+  }, [
+    address_user_api,
+    auth.tokenAuth,
+    axiosJWT,
+    changeCheckbox,
+    dispatch,
+    inputName,
+    inputNumber,
+    lngLat.lat,
+    lngLat.long,
+    objAddress,
+    userAddressDefault,
+    valueAddress,
+  ]);
 
   const onHandleValueImportAddress = (obj) => {
     setObjAddress(obj);
@@ -346,8 +356,8 @@ function Pay({ axiosJWT }) {
   useEffect(() => {
     if (userAddress) {
       if (userAddressAdmin) {
-        if (userAddress.items.length) {
-          userAddress.items.forEach((item) => {
+        if (userAddress?.items.length) {
+          userAddress?.items.forEach((item) => {
             if (item.status) {
               dispatch(
                 getServicePackageApi({
@@ -405,7 +415,7 @@ function Pay({ axiosJWT }) {
 
   useEffect(() => {
     if (servicePackage) {
-      servicePackage.data.forEach((item) => {
+      servicePackage.data?.forEach((item) => {
         feeServiceChange.forEach((ele) => {
           if (item.service_type_id === ele.serviceTypeId) {
             result.push({ ...item, ...ele });
@@ -420,8 +430,9 @@ function Pay({ axiosJWT }) {
           .indexOf(obj.serviceTypeId) === index
       );
     });
-    setServiceFee(x);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (x) setServiceFee(x);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [feeServiceChange, servicePackage]);
 
   const handleCancel = () => {
@@ -449,7 +460,7 @@ function Pay({ axiosJWT }) {
     setPayMethod(method);
   };
 
-  const handleMethodPayProduct = () => {
+  const handleMethodPayProduct = useCallback(() => {
     if (!isError) {
       if (!isEmptyObject(valueAddress || {})) {
         if (payMethod === "Thanh toán Online") {
@@ -520,7 +531,20 @@ function Pay({ axiosJWT }) {
         "Xin Lỗi, Bạn Chưa Có Địa Chỉ Mặc Định, Vui Lòng Nhập Lại!"
       );
     }
-  };
+  }, [
+    auth,
+    axiosJWT,
+    dispatch,
+    feeService,
+    isError,
+    message,
+    payMethod,
+    payMethodActive,
+    products,
+    serviceTypeId,
+    userAddress,
+    valueAddress,
+  ]);
 
   const handleShowPayTable = (method) => {
     if (method === "Thanh toán Online") {
@@ -581,6 +605,7 @@ function Pay({ axiosJWT }) {
           userAddressDefault={userAddressDefault}
           lngLat={lngLat}
           setLngLat={setLngLat}
+          isShowSavedAddress={true}
         />
         <ProductsPay
           products_api={products}
@@ -593,7 +618,6 @@ function Pay({ axiosJWT }) {
           servicePackage={servicePackage}
           setServiceTypeId={setServiceTypeId}
         />
-        <Voucher loading={loading} />
         <Payment
           sumProduct={sumProduct}
           loading={loading}

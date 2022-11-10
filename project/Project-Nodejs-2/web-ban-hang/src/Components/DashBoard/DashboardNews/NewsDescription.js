@@ -43,7 +43,7 @@ function NewsDescription(props) {
                 <div className="panel-heading">
                     Product Description
                     <span className="pull-right clickable panel-toggle panel-button-tab-left">
-                        <i class="fad fa-plus"></i>
+                        <i className="fad fa-plus"></i>
                     </span>
                 </div>
                 {showTabletProduct ? (

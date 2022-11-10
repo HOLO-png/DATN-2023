@@ -10,7 +10,7 @@ function ChatContentItemMain(props) {
 
     return (
         <div className="row" ref={messageRef}>
-            <li class="left clearfix-chat-content-item">
+            <li className="left clearfix-chat-content-item">
                 <div className="col-lg-3"></div>
                 <div className="col-lg-9 comment-main">
                     <span className="date-message">{con.created}</span>

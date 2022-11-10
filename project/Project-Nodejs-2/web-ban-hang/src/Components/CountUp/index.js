@@ -5,7 +5,6 @@ const Count = (props) => {
     const { number, duration } = props;
 
     const [count, setCount] = useState(0);
-    console.log(number, duration);
 
     useEffect(() => {
         let start = 0;

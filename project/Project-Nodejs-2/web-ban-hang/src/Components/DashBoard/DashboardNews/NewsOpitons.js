@@ -55,7 +55,7 @@ function NewsOpitons(props) {
                         </li>
                     </ul>
                     <span className="pull-right clickable panel-toggle panel-button-tab-left">
-                        <i class="fad fa-plus"></i>
+                        <i className="fad fa-plus"></i>
                     </span>
                 </div>
                 <div className="panel-body articles-container">

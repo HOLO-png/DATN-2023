@@ -113,7 +113,11 @@ export const handleCreateOrderToGHN = createAsyncThunk(
         requiredNote,
         items,
         pickShift,
-        orderId
+        orderId,
+        dispatch,
+        order,
+        tokenAuth,
+        axiosJWT
     }) => {
         try {
             let res = await fetch(apiOrderCreate, {
@@ -158,6 +162,16 @@ export const handleCreateOrderToGHN = createAsyncThunk(
                 returnMessage: commits.code_message_value,
                 expectedDeliveryTime: commits.data.expected_delivery_time,
             });
+
+            dispatch(
+                handleUpdateStatusOrder({
+                  orderId: order._id,
+                  complete: "confirm",
+                  tokenAuth,
+                  axiosJWT,
+                  isDelivery: true,
+                })
+              );
             toast.success(`Đơn hàng ${orderId} đã được xác nhận, bạn có thể in đơn hàng!`);
             return resOrder.data;
         } catch (err) {

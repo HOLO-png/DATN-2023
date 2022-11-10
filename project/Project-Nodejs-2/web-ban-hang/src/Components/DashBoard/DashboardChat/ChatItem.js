@@ -11,22 +11,22 @@ function ChatItem(props) {
             className={activeClass ? 'row active-chat' : 'row'}
             onClick={() => onClick(user)}
         >
-            <li class="left clearfix" style={{ display: 'flex' }}>
+            <li className="left clearfix" style={{ display: 'flex' }}>
                 <div className="col-lg-2" style={{ marginTop: 8 }}>
-                    <span class="chat-img pull-left">
+                    <span className="chat-img pull-left">
                     <Avatar src={user.photoURL || humanImg} alt={user.displayName} size={50} />
                     </span>
                 </div>
                 <div className="col-lg-9">
-                    <div class="chat-body clearfix">
-                        <div class="clearfix-header">
-                            <strong class="primary-font">
+                    <div className="chat-body clearfix">
+                        <div className="clearfix-header">
+                            <strong className="primary-font">
                                 {user.displayName}
                             </strong>{' '}
                             {user.isOnline ? (
                                 <div className="active-acount">
                                     <div className="active-acount-check"></div>
-                                    <small class="text-muted">
+                                    <small className="text-muted">
                                         Đang hoạt động
                                     </small>
                                 </div>

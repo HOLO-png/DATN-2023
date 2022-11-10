@@ -16,8 +16,8 @@ import {
 } from "../../Store/Reducer/cartReducer";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router";
-import axios from "axios";
 import { handleProductStatus } from "../../Store/Reducer/current_product";
+import { createAxiosJWT } from "../../pages/App/App";
 
 function QuickViewModal(props) {
   const {
@@ -32,16 +32,19 @@ function QuickViewModal(props) {
   const loading = useSelector(loadingSelector);
   const user = useSelector(authSelector);
   const cart = useSelector(cartSelector);
+  const auth = useSelector(authSelector);
+
+  const axiosJWT = createAxiosJWT({ tokenAuth: auth.tokenAuth, dispatch });
 
   const handleProductToCart = (obj) => {
     if (user.user && user.tokenAuth) {
       dispatch(
         handleAddProductToCart({
           cart,
-          obj,
+          obj: { ...obj, image: obj.image.image },
           amout: 1,
           user,
-          axiosJWT: axios.create(),
+          axiosJWT,
         })
       );
     } else {
@@ -61,11 +64,11 @@ function QuickViewModal(props) {
       dispatch(
         handleAddProductToCartBuyAction({
           cart,
-          obj,
+          obj: { ...obj, image: obj.image.image },
           amout: 1,
           user,
           isChecked: true,
-          axiosJWT: axios.create(),
+          axiosJWT,
         })
       );
     } else {

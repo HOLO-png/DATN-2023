@@ -64,7 +64,7 @@ function User({ user }) {
       >
         <div className="header__menu__item__user-icon">
           {user ? (
-            <Link to="/user/all">
+            <Link to="/user/order">
               <Avatar
                 src={user.profilePicture || humanImg}
                 alt={user.username}
@@ -110,7 +110,7 @@ function User({ user }) {
             </Link>
             {user.addressWallet && (
               <div className="header__menu__item__user-drawer-accout">
-                <i class="fad fa-wallet"></i>
+                <i className="fad fa-wallet"></i>
                 <span className="display-name-user" style={{ marginLeft: 5 }}>
                   {user.addressWallet}
                 </span>

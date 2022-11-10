@@ -12,7 +12,7 @@ function OrderProducts(props) {
                 </div>
                 <div className="order__product">
                     {dataOrder.products.map((item) => (
-                        <OrderProductItem item={item} key={item.id} />
+                        <OrderProductItem item={item} key={item._id} />
                     ))}
                 </div>
             </div>

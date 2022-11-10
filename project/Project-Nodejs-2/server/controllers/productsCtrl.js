@@ -131,7 +131,6 @@ const product = {
             } else {
                 total = Math.floor(count / limit) + 1;
             }
-            console.log({ length: products.length, total, count });
 
             res.status(200).json({ products, total, count });
         } catch (err) {
@@ -210,7 +209,6 @@ const product = {
                 total = Math.floor(count / limit) + 1;
             }
 
-            console.log({ length: products.length, total });
 
             res.status(200).json({ products, total, count });
         } catch (err) {

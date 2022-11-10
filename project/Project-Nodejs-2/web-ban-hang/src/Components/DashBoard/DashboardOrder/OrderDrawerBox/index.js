@@ -2,9 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { humanImg } from "../../../../assets/fake-data/human.js";
 import { Button, Drawer } from "antd";
-import { useDispatch } from "react-redux";
-import { handleCreateOrderToGHN } from "../../../../Store/Reducer/orderReducer.js";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  handleCreateOrderToGHN,
+  handleUpdateStatusOrder,
+} from "../../../../Store/Reducer/orderReducer.js";
 import { numberWithCommas } from "../../../../utils/index.js";
+import { authSelector } from "../../../../Store/Reducer/authReducer.js";
 
 function OrderDrawerBox({
   visible,
@@ -16,6 +20,7 @@ function OrderDrawerBox({
 }) {
   const dispatch = useDispatch();
   const [orderCreated, setOrderCreated] = useState("");
+  const auth = useSelector(authSelector);
 
   useEffect(() => {
     if (orderItem) {
@@ -26,57 +31,58 @@ function OrderDrawerBox({
     }
   }, [orderItem]);
 
+  console.log(orderItem);
   const onClose = () => {
     setVisible(false);
   };
 
   const handleConfirmOrder = (order) => {
-    if (orderItem) {
+    if (order) {
       userAddress.items.forEach((item) => {
         if (item.status) {
           dispatch(
             handleCreateOrderToGHN({
-              orderId: orderItem._id,
-              toName: orderItem.username,
-              toPhone: orderItem.phoneNumber,
-              toAddress: `${orderItem.city.mota}, ${orderItem.city.xa.WardName}, ${orderItem.city.quan.DistrictName}, ${orderItem.city.tinh.ProvinceName}, Vietnam`,
-              toWardCode: orderItem.city.xa.WardCode,
-              toDistrictId: orderItem.city.quan.DistrictID,
-              returnPhone: item.phoneNumber,
-              returnDistrictId: item.address.quan.DistrictID,
-              returnWardCode: item.address.xa.WardCode,
-              returnAddress: `${item.address.mota}, ${item.address.xa.WardName}, ${item.address.quan.DistrictName}, ${item.address.tinh.ProvinceName}, Vietnam`,
+              orderId: order._id,
+              toName: order.username,
+              toPhone: order.phoneNumber,
+              toAddress: `${order.city.mota}, ${order.city.xa.WardName}, ${order.city.quan.DistrictName}, ${order.city.tinh.ProvinceName}, Vietnam`,
+              toWardCode: order.city.xa.WardCode,
+              toDistrictId: order.city.quan.DistrictID,
+              returnPhone: order.phoneNumber,
+              returnDistrictId: order.city.quan.DistrictID,
+              returnWardCode: order.city.xa.WardCode,
+              returnAddress: `${order.city.mota}, ${order.city.xa.WardName}, ${order.city.quan.DistrictName}, ${order.city.tinh.ProvinceName}, Vietnam`,
               clientOrderCode: "",
               codAmount:
-                orderItem.products.reduce((accumulator, item) => {
+              order.products.reduce((accumulator, item) => {
                   return accumulator + item.price * item.qty;
-                }, 0) + orderItem.paymentFee,
-              content: orderItem.products.reduce((accumulator, item) => {
+                }, 0) + order.paymentFee,
+              content: order.products.reduce((accumulator, item) => {
                 return accumulator + item.name + ", ";
               }, ""),
-              weight: orderItem.products.reduce((accumulator, item) => {
+              weight: order.products.reduce((accumulator, item) => {
                 return accumulator + Number(item.sizeInformation.weight);
               }, 0),
-              length: orderItem.products.reduce((accumulator, item) => {
+              length: order.products.reduce((accumulator, item) => {
                 return accumulator + Number(item.sizeInformation.length);
               }, 0),
-              width: orderItem.products.reduce((accumulator, item) => {
+              width: order.products.reduce((accumulator, item) => {
                 return accumulator + Number(item.sizeInformation.width);
               }, 0),
-              height: orderItem.products.reduce((accumulator, item) => {
+              height: order.products.reduce((accumulator, item) => {
                 return accumulator + Number(item.sizeInformation.height);
               }, 0),
-              pickStationId: orderItem.city.quan.DistrictID,
-              insuranceValue: orderItem.products.reduce((accumulator, item) => {
+              pickStationId: order.city.quan.DistrictID,
+              insuranceValue: order.products.reduce((accumulator, item) => {
                 return accumulator + Number(item.price) * item.qty;
               }, 0),
               coupon: null,
-              serviceTypeId: orderItem.serviceTypeId,
+              serviceTypeId: order.serviceTypeId,
               paymentTypeId: 2,
-              note: orderItem.message,
+              note: order.message,
               requiredNote: "CHOTHUHANG",
               pickShift: [2],
-              items: orderItem.products.map((product) => {
+              items: order.products.map((product) => {
                 return {
                   name: product.name,
                   code: product.productId,
@@ -90,20 +96,14 @@ function OrderDrawerBox({
                   },
                 };
               }),
+              dispatch,
+              order,
+              tokenAuth: auth.tokenAuth,
+              axiosJWT
             })
           );
         }
       });
-
-      // dispatch(
-      //     handleUpdateStatusOrder({
-      //         orderId: order._id,
-      //         complete: 'confirm',
-      //         tokenAuth: auth.tokenAuth,
-      //         axiosJWT,
-      //         isDelivery: true
-      //     }),
-      // );
 
       setVisible(false);
     }
@@ -246,30 +246,24 @@ function OrderDrawerBox({
                                     <span className="checkmark" />
                                   </label>
                                 </td>
-                                <td>
-                                  <div className="img">
-                                    <img
-                                      src={product.image}
-                                      alt="image-product"
-                                      style={{
-                                        width: "100%",
-                                        height: "100%",
-                                        marginLeft: "46%",
-                                      }}
-                                    />
-                                  </div>
+                                <td className="img">
+                                  <img
+                                    src={product.image}
+                                    alt="image-product"
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      marginLeft: "46%",
+                                    }}
+                                  />
                                 </td>
-                                <td>
-                                  <div className="email">
-                                    <span>{product.name}</span>
-                                    <span></span>
-                                  </div>
+                                <td className="email">
+                                  <span>{product.name}</span>
+                                  <span></span>
                                 </td>
                                 <td>{numberWithCommas(product.price)}đ</td>
                                 <td className="quantity">
-                                  <div className="input-group">
-                                    {product.qty}
-                                  </div>
+                                  <p className="input-group">{product.qty}</p>
                                 </td>
                                 <td>
                                   {numberWithCommas(

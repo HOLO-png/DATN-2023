@@ -1,12 +1,12 @@
 import React from 'react';
 function CardOrder({ title, count }) {
     return (
-        <div class="card-order">
+        <div className="card-order">
             <h3 className="card-order-title ">
-                <span class="enclosed">{title}</span>
+                <span className="enclosed">{title}</span>
             </h3>
             <h3 className="card-order-content">
-                <span class="enclosed">
+                <span className="enclosed">
                     {count} <p>Đơn hàng</p>
                 </span>
             </h3>

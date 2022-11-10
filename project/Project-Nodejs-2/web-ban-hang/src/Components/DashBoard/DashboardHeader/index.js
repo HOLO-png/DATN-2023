@@ -15,12 +15,12 @@ function DashboardHeader(props) {
         >
             <div className="container-fluid">
                 <div className="navbar-header">
-                    <a className="navbar-brand">
+                    <p className="navbar-brand">
                         <Link to="/">
                             <span>Shop IPhone </span>
                         </Link>
                         Admin
-                    </a>
+                    </p>
                     <ul className="nav navbar-top-links navbar-right">
                         <MessageInfo />
                         <Alear />

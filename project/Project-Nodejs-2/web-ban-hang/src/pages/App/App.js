@@ -57,38 +57,14 @@ const style = {
   fontSize: 33,
 };
 
-function App() {
-  const searchItem = useSelector(searchItemSelector);
-  const loading = useSelector(loadingSelector);
-  const auth = useSelector(authSelector);
-  const cart = useSelector(cartSelector);
+export const createAxiosJWT = ({ tokenAuth, dispatch }) => {
   let axiosJWT = axios.create();
-
-  const user = localStorage.getItem("user");
-  const token = localStorage.getItem("token");
-
-  const dispatch = useDispatch();
-  const [confirmOpen, setConfirmOpen] = useState(true);
-
-  const refreshToken = async () => {
-    try {
-      const res = await axios.post(
-        "http://localhost:8800/api/auth/refresh_token",
-        {
-          withCredentials: true,
-        }
-      );
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   axiosJWT.interceptors.request.use(
     async (config) => {
       let date = new Date();
-      if (auth.tokenAuth) {
-        const decodeToken = jwt_decode(auth.tokenAuth);
+      if (tokenAuth) {
+        const decodeToken = jwt_decode(tokenAuth);
         if (decodeToken.exp < date.getTime() / 1000) {
           const data = await refreshToken();
           dispatch(signingSuccess(data));
@@ -103,6 +79,37 @@ function App() {
     }
   );
 
+  return axiosJWT;
+};
+
+const refreshToken = async () => {
+  try {
+    const res = await axios.post(
+      "http://localhost:8800/api/auth/refresh_token",
+      {
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+function App() {
+  const searchItem = useSelector(searchItemSelector);
+  const loading = useSelector(loadingSelector);
+  const auth = useSelector(authSelector);
+  const cart = useSelector(cartSelector);
+
+  const user = localStorage.getItem("user");
+  const token = localStorage.getItem("token");
+
+  const dispatch = useDispatch();
+  const [confirmOpen, setConfirmOpen] = useState(true);
+
+  const axiosJWT = createAxiosJWT({ tokenAuth: auth.tokenAuth, dispatch });
+  
   useEffect(() => {
     if (user && token) {
       setTimeout(() => {

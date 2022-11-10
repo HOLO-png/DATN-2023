@@ -99,6 +99,7 @@ function DeliveryAddress(props) {
     userAddressDefault,
     lngLat,
     setLngLat,
+    isShowSavedAddress,
   } = props;
   const [userAddressValue, setUserAddressValue] = useState(null);
 
@@ -128,7 +129,7 @@ function DeliveryAddress(props) {
             marginTop: 20,
           }}
           className="cart-seklentor"
-        ></Skeleton.Button>
+        />
       ) : (
         <>
           <div className="delivery-address__border-top">
@@ -211,6 +212,7 @@ function DeliveryAddress(props) {
               userAddressDefault={userAddressDefault}
               lngLat={lngLat}
               setLngLat={setLngLat}
+              isShowSavedAddress={isShowSavedAddress}
             />
           </div>
         </>

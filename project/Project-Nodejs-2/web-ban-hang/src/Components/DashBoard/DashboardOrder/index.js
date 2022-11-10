@@ -30,7 +30,7 @@ function DashboardOrder({axiosJWT}) {
     }, [dispatch, auth]);
 
     return (
-        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+        <div className="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
             <div className="row">
                 <ol className="breadcrumb">
                     <li>
@@ -60,14 +60,14 @@ function DashboardOrder({axiosJWT}) {
                                         data-toggle="dropdown"
                                         href="#"
                                     >
-                                        <i class="far fa-clipboard-user"></i>
+                                        <i className="far fa-clipboard-user"></i>
                                     </a>
                                     <ul className="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <ul className="dropdown-settings">
                                                 <li>
                                                     <a>
-                                                        <i class="fad fa-user-tag"></i>{' '}
+                                                        <i className="fad fa-user-tag"></i>{' '}
                                                         Xem Thông Tin (Chỉ 1
                                                         người)
                                                     </a>
@@ -75,21 +75,21 @@ function DashboardOrder({axiosJWT}) {
                                                 <li className="divider" />
                                                 <li>
                                                     <a href="#">
-                                                        <i class="fad fa-user-minus"></i>{' '}
+                                                        <i className="fad fa-user-minus"></i>{' '}
                                                         Xoá Ra Khỏi Danh Sách
                                                     </a>
                                                 </li>
                                                 <li className="divider" />
                                                 <li>
                                                     <a href="#">
-                                                        <i class="fad fa-user-lock"></i>{' '}
+                                                        <i className="fad fa-user-lock"></i>{' '}
                                                         Chặn Người Này
                                                     </a>
                                                 </li>
                                                 <li className="divider" />
                                                 <li>
                                                     <a href="#">
-                                                        <i class="fad fa-user-cog"></i>{' '}
+                                                        <i className="fad fa-user-cog"></i>{' '}
                                                         Sửa Thông Tin (Chỉ 1
                                                         Người)
                                                     </a>
@@ -102,7 +102,7 @@ function DashboardOrder({axiosJWT}) {
                         </div>
                         <div className="orders-container">
                             <div className="panel-body articles-container order-container">
-                                <div class="wrapper">
+                                <div className="wrapper">
                                     <CardOrder
                                         title="Tất cả đơn hàng"
                                         count={orders && orders.length}
@@ -110,7 +110,7 @@ function DashboardOrder({axiosJWT}) {
                                 </div>
                             </div>
                             <div className="panel-body articles-container order-container">
-                                <div class="wrapper">
+                                <div className="wrapper">
                                     <CardOrder
                                         title="Giao hàng chậm"
                                         count="0"
@@ -118,12 +118,12 @@ function DashboardOrder({axiosJWT}) {
                                 </div>
                             </div>
                             <div className="panel-body articles-container order-container">
-                                <div class="wrapper">
+                                <div className="wrapper">
                                     <CardOrder title="Xử lý chậm" count="0" />
                                 </div>
                             </div>
                             <div className="panel-body articles-container order-container">
-                                <div class="wrapper">
+                                <div className="wrapper">
                                     <CardOrder
                                         title="Chưa đối soát"
                                         count="0"

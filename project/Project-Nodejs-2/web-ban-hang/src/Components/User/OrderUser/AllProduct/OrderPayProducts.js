@@ -8,7 +8,7 @@ function OrderPayProducts(props) {
             {orders.map((order, index) => (
                 <OrderPayProduct
                     order={order}
-                    key={order.id}
+                    key={order._id}
                     index={index}
                     handleOrderActive={handleOrderActive}
                     photoURL={photoURL}

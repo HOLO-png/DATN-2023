@@ -378,7 +378,6 @@ function ProductDesInsert(props) {
       if (arrayCheck[0].length) {
         inputRef.current = inputRef.current.slice(0, arrayCheck[0].length);
         inputRef.current.forEach((ele) => {
-          console.log(ele);
           if (ele) {
             const inputId = ele.getAttribute("id");
             if (inputId === inputElement) {

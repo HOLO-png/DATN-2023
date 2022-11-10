@@ -83,13 +83,13 @@ function UserComments(props) {
         <div className="user-comments">
             <ExampleComment>
                 <div className="comments-media">
-                    {comment.media.image.map((item) => (
-                        <div className="image-comment">
+                    {comment.media.image.map((item, index) => (
+                        <div className="image-comment" key={index}>
                             <Image width={100} src={item.url} key={item._id} />
                         </div>
                     ))}
-                    {comment.media.video.map((item) => (
-                        <>
+                    {comment.media.video.map((item, index) => (
+                        <div key={index}>
                             <video
                                 controls
                                 src={item.url}
@@ -97,7 +97,7 @@ function UserComments(props) {
                                 alt={item.url}
                                 style={{ width: '200px' }}
                             />
-                        </>
+                        </div>
                     ))}
                 </div>
                 {commentsReply.length ? (
@@ -130,14 +130,14 @@ function UserComments(props) {
                               }}
                           >
                               <Comment
-                                  author={<a href="#">{itemCmt.user.username}</a>}
+                                  author={<a href="#">{itemCmt.user?.username}</a>}
                                   avatar={
                                       <Avatar
                                           src={
-                                              itemCmt.user.profilePicture ||
+                                              itemCmt.user?.profilePicture ||
                                               humanImg
                                           }
-                                          alt={itemCmt.user.username}
+                                          alt={itemCmt.user?.username}
                                       />
                                   }
                                   content={itemCmt.content}

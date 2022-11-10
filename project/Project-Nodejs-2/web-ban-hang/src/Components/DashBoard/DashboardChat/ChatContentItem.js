@@ -12,9 +12,9 @@ function ChatContentItem(props) {
 
     return (
         <div className="row" ref={messageRef}>
-            <li class="left clearfix-chat-content-item">
+            <li className="left clearfix-chat-content-item">
                 <div className="col-lg-">
-                    <span class="chat-img pull-left" style={{ marginLeft: 20 }}>
+                    <span className="chat-img pull-left" style={{ marginLeft: 20 }}>
                     <Avatar src={chatUser.photoURL || humanImg} alt={chatUser.displayName} size={30} />
                     </span>
                 </div>

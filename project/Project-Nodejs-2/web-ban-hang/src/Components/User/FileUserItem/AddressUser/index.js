@@ -1,11 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Form, Input, Button, Row, Col, Divider, Empty } from "antd";
+import { Button, Row, Col, Divider, Empty } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import Modal from "antd/lib/modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import SelecteValue from "../../../Pay/DeliveryAddress/ModalAddress/SelecteValue";
 import {
   addressApiSelector,
   getAddressApi,
@@ -23,6 +21,7 @@ import { insertUserAddress } from "../../../../Store/Reducer/userAddressReducer"
 import { updateUserAddress } from "../../../../Store/Reducer/userAddressReducer";
 import { toast } from "react-toastify";
 import { isEmptyObjectAll } from "../../../../utils";
+import ModalAddress from "../../../Pay/DeliveryAddress/ModalAddress";
 
 const FileUserAddress = styled.div`
   display: flex;
@@ -66,6 +65,10 @@ function AddressUser({ axiosJWT }) {
   const [nameUser, setNameUser] = useState("");
   const [dataAddress, setDataAddress] = useState({});
   const [numberPhone, setNumberPhone] = useState("");
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [addressId, setAddressId] = useState(null);
+  const [lngLat, setLngLat] = useState({ long: 0, lat: 0 });
+
   const [objAddress, setObjAddress] = useState({
     tinh: null,
     quan: null,
@@ -126,27 +129,43 @@ function AddressUser({ axiosJWT }) {
   }, [auth, nameUser, numberPhone, objAddress]);
 
   const handleImportAddressUser = () => {
-    const isCheck = Object.values(dataAddress.address).some((value) => {
-      if (!value) {
-        return true;
-      }
-      return false;
-    });
-    setTimeout(() => {
-      if (!isCheck) {
-        dispatch(insertUserAddress({ ...dataAddress, axiosJWT }));
-      } else {
-        toast.warning("Invalid User Address Data!");
-      }
-    }, 500);
-    setNameUser("");
-    setNumberPhone("");
-    setObjAddress({
-      tinh: "",
-      quan: "",
-      xa: "",
-      mota: "",
-    });
+    if (!addressId) {
+      const isCheck = Object.values(dataAddress.address).some((value) => {
+        if (!value) {
+          return true;
+        }
+        return false;
+      });
+      setTimeout(() => {
+        if (!isCheck) {
+          dispatch(insertUserAddress({ ...dataAddress, axiosJWT, ...lngLat }));
+        } else {
+          toast.warning("Invalid User Address Data!");
+        }
+      }, 500);
+    } else {
+      const data = {
+        username: nameUser,
+        phoneNumber: numberPhone,
+        address: {
+          tinh: addressId?.address.tinh || objAddress.tinh,
+          quan: addressId?.address.quan || objAddress.quan,
+          xa: addressId?.address.xa || objAddress.xa,
+          mota: addressId?.address.mota || objAddress.mota,
+        },
+        long: lngLat.long,
+        lat: lngLat.lat,
+        tokenAuth: auth.tokenAuth,
+        status: addressId.status,
+        axiosJWT,
+      };
+      dispatch(
+        updateUserAddress({
+          data,
+          userAddressId: addressId.id,
+        })
+      );
+    }
     setModal(false);
   };
 
@@ -164,15 +183,29 @@ function AddressUser({ axiosJWT }) {
     }
   };
 
-  const importAddressUserItem = ({ newUserAddress, userAddressId }) => {
-    if (auth.tokenAuth) {
-      dispatch(
-        updateUserAddress({
-          data: { ...newUserAddress, tokenAuth: auth.tokenAuth, axiosJWT },
-          userAddressId,
-        })
-      );
+  const handleEditUserAddress = (addressItem) => {
+    const { username, phoneNumber, address, geolocation, status } = addressItem;
+    if (!isEmptyObjectAll(addressItem)) {
+      setNameUser(username);
+      setNumberPhone(phoneNumber);
+      setObjAddress(address);
+      setLngLat({
+        long: geolocation.coordinates[0],
+        lat: geolocation.coordinates[1],
+      });
+      setAddressId({ id: addressItem._id, status, address });
+      setModal(true);
     }
+  };
+
+  console.log(objAddress);
+  const handleCancel = () => {
+    setModal1Visible(false);
+    setAddressId(null);
+  };
+
+  const handleShowModal = () => {
+    setModal1Visible(true);
   };
 
   return (
@@ -196,72 +229,27 @@ function AddressUser({ axiosJWT }) {
                 type="primary"
                 size="large"
                 icon={<PlusOutlined />}
-                onClick={() => setModal1Visible(true)}
+                onClick={handleShowModal}
               >
                 Thêm Địa Chỉ Mới
               </Button>
-              <Modal
-                title="Địa chỉ mới"
-                centered
-                style={{ top: 20 }}
+              <ModalAddress
                 visible={modal}
-                onOk={() => handleImportAddressUser()}
-                okButtonProps={{
-                  disabled: isEmptyObjectAll(dataAddress),
-                }}
-                onCancel={() => setModal1Visible(false)}
-              >
-                <Form
-                  labelCol={{
-                    span: 6,
-                  }}
-                  wrapperCol={{
-                    span: 18,
-                  }}
-                  layout="horizontal"
-                  size="large"
-                >
-                  <Form.Item
-                    label="Họ và Tên"
-                    style={{ margin: 0, fontSize: "16px" }}
-                  >
-                    <Input
-                      placeholder="Họ và tên"
-                      onChange={onChangeName}
-                      value={nameUser}
-                    />
-                  </Form.Item>
-                  <Form.Item label="Số điện thoại" style={{ margin: 0 }}>
-                    <Input
-                      placeholder="Số điện thoại"
-                      onChange={onChangeNumberPhone}
-                      value={numberPhone}
-                    />
-                  </Form.Item>
-                  <Form.Item label="Địa Chỉ" style={{ margin: 0 }}>
-                    <SelecteValue
-                      active={1}
-                      objAddress={objAddress}
-                      address_api={address_api}
-                      onHandleValueImportAddress={onHandleValueImportAddress}
-                      widthInput="160px"
-                    />
-                  </Form.Item>
-
-                  <Form.Item label="Loại Địa Chỉ">
-                    <Button
-                      type="dashed"
-                      style={{ margin: "10px 10px" }}
-                      disabled
-                    >
-                      Nhà Riêng
-                    </Button>
-                    <Button type="dashed" disabled>
-                      Văn Phòng
-                    </Button>
-                  </Form.Item>
-                </Form>
-              </Modal>
+                handleOk={handleImportAddressUser}
+                handleCancel={handleCancel}
+                modalText="Địa chỉ mới"
+                confirmLoading={confirmLoading}
+                address_api={address_api}
+                objAddress={objAddress}
+                onHandleValueImportAddress={onHandleValueImportAddress}
+                inputName={nameUser}
+                inputNumber={numberPhone}
+                handleChangeInputName={onChangeName}
+                handleChangeInputNumber={onChangeNumberPhone}
+                isShowSavedAddress={false}
+                lngLat={lngLat}
+                setLngLat={setLngLat}
+              />
             </FileUserTitle>
           </Col>
         </Row>
@@ -270,25 +258,19 @@ function AddressUser({ axiosJWT }) {
         </Divider>
       </div>
       <div className="address-content">
-        {userAddress ? (
-          userAddress.items.length ? (
-            userAddress.items.map(
-              (item, index) =>
-                Object.keys(item).length && (
-                  <AddressContentBox
-                    item={item}
-                    key={item.id}
-                    index={index}
-                    confirm={confirm}
-                    handleSetDefaultToAddress={handleSetDefaultToAddress}
-                    address_api={address_api}
-                    id_user={item.id_user}
-                    importAddressUserItem={importAddressUserItem}
-                  />
-                )
-            )
-          ) : (
-            <Empty />
+        {userAddress && userAddress.items.length ? (
+          userAddress.items.map(
+            (item, index) =>
+              Object.keys(item).length && (
+                <AddressContentBox
+                  item={item}
+                  key={item._id}
+                  index={index}
+                  confirm={confirm}
+                  handleSetDefaultToAddress={handleSetDefaultToAddress}
+                  handleEditUserAddress={handleEditUserAddress}
+                />
+              )
           )
         ) : (
           <Empty />

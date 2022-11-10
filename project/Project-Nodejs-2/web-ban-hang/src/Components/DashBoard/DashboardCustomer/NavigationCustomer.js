@@ -125,8 +125,8 @@ function NavigationCustomer({ visible, handleSetVisible, user }) {
                     <div className="container-customer">
                         {userAddress ? (
                             userAddress.items && userAddress.items.length ? (
-                                userAddress.items.map((item) => (
-                                    <div className="col-lg-3 col-sm-6 col-md-6 address-item">
+                                userAddress.items.map((item, index) => (
+                                    <div className="col-lg-3 col-sm-6 col-md-6 address-item" key={index}>
                                         <div className="text-center feature-block">
                                             <Tooltip
                                                 placement="top"
@@ -161,7 +161,7 @@ function NavigationCustomer({ visible, handleSetVisible, user }) {
                                                 </p>
                                                 {item.status && (
                                                     <p className="address-item-active">
-                                                        <i class="fad fa-check-circle"></i>
+                                                        <i className="fad fa-check-circle"></i>
                                                     </p>
                                                 )}
                                             </Tooltip>

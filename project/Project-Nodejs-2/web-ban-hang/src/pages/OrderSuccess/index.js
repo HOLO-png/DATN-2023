@@ -176,7 +176,7 @@ function OrderSuccess({axiosJWT}) {
                             <p>Your order number is: {paymentId}</p>
                         </div>
                         <div className="order-success__payment-info__btn-continue">
-                            <Link className="button" to="/user/all">
+                            <Link className="button" to="/user/order">
                                 <span className="button__text">
                                     <span>Xem</span>
                                 </span>

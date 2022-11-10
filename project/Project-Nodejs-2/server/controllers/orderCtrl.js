@@ -26,8 +26,6 @@ const orderCtrl = {
                     }
                 });
 
-                console.log({ products: products.length });
-
                 const user = await User.findOne({ _id: id });
                 if (user) {
                     const order = new Order({

@@ -33,7 +33,7 @@ const userAddressCtrl = {
                 phoneNumber,
                 address,
                 status,
-                geolocation
+                geolocation,
               };
               if (status) {
                 userAddress.items.forEach((item) => {
@@ -104,8 +104,12 @@ const userAddressCtrl = {
   updateUserAddressItem: async (req, res) => {
     try {
       const { userAddressId } = req.params;
-      const { address, username, phoneNumber, status } = req.body;
-
+      const { address, username, phoneNumber, status, long, lat } = req.body;
+      let geolocation = {
+        type: "Point",
+        coordinates: [long, lat],
+      };
+      console.log(req.body);
       if (req.user.id) {
         const userAddress = await UserAddress.findOne({
           userId: req.user.id,
@@ -129,6 +133,7 @@ const userAddressCtrl = {
                 phoneNumber,
                 address,
                 status: status,
+                geolocation,
                 _id: item._id,
               };
               return newItem;

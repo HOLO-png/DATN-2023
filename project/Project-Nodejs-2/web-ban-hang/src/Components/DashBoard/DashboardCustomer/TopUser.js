@@ -4,38 +4,38 @@ import React from 'react';
 function TopUser(props) {
     return (
         <div className="col-lg-6">
-            <div class="panel panel-default ">
-                <div class="panel-heading">
+            <div className="panel panel-default ">
+                <div className="panel-heading">
                     Top User
-                    <ul class="pull-right panel-settings panel-button-tab-right">
-                        <li class="dropdown">
+                    <ul className="pull-right panel-settings panel-button-tab-right">
+                        <li className="dropdown">
                             <a
-                                class="pull-right dropdown-toggle"
+                                className="pull-right dropdown-toggle"
                                 data-toggle="dropdown"
                                 href="#"
                             >
-                                <em class="fa fa-cogs"></em>
+                                <em className="fa fa-cogs"></em>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-right">
+                            <ul className="dropdown-menu dropdown-menu-right">
                                 <li>
-                                    <ul class="dropdown-settings">
+                                    <ul className="dropdown-settings">
                                         <li>
                                             <a href="#">
-                                                <em class="fa fa-cog"></em>{' '}
+                                                <em className="fa fa-cog"></em>{' '}
                                                 Settings 1
                                             </a>
                                         </li>
-                                        <li class="divider"></li>
+                                        <li className="divider"></li>
                                         <li>
                                             <a href="#">
-                                                <em class="fa fa-cog"></em>{' '}
+                                                <em className="fa fa-cog"></em>{' '}
                                                 Settings 2
                                             </a>
                                         </li>
-                                        <li class="divider"></li>
+                                        <li className="divider"></li>
                                         <li>
                                             <a href="#">
-                                                <em class="fa fa-cog"></em>{' '}
+                                                <em className="fa fa-cog"></em>{' '}
                                                 Settings 3
                                             </a>
                                         </li>
@@ -44,12 +44,12 @@ function TopUser(props) {
                             </ul>
                         </li>
                     </ul>
-                    <span class="pull-right clickable panel-toggle panel-button-tab-left">
-                        <em class="fa fa-toggle-up"></em>
+                    <span className="pull-right clickable panel-toggle panel-button-tab-left">
+                        <em className="fa fa-toggle-up"></em>
                     </span>
                 </div>
-                <div class="panel-body">
-                    <div class="col-md-12 no-padding">
+                <div className="panel-body">
+                    <div className="col-md-12 no-padding">
                         <table className="styled-table">
                             <thead>
                                 <tr>

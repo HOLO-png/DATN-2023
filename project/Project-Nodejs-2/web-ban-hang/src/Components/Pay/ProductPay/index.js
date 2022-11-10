@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Button, Col, Empty, Modal, Row, Skeleton, Tooltip } from "antd";
+import { Badge, Button, Col, Empty, Modal, Row, Skeleton, Tooltip } from "antd";
 import { Input } from "antd";
 import Product from "./Product";
 import { numberWithCommas } from "../../../utils";
@@ -164,7 +164,7 @@ function ProductsPay(props) {
   };
   useEffect(() => {
     if (serviceFee) {
-      if (serviceFee.length) {
+      if (serviceFee.length && serviceFee[0].data) {
         setFeeServince(serviceFee[0].data.total);
         setServiceTypeId(serviceFee[0].service_type_id);
         setActive(0);
@@ -276,51 +276,50 @@ function ProductsPay(props) {
                 onOk={handleOk}
                 onCancel={handleCancel}
               >
-                <div class="cards">
+                <div className="cards">
                   {serviceFee &&
                     serviceFee.map(
                       (item, index) =>
                         item && (
-                          <Tooltip
-                            title={`
-                                                     Phí dịch vụ: ${numberWithCommas(
-                                                       item.data?.service_fee
-                                                     )}₫. Phí khai giá hàng hóa: ${numberWithCommas(
-                              item.data?.insurance_fee
-                            )}₫. Phí gửi hàng tại bưu cục: ${numberWithCommas(
-                              item.data?.pick_station_fee
-                            )}₫. Phí giao lại hàng: ${numberWithCommas(
-                              item.data?.r2s_fee
-                            )}₫. `}
-                            color="#2db7f5"
-                            className="card"
+                          <Badge.Ribbon
+                            text="Đã chọn"
+                            color="success"
+                            style={{
+                              right: 2,
+                              display: active === index ? "block" : "none",
+                              top: 25,
+                            }}
                             key={index}
                           >
-                            <div
-                              class="card card-1"
-                              onClick={() => handleSetFeeService(item, index)}
+                            <Tooltip
+                              title={`Phí dịch vụ: ${numberWithCommas(
+                                item.data?.service_fee
+                              )}₫. Phí khai giá hàng hóa: ${numberWithCommas(
+                                item.data?.insurance_fee
+                              )}₫. Phí gửi hàng tại bưu cục: ${numberWithCommas(
+                                item.data?.pick_station_fee
+                              )}₫. Phí giao lại hàng: ${numberWithCommas(
+                                item.data?.r2s_fee
+                              )}₫. `}
+                              color="#2db7f5"
+                              className="card"
                             >
-                              {active === index ? (
-                                <div class="card__icon">
-                                  <i class="fas fa-check"></i>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-
-                              <h2 class="card__title">
-                                Tổng chi phí:
-                                <p className="payment__price">
-                                  {numberWithCommas(item.data?.total)}₫
-                                </p>
-                              </h2>
-                              <p class="card__apply">
-                                <p class="card__link">
+                              <div
+                                className="card card-1"
+                                onClick={() => handleSetFeeService(item, index)}
+                              >
+                                <h2 className="card__title">
+                                  Tổng chi phí:
+                                  <p className="payment__price">
+                                    {numberWithCommas(item.data?.total)}₫
+                                  </p>
+                                </h2>
+                                <p className="card__apply">
                                   Phương thức vận chuyển: {item?.short_name}{" "}
                                 </p>
-                              </p>
-                            </div>
-                          </Tooltip>
+                              </div>
+                            </Tooltip>
+                          </Badge.Ribbon>
                         )
                     )}
                 </div>

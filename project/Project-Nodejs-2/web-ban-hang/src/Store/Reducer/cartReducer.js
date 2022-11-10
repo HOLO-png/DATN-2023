@@ -189,7 +189,6 @@ const cartSlice = createSlice({
   },
   reducers: {
     handleResetCartUser(state, action) {
-      console.log("reset cart");
       localStorage.removeItem("cart");
       state.cart = null;
     },

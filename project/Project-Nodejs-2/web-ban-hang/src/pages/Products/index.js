@@ -13,7 +13,7 @@ import {
 import ImgProduct from "../../Components/ProductItem/ImgProduct";
 import SelectPay from "../../Components/ProductItem/SelectPay";
 import Shop from "../../Components/ProductItem/Shop";
-import ProductsCommans from "../../Components/ProductItem/ProductsCommans";
+import ProductsCommand from "../../Components/ProductItem/ProductsCommans";
 import {
   handleProduct,
   imgImportSelector,
@@ -224,7 +224,7 @@ export default function Products({ axiosJWT }) {
           <Shop product={product} loading={loading} />
         </Row>
       </div>
-      <ProductsCommans
+      <ProductsCommand
         product={product}
         products_api={data}
         commentsUser={comments_user}

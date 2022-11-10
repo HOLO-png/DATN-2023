@@ -12,6 +12,7 @@ import {
     productItemSelector,
 } from '../../../Store/Reducer/product';
 import { humanImg } from '../../../assets/fake-data/human';
+import { setLoadingAction } from '../../../Store/Reducer/loadingReducer';
 
 function Comments(props) {
     const { commentsUser, product, handleInSertCmt, user, tokenAuth,axiosJWT } = props;
@@ -108,8 +109,10 @@ function Comments(props) {
     }, []);
 
     const handlePagination = (num) => {
+        dispatch(setLoadingAction(true));
         const search = `?page=${num}`;
         dispatch(getCommentsToProduct({ productId: product._id, search }));
+        dispatch(setLoadingAction(false));
     };
 
     return (

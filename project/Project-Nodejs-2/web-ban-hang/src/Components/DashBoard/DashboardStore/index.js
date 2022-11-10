@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react';
 import SelecteValue from '../../Pay/DeliveryAddress/ModalAddress/SelecteValue';
 import { useDispatch, useSelector } from 'react-redux';
 import { addressApiSelector } from '../../../Store/Reducer/apiAddress';
-import { Button, Input } from 'antd';
+import { Button, Empty, Input } from 'antd';
 import {
     getUserAddress,
     updateUserAddress,
@@ -59,7 +60,7 @@ function DashboardStore(props) {
     }, [isInput, objAddress]);
 
     return (
-        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+        <div className="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
             <div className="row">
                 <ol className="breadcrumb">
                     <li>
@@ -80,9 +81,9 @@ function DashboardStore(props) {
             <div className="row">
                 <div className="col-md-6">
                     <div className="title-config-store">
-                        <span>Cập nhật địa chỉ người dùng</span>
+                        <span>Cập nhật địa chỉ Admin</span>
                     </div>
-                    <div className="col-md-12">
+                    {/* <div className="col-md-12">
                         <div className="address-input">
                             <Input
                                 placeholder="Nhập tên cửa hàng của bạn"
@@ -124,9 +125,10 @@ function DashboardStore(props) {
                                 Save
                             </Button>
                         </div>
-                    </div>
+                    </div> */}
+                    <Empty/>
                 </div>
-                <div className="col-md-6">ok</div>
+                <div className="col-md-6"></div>
             </div>
         </div>
     );

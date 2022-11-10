@@ -10,6 +10,7 @@ import { useGetMenuCategoryQuery } from "../../Store/Reducer/menuReducer";
 
 const titleSidebar = <span>Menu Danh Mục Sản Phẩm</span>;
 const titleLucky = <span>Bạn có 2 lượt quay</span>;
+
 function Sidebar(props) {
   const [visible, setVisible] = useState(false);
   const [showTable, setShowTable] = useState(false);
@@ -51,6 +52,8 @@ function Sidebar(props) {
     });
     return () => {
       window.removeEventListener("mousemove", null);
+      setShowTable(false);
+      setActive(null);
     };
   }, []);
 

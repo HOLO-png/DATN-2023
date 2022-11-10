@@ -21,6 +21,7 @@ const authCtrl = {
         });
       }
 
+      console.log(username, password, email);
       if (!validateEmail(email)) {
         return res.status(400).json({
           success: false,

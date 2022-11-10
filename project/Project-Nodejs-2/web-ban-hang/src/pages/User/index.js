@@ -129,14 +129,14 @@ function PurchaseOrder({axiosJWT}) {
                                 marginTop: '10px',
                                 fontSize: '17px',
                             }}
-                            defaultSelectedKeys={[location]}
-                            defaultOpenKeys={[location]}
+                            defaultSelectedKeys={[location || 'profile']}
+                            defaultOpenKeys={[location || 'profile']}
                             mode="inline"
                             openKeys={openKeys}
                             onOpenChange={onOpenChange}
                         >
                             <SubMenu
-                                key="profile"
+                                key='profile-page'
                                 icon={<UserOutlined />}
                                 title="Tài khoản của tôi"
                             >
@@ -160,7 +160,7 @@ function PurchaseOrder({axiosJWT}) {
                                 <Link to="/user/order">Đơn Mua</Link>
                             </Menu.Item>
                             <SubMenu
-                                key="order-update"
+                                key='order-page'
                                 icon={<BellOutlined />}
                                 title="Thông báo"
                             >

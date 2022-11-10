@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Checkbox, Form, Modal,  Button, Steps } from "antd";
-import SelecteValue from "./SelecteValue";
+import { Checkbox, Form, Modal, Button, Steps } from "antd";
+import SelectedValue from "./SelecteValue";
 import InfoAddress from "./InfoAddress";
 import SaveAddress from "./SaveAddress";
 import InputInfo from "./InputInfo";
@@ -18,6 +18,7 @@ function ModalAddress(props) {
     handleImportImput,
     objAddress,
     inputName,
+    modalText,
     inputNumber,
     handleChangeInputName,
     handleChangeInputNumber,
@@ -28,6 +29,7 @@ function ModalAddress(props) {
     userAddressDefault,
     lngLat,
     setLngLat,
+    isShowSavedAddress,
   } = props;
   const [current, setCurrent] = useState(0);
   const formRef = useRef();
@@ -60,11 +62,17 @@ function ModalAddress(props) {
     }
   }, [inputName, inputNumber, objAddress]);
 
+  const handleCancelModal = () => {
+    handleCancel();
+    formRef.current?.resetFields();
+    setCurrent(0);
+  };
+
   const steps = [
     {
       title: "Địa điểm",
       content: objAddress && (
-        <SelecteValue
+        <SelectedValue
           objAddress={objAddress}
           address_api={address_api}
           onHandleValueImportAddress={onHandleValueImportAddress}
@@ -76,7 +84,10 @@ function ModalAddress(props) {
       title: "Mô tả",
       content: <InfoAddress lngLat={lngLat} setLngLat={setLngLat} />,
     },
-    {
+  ];
+
+  if (isShowSavedAddress) {
+    steps.push({
       title: "Đã lưu",
       content: (
         <SaveAddress
@@ -85,8 +96,8 @@ function ModalAddress(props) {
           userAddressDefault={userAddressDefault}
         />
       ),
-    },
-  ];
+    });
+  }
 
   const items = steps.map((item, idx) => ({
     index: idx,
@@ -95,20 +106,25 @@ function ModalAddress(props) {
     status: "process",
   }));
 
+  const handleOkSubmit = () => {
+    handleOk();
+    formRef.current?.resetFields();
+    setCurrent(0);
+  };
+
   return (
     <div>
       <Form
         ref={formRef}
         name="control-ref"
         layout="vertical"
-        onFinish={handleOk}
+        onFinish={handleOkSubmit}
       >
         <Modal
-          title="Địa Chỉ Mới"
+          title={modalText}
           visible={visible}
-          onOk={handleOk}
           confirmLoading={confirmLoading}
-          onCancel={handleCancel}
+          onCancel={handleCancelModal}
           footer={null}
           className="address-modal"
         >
@@ -152,7 +168,7 @@ function ModalAddress(props) {
               </Button>
             )}
             {current === steps.length - 1 && (
-              <Button type="primary" htmlType="submit" onClick={handleOk}>
+              <Button type="primary" htmlType="submit" onClick={handleOkSubmit}>
                 Submit
               </Button>
             )}
