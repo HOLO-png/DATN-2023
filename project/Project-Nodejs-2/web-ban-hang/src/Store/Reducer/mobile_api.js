@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk, nanoid } from '@reduxjs/toolkit';
 import axios from 'axios';
-// const url = 'http://localhost:8800/api';
+
+const baseURL = process.env.REACT_APP_SERVER_API;
 
 export const getMobilesApi = createAsyncThunk(
     'mobiles/mobilesFetch',
     async () => {
-        const response = await axios.get(`http://localhost:3000/mobile_api`);
+        const response = await axios.get(`${baseURL}/mobile_api`);
         return response.data;
     },
 );
@@ -17,7 +18,7 @@ export const handleInsertProductToMobile = createAsyncThunk(
             id: nanoid(),
             ...obj,
         };
-        await axios.post('http://localhost:3000/mobile_api', newProduct);
+        await axios.post(`${baseURL}/mobile_api`, newProduct);
         return newProduct;
     },
 );
@@ -25,7 +26,7 @@ export const handleInsertProductToMobile = createAsyncThunk(
 export const handleRemoveMobileItemApi = createAsyncThunk(
     'mobiles/mobilesRemove',
     async (obj) => {
-        await axios.delete(`http://localhost:3000/mobile_api/${obj.id}`);
+        await axios.delete(`${baseURL}/mobile_api/${obj.id}`);
         return obj;
     },
 );
@@ -37,7 +38,7 @@ export const handleUpdateMobileItemApi = createAsyncThunk(
             ...obj,
         };
         await axios.put(
-            `http://localhost:3000/mobile_api/${obj.id}`,
+            `${baseURL}/mobile_api/${obj.id}`,
             newMobiles,
         );
         return newMobiles;

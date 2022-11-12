@@ -41,7 +41,8 @@ mongoose
   .then(() => console.log("DB Connected"))
   .catch((err) => {
     console.error(
-      "Failed to connect to the database on startup - retrying in 5 sec", err
+      "Failed to connect to the database on startup - retrying in 5 sec",
+      err
     );
   });
 
@@ -52,6 +53,8 @@ app.use(
   cors({
     origin: true,
     credentials: true,
+    allowedHeaders: ["Content-Type", "x-auth-token"],
+    methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
   })
 );
 app.use(helmet());

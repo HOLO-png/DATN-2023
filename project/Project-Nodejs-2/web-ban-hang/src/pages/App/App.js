@@ -58,9 +58,24 @@ const style = {
   fontSize: 33,
 };
 
+const refreshToken = async () => {
+  try {
+    const res = await axios.post(
+      `${baseURL}/auth/refresh_token`,
+      {
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const createAxiosJWT = ({ tokenAuth, dispatch }) => {
   let axiosJWT = axios.create();
-
+  axios.defaults.withCredentials = true;
+  
   axiosJWT.interceptors.request.use(
     async (config) => {
       let date = new Date();
@@ -81,20 +96,6 @@ export const createAxiosJWT = ({ tokenAuth, dispatch }) => {
   );
 
   return axiosJWT;
-};
-
-const refreshToken = async () => {
-  try {
-    const res = await axios.post(
-      `${baseURL}/auth/refresh_token`,
-      {
-        withCredentials: true,
-      }
-    );
-    return res.data;
-  } catch (err) {
-    console.log(err);
-  }
 };
 
 function App() {
