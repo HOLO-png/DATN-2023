@@ -26,17 +26,6 @@ function EvaluateWebs(props) {
         setActiveEvaluate(null);
     };
 
-    useEffect(() => {
-        window.addEventListener('mousemove', (e) => {
-            // if (!e.target?.closest('.evaluate__table__content-item')) {
-            //     setActive(null);
-            // }
-        });
-        return () => {
-            window.removeEventListener('mousemove', null);
-        };
-    }, []);
-
     const handleShowFormEvaluate = (index) => {
         setActive(index);
         setStatusForm(true);

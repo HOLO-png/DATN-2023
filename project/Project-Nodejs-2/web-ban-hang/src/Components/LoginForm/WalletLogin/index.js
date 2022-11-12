@@ -20,7 +20,7 @@ function WalletLoginConnect(props) {
       if (account[0]) {
         const body = {
           name: "Unnamed",
-          email: "UnEmail",
+          email: `${account[0]}-email`,
           phoneNumber: "unPhone",
           loginDomain: "cryptoWallet",
           userID: account[0],

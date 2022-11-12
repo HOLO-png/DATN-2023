@@ -413,8 +413,6 @@ const product = {
 
         const productIdObj = mongoose.Types.ObjectId(productID);
 
-        console.log(req.body);
-
         try {
             const product = await Product.update(
                 { _id: productIdObj },
@@ -424,7 +422,6 @@ const product = {
                     },
                 },
             );
-            console.log(product);
 
             res.status(200).json({ product });
         } catch (err) {

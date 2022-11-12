@@ -5,7 +5,6 @@ import { Button, Drawer } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   handleCreateOrderToGHN,
-  handleUpdateStatusOrder,
 } from "../../../../Store/Reducer/orderReducer.js";
 import { numberWithCommas } from "../../../../utils/index.js";
 import { authSelector } from "../../../../Store/Reducer/authReducer.js";
@@ -31,7 +30,6 @@ function OrderDrawerBox({
     }
   }, [orderItem]);
 
-  console.log(orderItem);
   const onClose = () => {
     setVisible(false);
   };
@@ -312,8 +310,8 @@ function OrderDrawerBox({
                 đ
               </span>
             </div>{" "}
-            {orderItem && orderItem.complete !== "confirm" ? (
-              orderItem.complete !== "cancel" ? (
+            {orderItem && orderItem.complete ? (
+              orderItem.complete ? (
                 <Button
                   type="primary"
                   size={100}

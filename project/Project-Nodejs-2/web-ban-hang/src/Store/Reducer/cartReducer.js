@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { message } from "antd";
 import axios from "axios";
 import { toast } from "react-toastify";
+const baseURL = process.env.REACT_APP_SERVER_API;
 
-const url = "http://localhost:8800/api";
 axios.defaults.withCredentials = true;
 
 const messageToCart = (status) => {
@@ -30,7 +30,7 @@ export const getOrCreateCartToUserApi = createAsyncThunk(
   "getOrCreateCartToUserApi/getOrCreateCartToUserApiFetch",
   async ({ token, axiosJWT }) => {
     try {
-      const res = await axiosJWT.post(`${url}/cart`, null, {
+      const res = await axiosJWT.post(`${baseURL}/cart`, null, {
         headers: { Authorization: token },
       });
       return res.data;
@@ -45,7 +45,7 @@ export const deleteProductsInCart = createAsyncThunk(
   "deleteProductsInCart/deleteProductsInCartApiFetch",
   async ({ productsId, cartId }) => {
     try {
-      const res = await axios.delete(`${url}/cart/delete-product/${cartId}`, {
+      const res = await axios.delete(`${baseURL}/cart/delete-product/${cartId}`, {
         data: {
           productsId,
           cartId,
@@ -64,7 +64,7 @@ export const handleAddProductToCart = createAsyncThunk(
     const { axiosJWT } = data;
     try {
       const res = await axiosJWT.post(
-        `${url}/cart/${data.cart._id}`,
+        `${baseURL}/cart/${data.cart._id}`,
         {
           productId: data.obj._id,
           qty: data.amout,
@@ -98,7 +98,7 @@ export const handleAddProductToCartBuyAction = createAsyncThunk(
     const { axiosJWT } = data;
     try {
       const res = await axiosJWT.post(
-        `${url}/cart/${data.cart._id}`,
+        `${baseURL}/cart/${data.cart._id}`,
         {
           productId: data.obj._id,
           qty: data.amout,
@@ -135,7 +135,7 @@ export const handleRemoveProductToCart = createAsyncThunk(
   "handleRemoveProductToCart/handleRemoveProductToCartFetch",
   async (data) => {
     try {
-      const res = await axios.delete(`${url}/cart/${data.cart._id}`, {
+      const res = await axios.delete(`${baseURL}/cart/${data.cart._id}`, {
         data: {
           productId: data.product._id,
           price: data.product.price,
@@ -155,7 +155,7 @@ export const handleUpdateAmountProductToCart = createAsyncThunk(
   "handleUpdateAmountProductToCart/handleUpdateAmountProductToCartFetch",
   async (data) => {
     try {
-      const res = await axios.put(`${url}/cart/${data.cartId}`, {
+      const res = await axios.put(`${baseURL}/cart/${data.cartId}`, {
         productId: data.productId,
         indexProduct: data.indexProduct,
         qty: data.qty,
@@ -172,7 +172,7 @@ export const handleResetCart = createAsyncThunk(
   "handleResetCart/handleResetCartFetch",
   async (cart) => {
     try {
-      const res = await axios.put(`${url}/cart/reset/${cart._id}`, null);
+      const res = await axios.put(`${baseURL}/cart/reset/${cart._id}`, null);
       return res.data;
     } catch (err) {
       toast.warning(`update amount failure`);

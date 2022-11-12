@@ -14,18 +14,6 @@ function TableCategoryModal(props) {
   };
 
   useEffect(() => {
-    window.addEventListener("mousemove", (e) => {
-      if (!e.target?.closest(".table-category-product")) {
-        setShowTable(false);
-        setActive(null);
-      }
-    });
-    return () => {
-      window.removeEventListener("mousemove", null);
-    };
-  }, []);
-
-  useEffect(() => {
     handleShowCategoryProduct(data, showTable);
     return () => handleShowCategoryProduct;
     // eslint-disable-next-line react-hooks/exhaustive-deps

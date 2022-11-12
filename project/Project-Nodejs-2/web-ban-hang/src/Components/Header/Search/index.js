@@ -131,19 +131,19 @@ export default function Search(props) {
     if (inputSearch) {
       insertSearchItemUser(inputSearch);
     }
-    if (searchRef.current) {
+    if (searchRef?.current) {
       if (searchItem === null) {
         dispatch(getSearchItemUserApi());
       }
-      searchRef.current.classList.add("active");
-      dropdownRef.current.classList.remove("hidden");
+      searchRef?.current.classList.add("active");
+      dropdownRef?.current.classList.remove("hidden");
     }
   };
 
   const removeActiveClass = () => {
     if (searchRef.current) {
       searchRef.current.classList.remove("active");
-      dropdownRef.current.classList.add("hidden");
+      dropdownRef?.current.classList.add("hidden");
       inputRef.current.value = "";
       setInputSearch("");
     }
@@ -161,49 +161,51 @@ export default function Search(props) {
   };
 
   useEffect(() => {
-    window.addEventListener("click", (e) => {
+    function handleClickOutside(event) {
       if (
-        !e.target?.closest(".header__menu__item__search-wrap") &&
-        !e.target?.closest(".header__menu__item__search-dropdown-menu-search")
+        !searchRef?.current?.contains(event.target) &&
+        !dropdownRef?.current?.contains(event.target)
       ) {
-        if (dropdownRef.current) {
-          dropdownRef.current.classList.add("hidden");
-          setHeight(110);
-          setStatus(true);
-        }
+        dropdownRef.current?.classList.add("hidden");
+        setHeight(110);
+        setStatus(true);
       }
-    });
+    }
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      window.removeEventListener("click", null);
+      document.removeEventListener("click", handleClickOutside);
     };
-  }, []);
+  }, [searchRef, dropdownRef]);
 
   useEffect(() => {
-    window.addEventListener("click", (e) => {
+    function handleClickOutside(event) {
       if (
-        !e.target?.closest(".header__menu__item__search-wrap") &&
-        !e.target?.closest(".header__menu__item__search-dropdown-menu-search")
+        !searchRef?.current?.contains(event.target) &&
+        !dropdownRef?.current?.contains(event.target)
       ) {
         if (
-          searchRef.current &&
-          searchRef.current.className ===
+          searchRef.current?.className ===
             "header__menu__item__search-wrap active"
         ) {
           if (inputRef.current && !inputRef.current.value.length) {
-            searchRef.current.classList.remove("active");
+            searchRef.current?.classList.remove("active");
           } else {
-            searchRef.current.classList.add("active");
+            searchRef.current?.classList.add("active");
           }
         }
       }
-    });
-  }, []);
+    }
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [searchRef, dropdownRef]);
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.addEventListener("focus", (e) => {
+      inputRef.current?.addEventListener("focus", (e) => {
         if (dropdownRef.current) {
-          dropdownRef.current.classList.remove("hidden");
+          dropdownRef.current?.classList.remove("hidden");
         }
       });
     }
@@ -218,8 +220,8 @@ export default function Search(props) {
   const handleHiddenFormSearch = (status) => {
     if (status) {
       if (dropdownRef.current) {
-        dropdownRef.current.classList.add("hidden");
-        searchRef.current.classList.remove("active");
+        dropdownRef.current?.classList.add("hidden");
+        searchRef.current?.classList.remove("active");
       }
     } else {
       openNotification(

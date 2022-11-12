@@ -23,6 +23,7 @@ function InputInfo(props) {
             { required: true, message: "Xin hãy nhập họ và tên" },
             { min: 5, message: "Tên của bạn phải ít nhất 5 kí tự" },
             { max: 50, message: "Tên của bạn quá dài" },
+            { pattern: /^[a-zA-Z]*$/, message: "Tên của bạn phải có chuỗi" },
           ]}
         >
           <Input
@@ -39,7 +40,10 @@ function InputInfo(props) {
           label="Số điện thoại"
           rules={[
             { required: true, message: "Xin hãy nhập số điện thoại" },
-            { pattern: /(84|0[3|5|7|8|9])+([0-9]{8})\b/g, message: "Số điện thoại của bạn không đúng!" },
+            {
+              pattern: /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
+              message: "Số điện thoại của bạn không đúng!",
+            },
           ]}
         >
           <Input

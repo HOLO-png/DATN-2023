@@ -7,7 +7,7 @@ function EditorItem(props) {
     const { onChange, value, submitting, onSubmit } = props;
     return (
         <>
-            <p className="comment_author-name">Bùi Hoàng Long</p>
+            <p className="comment_author-name">Phạm Công Tuấn</p>
             <Form.Item>
                 <TextArea
                     rows={2}

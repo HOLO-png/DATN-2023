@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
+const baseURL = process.env.REACT_APP_SERVER_API;
 
-const url = "http://localhost:8800/api";
 axios.defaults.withCredentials = true;
 
 // handle feature for User Page
@@ -10,7 +10,7 @@ export const updateProfileUser = createAsyncThunk(
   "updateProfileUser/updateProfileUserFetch",
   async ({ tokenAuth, data, axiosJWT }) => {
     try {
-      await axiosJWT.put(`${url}/users`, data, {
+      await axiosJWT.put(`${baseURL}/users`, data, {
         headers: { Authorization: tokenAuth, data },
       });
       return data;
@@ -27,7 +27,7 @@ export const fetchSignupAction = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     const {val: {name, email, password}, history} = data;
     try {
-      await axios.post(`${url}/auth/register`, {
+      await axios.post(`${baseURL}/auth/register`, {
         username: name,
         email,
         password,
@@ -47,7 +47,7 @@ export const loginSocialAction = createAsyncThunk(
   async (data) => {
     try {
       const res = await axios.post(
-        `${url}/auth/${data.domant}_login`,
+        `${baseURL}/auth/${data.domant}_login`,
         data.data
       );
       console.log(res);
@@ -64,7 +64,7 @@ export const fetchSigninAction = createAsyncThunk(
   "signinAction/fetchSigninAction",
   async (data) => {
     try {
-      const res = await axios.post(`${url}/auth/login`, {
+      const res = await axios.post(`${baseURL}/auth/login`, {
         email: data.email,
         password: data.password,
       });
@@ -82,7 +82,7 @@ export const forgotPasswordCall = createAsyncThunk(
   "forgotPassword/forgotPasswordAction",
   async ({email, history}) => {
     try {
-      const res = await axios.post(`${url}/auth/forgot-password`, {
+      const res = await axios.post(`${baseURL}/auth/forgot-password`, {
         email,
       });
       res &&
@@ -101,7 +101,7 @@ export const handleLogout = createAsyncThunk(
   "handleLogout/handleLogoutAction",
   async (history) => {
     try {
-      await axios.post(`${url}/auth/logout`, null);
+      await axios.post(`${baseURL}/auth/logout`, null);
       history.push("/buyer/signin");
     } catch (error) {
       toast.error(`Đã xuất hiện lỗi vui lòng thực hiện lại 😓`);
@@ -113,7 +113,7 @@ export const fetchActivationEmail = createAsyncThunk(
   "ActivationEmail/fetchActivationEmail",
   async (activation_token) => {
     try {
-      const res = await axios.post(`${url}/auth/activate`, {
+      const res = await axios.post(`${baseURL}/auth/activate`, {
         activation_token,
       });
       if (res.data) {
@@ -131,7 +131,7 @@ export const getUserByToken = createAsyncThunk(
   "userByToken/getUserByToken",
   async ({ token, axiosJWT }) => {
     try {
-      const res = await axiosJWT.get(`${url}/users`, {
+      const res = await axiosJWT.get(`${baseURL}/users`, {
         headers: { Authorization: token },
       });
       return res.data;
@@ -148,7 +148,7 @@ export const resetPasswordCall = createAsyncThunk(
   "resetPassword/resetPasswordToken",
   async (data) => {
     try {
-      const res = await axios.post(`${url}/auth/reset-password`, data.val, {
+      const res = await axios.post(`${baseURL}/auth/reset-password`, data.val, {
         headers: { Authorization: data.token },
       });
       res &&

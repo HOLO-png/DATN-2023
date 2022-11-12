@@ -2,14 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
-const url = 'http://localhost:8800/api';
+const baseURL = process.env.REACT_APP_SERVER_API;
 
 export const getInputField = createAsyncThunk(
     'InputField/InputFieldFetch',
     async () => {
         try {
-            const res = await axios.get(`${url}/input-field`);
+            const res = await axios.get(`${baseURL}/input-field`);
             return res.data;
         } catch (err) {
             toast.error('Có lỗi !');
@@ -21,8 +20,7 @@ export const insertInputField = createAsyncThunk(
     'InputFieldInsert/InputFieldInsert',
     async (data) => {
         try {
-            const res = await axios.post(`${url}/input-field`, { value: data });
-            console.log(res);
+            const res = await axios.post(`${baseURL}/input-field`, { value: data });
             return res.data;
         } catch (err) {
             toast.error('Có lỗi !');
@@ -34,7 +32,7 @@ export const updateInputField = createAsyncThunk(
     'InputFieldUpdate/InputFieldUpdate',
     async (obj) => {
         try {
-            await axios.patch(`${url}/input-field/${obj._id}`, {
+            await axios.patch(`${baseURL}/input-field/${obj._id}`, {
                 value: obj.value,
             });
             return obj;
@@ -48,7 +46,7 @@ export const deleteInputFieldApi = createAsyncThunk(
     'InputFieldRemove/InputFieldAllRemove',
     async (tagId) => {
         try {
-            await axios.delete(`${url}/input-field/${tagId}`);
+            await axios.delete(`${baseURL}/input-field/${tagId}`);
             return tagId;
         } catch (err) {
             toast.error('Có lỗi !');

@@ -5,7 +5,7 @@ import TableOrder from '../TableOrder';
 import OrderDrawerBox from '../OrderDrawerBox';
 const { TabPane } = Tabs;
 
-function TabOrder({ orders, userAddress, userAddressAdmin, axiosJWT }) {
+function TabOrder({ orders, userAddress, userAddressAdmin, axiosJWT, confirmDelete }) {
     const [visible, setVisible] = useState(false);
     const [orderItem, setOrderItem] = useState(null);
 
@@ -47,6 +47,7 @@ function TabOrder({ orders, userAddress, userAddressAdmin, axiosJWT }) {
                     <TableOrder
                         orders={orders}
                         handleShowNavigation={handleShowNavigation}
+                        confirmDelete={confirmDelete}
                     />
                 </TabPane>
                 <TabPane tab="Chờ xử lý" key="2">

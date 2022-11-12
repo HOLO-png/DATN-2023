@@ -198,7 +198,6 @@ function AddressUser({ axiosJWT }) {
     }
   };
 
-  console.log(objAddress);
   const handleCancel = () => {
     setModal1Visible(false);
     setAddressId(null);

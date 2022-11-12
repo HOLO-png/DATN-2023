@@ -9,7 +9,7 @@ import { Input } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { messageInfoToast } from '../../../utils';
-
+const baseURL = process.env.REACT_APP_SERVER_API;
 function DashboardChat(props) {
     const [chatStarted, setChatStarted] = useState(true);
     const [chatUser, setChatUser] = useState(null);
@@ -18,9 +18,6 @@ function DashboardChat(props) {
     const [media, setMedia] = useState([]);
     const [search, setSearch] = useState('');
     const [searchUser, setSearchUser] = useState([]);
-
-    const URL = 'http://localhost:8800/api';
-
 
     const handleSubmitMessage = () => {
 
@@ -31,7 +28,7 @@ function DashboardChat(props) {
 
         if (!search) return setSearchUser([]);;
         try {
-            const res = await axios.get(`${URL}/users/search?username=${search}`);
+            const res = await axios.get(`${baseURL}/users/search?username=${search}`);
             setSearchUser(res.data.users);
         } catch (err) {
             console.log(err);

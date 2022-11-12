@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Drawer, Button, Tooltip, Spin } from "antd";
 // import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -18,6 +18,9 @@ function Sidebar(props) {
   const [dataCategory, setDataCategory] = useState(null);
   const [active, setActive] = useState(null);
   const [changeDataCategory, setChangeDataCategory] = useState(null);
+
+  const tableSidebar = useRef(null)
+  const buttonRef = useRef(null)
 
   const { error, isLoading, data } = useGetMenuCategoryQuery();
 
@@ -41,21 +44,22 @@ function Sidebar(props) {
   };
 
   useEffect(() => {
-    window.addEventListener("mousemove", (e) => {
+    function handleClickOutside(event) {
       if (
-        !e.target?.closest(".table-category-product") &&
-        !e.target?.closest("#btn-show-table")
+        !tableSidebar?.current?.contains(event.target) &&
+        !buttonRef?.current?.contains(event.target)
       ) {
         setShowTable(false);
         setActive(null);
       }
-    });
+    }
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      window.removeEventListener("mousemove", null);
+      document.removeEventListener("click", handleClickOutside);
       setShowTable(false);
       setActive(null);
     };
-  }, []);
+  }, [tableSidebar, buttonRef]);
 
   return (
     <div className="sidebar-layout">
@@ -79,6 +83,7 @@ function Sidebar(props) {
               data={dataCategory}
               isShow={isShow}
               changeDataCategory={changeDataCategory}
+              ref={tableSidebar}
             />
             {data?.categoryMenu.map((item, index) => (
               <Button
@@ -87,6 +92,7 @@ function Sidebar(props) {
                 id="btn-show-table"
                 key={item.title}
                 className={`btn-sidebar ${active === index ? "active" : ""}`}
+                ref={buttonRef}
               >
                 <Link to={item.link}>{item.title}</Link>
               </Button>

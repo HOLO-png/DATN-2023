@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 // import { AuthContext } from '../../../Context/AuthProvider';
 import { handleLogout } from "../../../Store/Reducer/authReducer";
@@ -22,25 +22,9 @@ function User({ user }) {
 
   const someOtherHandler = () => {
     if (userDrawerRef.current) {
-      userDrawerRef.current.classList.add("active");
+      userDrawerRef.current.classList.remove("active");
     }
   };
-
-  useEffect(() => {
-    window.addEventListener("mousemove", (e) => {
-      if (
-        !e.target?.closest("#userId") &&
-        !e.target?.closest("#userDrawerId")
-      ) {
-        if (userDrawerRef.current) {
-          userDrawerRef.current.classList.remove("active");
-        }
-      }
-    });
-    return () => {
-      window.removeEventListener("mousemove", null);
-    };
-  }, []);
 
   const handleLogoutForm = () => {
     dispatch(handleResetCartUser());

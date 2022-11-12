@@ -2,14 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
-const url = 'http://localhost:8800/api';
+const baseURL = process.env.REACT_APP_SERVER_API;
 
 export const getImageField = createAsyncThunk(
     'ImageFieldGet/ImageFieldGetFetch',
     async () => {
         try {
-            const res = await axios.get(`${url}/logo-field`);
+            const res = await axios.get(`${baseURL}/logo-field`);
             return res.data;
         } catch (err) {
             toast.error('Có lỗi');
@@ -21,7 +20,7 @@ export const insertImageField = createAsyncThunk(
     'ImageFieldPost/ImageFieldPostInsert',
     async (data) => {
         try {
-            const res = await axios.post(`${url}/logo-field`, { value: data });
+            const res = await axios.post(`${baseURL}/logo-field`, { value: data });
             return res.data;
         } catch (err) {
             toast.error('Có lỗi');
@@ -33,7 +32,7 @@ export const deleteImageFieldApi = createAsyncThunk(
     'ImageField/ImageFieldAllRemove',
     async (tagId) => {
         try {
-            await axios.delete(`${url}/logo-field/${tagId}`);
+            await axios.delete(`${baseURL}/logo-field/${tagId}`);
             return tagId;
         } catch (err) {
             toast.error('Có lỗi');

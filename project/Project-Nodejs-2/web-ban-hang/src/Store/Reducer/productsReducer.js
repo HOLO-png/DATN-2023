@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { createSlice } from '@reduxjs/toolkit';
+const baseURL = process.env.REACT_APP_SERVER_API;
 
 // Define a service using a base URL and expected endpoints
 export const productsApi = createApi({
     reducerPath: 'productsApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8800/api/' }),
+    baseQuery: fetchBaseQuery({ baseUrl: `${baseURL}/` }),
     keepUnusedDataFor: 300,
     endpoints: (builder) => ({
         getAllProducts: builder.query({

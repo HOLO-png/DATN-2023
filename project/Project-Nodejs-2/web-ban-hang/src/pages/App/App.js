@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Switch } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { DASHBOARD_MAIN, LOGIN_ROUTES, MAIN_ROUTES } from "../../constans";
+import {  DASHBOARD_MAIN, LOGIN_ROUTES, MAIN_ROUTES } from "../../constans";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Layout from "../../Common/Layout";
@@ -45,6 +45,7 @@ const override = css`
 `;
 
 const text = <span>Cuộn lên đầu trang</span>;
+const baseURL = process.env.REACT_APP_SERVER_API;
 
 const style = {
   height: 40,
@@ -85,7 +86,7 @@ export const createAxiosJWT = ({ tokenAuth, dispatch }) => {
 const refreshToken = async () => {
   try {
     const res = await axios.post(
-      "http://localhost:8800/api/auth/refresh_token",
+      `${baseURL}/auth/refresh_token`,
       {
         withCredentials: true,
       }

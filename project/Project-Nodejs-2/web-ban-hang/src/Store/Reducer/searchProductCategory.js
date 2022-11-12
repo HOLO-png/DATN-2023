@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
-const url = 'http://localhost:8800/api';
+const url = process.env.REACT_APP_SERVER_API;
 
 export const getSearchProductCategoryApi = createAsyncThunk(
     'getSearchProductCategory/getSearchProductCategoryFetch',

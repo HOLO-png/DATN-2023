@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+const baseURL = process.env.REACT_APP_SERVER_API;
 
-const url = 'http://localhost:8800/api';
+const url = baseURL;
 axios.defaults.withCredentials = true;
-
 export const getProductApi = createAsyncThunk(
     'product/productFetch',
     async ({ limit, id, search, skip }) => {

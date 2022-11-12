@@ -2,8 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { handleUpdateProduct } from './product';
-
-const url = 'http://localhost:8800/api';
+const baseURL = process.env.REACT_APP_SERVER_API;
 axios.defaults.withCredentials = true;
 
 export const getCommentsUserApi = createAsyncThunk(
@@ -20,7 +19,7 @@ export const getCommentsToStore = createAsyncThunk(
     'getCommentsToStore/getCommentsToStoreFetch',
     async () => {
         try {
-            const res = await axios.get(`${url}/comment/all`);
+            const res = await axios.get(`${baseURL}/comment/all`);
             return res.data;
         } catch (err) {
             console.log(err);
@@ -42,7 +41,7 @@ export const insertCmt = createAsyncThunk(
     async (obj) => {
         const {axiosJWT} = obj;
         try {
-            const res = await axiosJWT.post(`${url}/comment`, obj.newComment, {
+            const res = await axiosJWT.post(`${baseURL}/comment`, obj.newComment, {
                 headers: { Authorization: obj.auth.tokenAuth },
             });
             
@@ -65,7 +64,7 @@ export const likeComment = createAsyncThunk(
     async ({ comment, product, tokenAuth, user, dispatch, axiosJWT }) => {
         try {
             const res = await axiosJWT.post(
-                `${url}/comment/${comment._id}`,
+                `${baseURL}/comment/${comment._id}`,
                 null,
                 {
                     headers: { Authorization: tokenAuth },
@@ -93,7 +92,7 @@ export const unLikeComment = createAsyncThunk(
     async ({ comment, product, tokenAuth, user, dispatch, axiosJWT }) => {
         try {
             const res = await axiosJWT.post(
-                `${url}/comment/${comment._id}`,
+                `${baseURL}/comment/${comment._id}`,
                 null,
                 {
                     headers: { Authorization: tokenAuth },

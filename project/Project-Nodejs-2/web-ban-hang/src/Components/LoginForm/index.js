@@ -115,7 +115,7 @@ function LoginForm(props) {
       <footer className="form__footer">
         <p>
           Shop điện tử Iphone <i className="fa fa-heart" /> của
-          <Link to="/"> Hoàng Long</Link> - Xin chân thành cảm ơn quý khách đã
+          <Link to="/"> Phạm Công Tuấn</Link> - Xin chân thành cảm ơn quý khách đã
           ghé qua ạ
         </p>
       </footer>

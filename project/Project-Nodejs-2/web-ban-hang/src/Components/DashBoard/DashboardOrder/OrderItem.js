@@ -51,7 +51,7 @@ function OrderItem(props) {
                             <li className="list-group-item list-group-item-action">
                                 Tên Khách Hàng:{' '}
                                 <p className="order-info-item-name">
-                                    Bùi Hoàng Long
+                                    Phạm Công Tuấn
                                 </p>
                             </li>
                             <li className="list-group-item list-group-item-action">

@@ -20,7 +20,7 @@
 //     // const handleSubmitMessage = () => {
 //     //     const msgObj = {
 //     //         user_uid_1: uid,
-//     //         user_uid_2: 'Bui Hoang Long',
+//     //         user_uid_2: 'Phậm Tuấn',
 //     //         message,
 //     //     };
 
@@ -64,7 +64,7 @@
 //     //     if (!isShowForm) {
 //     //         handleGetRealtimeConversation({
 //     //             uid_1: uid,
-//     //             uid_2: 'Bui Hoang Long',
+//     //             uid_2: 'Phạm Tuấn',
 //     //         });
 //     //     }
 //     //     setIsShowForm(!isShowForm);

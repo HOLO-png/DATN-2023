@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import { notification } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 
+const baseURL = process.env.REACT_APP_SERVER_API;
+
 export const newObjectId = () => {
   const timestamp = Math.floor(new Date().getTime() / 1000).toString(16);
   const objectId =
@@ -127,13 +129,14 @@ export default function animateValue(obj, start, end, duration) {
   window.requestAnimationFrame(step);
 }
 
+
 export const handleGetAxiosJWT = ({ token, dispatch, handleGetAxiosToken }) => {
   let axiosJWT = axios.create();
 
   const refreshToken = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:8800/api/auth/refresh_token",
+        `${baseURL}/auth/refresh_token`,
         {
           withCredentials: true,
         }

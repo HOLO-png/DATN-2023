@@ -109,7 +109,6 @@ const userAddressCtrl = {
         type: "Point",
         coordinates: [long, lat],
       };
-      console.log(req.body);
       if (req.user.id) {
         const userAddress = await UserAddress.findOne({
           userId: req.user.id,

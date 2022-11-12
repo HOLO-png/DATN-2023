@@ -2,8 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { messageInfoToast } from '../../utils';
-
-const url = 'http://localhost:8800/api';
+const url = process.env.REACT_APP_SERVER_API;
 
 export const getProductsInStore = createAsyncThunk(
     'getProductsInStore/getProductsInStoreFetch',

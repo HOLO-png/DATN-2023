@@ -349,20 +349,6 @@ function ProductDesInsert(props) {
   };
 
   useEffect(() => {
-    window.addEventListener("mousemove", (e) => {
-      if (
-        !e.target?.closest("#userId") &&
-        !e.target?.closest("#userDrawerId")
-      ) {
-        setInputElement("");
-      }
-    });
-    return () => {
-      window.removeEventListener("mousemove", null);
-    };
-  }, [inputElement]);
-
-  useEffect(() => {
     if (inputRef.current) {
       const arrayCheck = [];
       if (product_config.status === "update") {

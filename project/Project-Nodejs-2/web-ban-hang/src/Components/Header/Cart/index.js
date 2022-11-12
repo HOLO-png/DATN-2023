@@ -24,7 +24,7 @@ function Cart(props) {
 
     const someOtherHandler = () => {
         if (cartDrawerRef.current) {
-            cartDrawerRef.current.classList.add('active');
+            cartDrawerRef.current.classList.remove('active');
         }
     };
 
@@ -33,22 +33,6 @@ function Cart(props) {
             dispatch(handleResetCartUser());
         }
     }, [user, dispatch]);
-
-    useEffect(() => {
-        window.addEventListener('mousemove', (e) => {
-            if (
-                !e.target?.closest('#cartId') &&
-                !e.target?.closest('#cartDrawerId')
-            ) {
-                if (cartDrawerRef.current) {
-                    cartDrawerRef.current.classList.remove('active');
-                }
-            }
-        });
-        return () => {
-            window.removeEventListener('mousemove', null);
-        };
-    }, []);
 
     const handleCheckLinkCart = () => {
         if (user.tokenAuth && user.user) {

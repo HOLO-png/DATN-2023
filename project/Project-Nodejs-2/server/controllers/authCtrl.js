@@ -21,7 +21,6 @@ const authCtrl = {
         });
       }
 
-      console.log(username, password, email);
       if (!validateEmail(email)) {
         return res.status(400).json({
           success: false,
@@ -154,11 +153,9 @@ const authCtrl = {
   getAccessToken: async (req, res) => {
     try {
       const rf_token = req.cookies.refreshtoken;
-      console.log(rf_token);
       if (!rf_token) return res.status(400).json({ msg: "Please login now!" });
       if (rf_token) {
         let tokens = await Token.find();
-        console.log(tokens);
         const isCheckToken = tokens.some(
           (token) => token.refreshToken === rf_token
         );
@@ -183,8 +180,6 @@ const authCtrl = {
               secure: false,
               path: "/",
             });
-
-            console.log({ access_token, newRefreshToken });
 
             const newToken = new Token({
               userId: user.id,
@@ -284,7 +279,7 @@ const authCtrl = {
 
         res.cookie("refreshtoken", refresh_token, {
           httpOnly: true,
-          path: "http://localhost:8800/api/auth/refresh_token",
+          path: "/auth/refresh_token",
           maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
 
@@ -312,7 +307,7 @@ const authCtrl = {
 
         res.cookie("refreshtoken", refresh_token, {
           httpOnly: true,
-          path: "http://localhost:8800/api/auth/refresh_token",
+          path: "/auth/refresh_token",
           maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
 
@@ -363,7 +358,7 @@ const authCtrl = {
         await newToken.save();
         res.cookie("refreshtoken", refresh_token, {
           httpOnly: true,
-          path: "http://localhost:8800/api/auth/refresh_token",
+          path: "/auth/refresh_token",
           maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
 
@@ -388,7 +383,7 @@ const authCtrl = {
         await newToken.save();
         res.cookie("refreshtoken", refresh_token, {
           httpOnly: true,
-          path: "http://localhost:8800/api/auth/refresh_token",
+          path: "/auth/refresh_token",
           maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
 
@@ -421,7 +416,7 @@ const authCtrl = {
         await newToken.save();
         res.cookie("refreshtoken", refresh_token, {
           httpOnly: true,
-          path: "http://localhost:8800/api/auth/refresh_token",
+          path: "/auth/refresh_token",
           maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
 
@@ -448,7 +443,7 @@ const authCtrl = {
         await newToken.save();
         res.cookie("refreshtoken", refresh_token, {
           httpOnly: true,
-          path: "http://localhost:8800/api/auth/refresh_token",
+          path: "/auth/refresh_token",
           maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
 

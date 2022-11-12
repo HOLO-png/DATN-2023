@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { createSlice } from '@reduxjs/toolkit';
+const baseURL = process.env.REACT_APP_SERVER_API;
 
 export const categoryApi = createApi({
     reducerPath: 'categoryApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8800/api/category/',
+        baseUrl: `${baseURL}/category/`,
     }),
     keepUnusedDataFor: 60,
     endpoints: (builder) => ({

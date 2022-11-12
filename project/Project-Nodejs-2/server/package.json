@@ -30,12 +30,12 @@
     "nodemailer": "^6.7.1",
     "path": "^0.12.7",
     "paypal-rest-sdk": "^1.8.1",
-    "socket.io": "^4.4.0",
-    "vn-payments": "^1.1.0"
+    "socket.io": "^4.4.0"
   },
   "engines": {
     "node": "16.15.0"
   },
+  "proxy": "http://localhost:8800/api",
   "devDependencies": {
     "nodemon": "^2.0.16"
   }

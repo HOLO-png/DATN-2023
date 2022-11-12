@@ -80,7 +80,6 @@ const orderCtrl = {
         const { orderId } = req.params;
         const { complete, isDelivery, orderCode, returnMessage, expectedDeliveryTime, tokenPrintCode } = req.body;
 
-        console.log(complete, isDelivery, orderCode, returnMessage, expectedDeliveryTime, tokenPrintCode);
         try {
             const order = await Order.findOne({ _id: orderId });
             if (complete !== undefined) {
@@ -104,6 +103,17 @@ const orderCtrl = {
 
             await order.save();
             return res.status(200).json({ order });
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json(err);
+        }
+    },
+    deleteOrder: async (req, res) => {
+        const { orderId } = req.params;
+
+        try {
+            await Order.findOneAndDelete({ _id: orderId });
+            return res.status(200);
         } catch (err) {
             console.log(err);
             return res.status(500).json(err);

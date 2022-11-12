@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { handlePrintOrderOfUser } from "../../../../Store/Reducer/orderReducer";
 import { numberWithCommas } from "../../../../utils";
 
-function TableOrder({ orders, confirm, handleShowNavigation }) {
+function TableOrder({ orders, confirmDelete, handleShowNavigation }) {
   const dispatch = useDispatch();
 
   const timeCreatedAtOrder = (dataOrder) => {
@@ -50,7 +50,7 @@ function TableOrder({ orders, confirm, handleShowNavigation }) {
       title: "Phí giao hàng",
       dataIndex: "fee",
       key: "fee",
-      render: (_, record) => <tr>{numberWithCommas(record.paymentFee)} đ</tr>,
+      render: (_, record) => `${numberWithCommas(record.paymentFee)} đ`
     },
     {
       title: "Tags",
@@ -96,7 +96,7 @@ function TableOrder({ orders, confirm, handleShowNavigation }) {
           )}
           <Popconfirm
             title="Bạn có chắc muốn xóa đơn hàng này ?"
-            onConfirm={() => confirm(record)}
+            onConfirm={() => confirmDelete(record)}
             onVisibleChange={() => console.log("visible change")}
           >
             <Button type="dashed" danger ghost icon={<DeleteOutlined />}>
@@ -108,8 +108,7 @@ function TableOrder({ orders, confirm, handleShowNavigation }) {
     },
   ];
 
-  console.log(orders);
-  return <Table columns={columns} dataSource={orders} />;
+  return <Table columns={columns} dataSource={orders} rowKey="_id"/>;
 }
 
 TableOrder.propTypes = {};

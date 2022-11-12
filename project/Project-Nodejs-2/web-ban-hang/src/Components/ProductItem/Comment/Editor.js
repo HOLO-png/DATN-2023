@@ -13,7 +13,7 @@ export const Editor = ({
     handleChangeStar,
 }) => (
     <>
-        <p className="comment_author-name">Bùi Hoàng Long</p>
+        <p className="comment_author-name">Phạm Công Tuấn</p>
         <Rate tooltips={desc} onChange={handleChangeStar} defaultValue={star} />
         {star ? <span className="ant-rate-text">{desc[star - 1]}</span> : ''}
         <Form.Item>

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { findIndex } from '../../utils';
 
-const url = 'http://localhost:8800/api';
+const url = process.env.REACT_APP_SERVER_API;
 
 export const getSearchItemUserApi = createAsyncThunk(
     'searchItem/searchItemFetch',

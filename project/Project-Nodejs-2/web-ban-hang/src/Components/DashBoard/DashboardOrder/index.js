@@ -4,6 +4,7 @@ import CardOrder from './CardOrder';
 import TabOrder from './TabOrder';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    handleDeleteOrder,
     handleGetOrdersInStore,
     orderSelector,
 } from '../../../Store/Reducer/orderReducer';
@@ -28,6 +29,12 @@ function DashboardOrder({axiosJWT}) {
             dispatch(handleGetOrdersInStore());
         }
     }, [dispatch, auth]);
+
+    const confirmDelete = (order) => {
+        if(order._id) {
+            dispatch(handleDeleteOrder({id: order._id, axiosJWT, tokenAuth: auth.tokenAuth}))
+        }
+    }
 
     return (
         <div className="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
@@ -135,7 +142,7 @@ function DashboardOrder({axiosJWT}) {
                 </div>
             </div>
             <div className="tab-order">
-                <TabOrder orders={orders} userAddress={userAddress} userAddressAdmin={userAddressAdmin} axiosJWT={axiosJWT}/>
+                <TabOrder orders={orders} userAddress={userAddress} userAddressAdmin={userAddressAdmin} axiosJWT={axiosJWT} confirmDelete={confirmDelete}/>
             </div>
         </div>
     );

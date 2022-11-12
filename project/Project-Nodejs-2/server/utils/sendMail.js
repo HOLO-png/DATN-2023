@@ -41,7 +41,7 @@ const sendEMail = (to, url, username, txt) => {
     const mailOptions = {
         from: SENDER_EMAIL_ADDRESS,
         to: to,
-        subject: 'Shop Hoang Long',
+        subject: 'Shop Điện Tử Phạm Tuấn',
         html: `<!DOCTYPE html>
         <html>
         

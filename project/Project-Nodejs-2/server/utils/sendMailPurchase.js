@@ -40,7 +40,7 @@ const sendEMailPurchase = (to, username, products) => {
     const mailOptions = {
         from: SENDER_EMAIL_ADDRESS,
         to: to,
-        subject: 'Shop Hoang Long',
+        subject: 'Shop Điện tử Phạm Tuấn',
         html: `<!DOCTYPE html>
         <html lang="en">
         <head>

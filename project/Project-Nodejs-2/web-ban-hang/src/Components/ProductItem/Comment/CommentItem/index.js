@@ -96,7 +96,6 @@ function CommentItem(props) {
     }
   };
 
-  console.log(loading);
   if (loading) {
     return <Spin />;
   }
