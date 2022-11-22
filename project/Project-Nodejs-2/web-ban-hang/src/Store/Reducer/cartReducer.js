@@ -36,7 +36,6 @@ export const getOrCreateCartToUserApi = createAsyncThunk(
       return res.data;
     } catch (err) {
       console.log(err);
-      toast.error(`${err.message} 😓`);
     }
   }
 );
@@ -86,7 +85,6 @@ export const handleAddProductToCart = createAsyncThunk(
     } catch (err) {
       toast.warning(`Thêm sản phẩm thất bại`);
       console.log(err);
-      toast.error(`${err.message} 😓`);
     }
   }
 );

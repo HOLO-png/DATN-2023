@@ -122,7 +122,6 @@ export const fetchActivationEmail = createAsyncThunk(
       }
     } catch (error) {
       console.log({ msg: error.message });
-      toast.error(`${error.message} 😓`);
     }
   }
 );
@@ -137,7 +136,6 @@ export const getUserByToken = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.log({ msg: error.message });
-      toast.error(`${error.message} 😓`);
       localStorage.removeItem("user");
       localStorage.removeItem("token");
     }

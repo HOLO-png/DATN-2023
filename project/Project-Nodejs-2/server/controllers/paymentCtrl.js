@@ -3,7 +3,8 @@ const paypal = require("paypal-rest-sdk");
 const url = require("url");
 const sendEMailPurchase = require("../utils/sendMailPurchase.js");
 
-const baseURL = "http://localhost:1901"
+// const baseURL = "https://datn2022-phamcongtuan.netlify.app"
+const baseURL = "http://localhost:1901";
 
 const paypalProductCtrl = {
   createPaypalPayment: async (req, res) => {
@@ -100,9 +101,7 @@ const paypalProductCtrl = {
         function (error, payment) {
           if (error) {
             console.log({ paymentError: error });
-            return res.redirect(
-              `${baseURL}/order/cancel`
-            );
+            return res.redirect(`${baseURL}/order/cancel`);
           } else {
             const stringItemId = payment.transactions[0].item_list.items.reduce(
               (string, item) => {

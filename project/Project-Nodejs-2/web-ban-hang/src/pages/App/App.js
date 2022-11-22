@@ -1,7 +1,7 @@
 import "./App.css";
-import { BrowserRouter, Switch } from "react-router-dom";
+import { BrowserRouter, Switch, useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {  DASHBOARD_MAIN, LOGIN_ROUTES, MAIN_ROUTES } from "../../constans";
+import { DASHBOARD_MAIN, LOGIN_ROUTES, MAIN_ROUTES } from "../../constans";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Layout from "../../Common/Layout";
@@ -35,7 +35,7 @@ import {
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import ScrollToTop from "../../Components/ScrollToTop";
-import { BackTop, Tooltip } from "antd";
+import { BackTop, message, Tooltip } from "antd";
 
 const override = css`
   display: block;
@@ -58,31 +58,32 @@ const style = {
   fontSize: 33,
 };
 
-const refreshToken = async () => {
+const refreshToken = async ({ history }) => {
   try {
-    const res = await axios.post(
-      `${baseURL}/auth/refresh_token`,
-      {
-        withCredentials: true,
-      }
-    );
+    const res = await axios.post(`${baseURL}/auth/refresh_token`, {
+      withCredentials: true,
+    });
     return res.data;
   } catch (err) {
     console.log(err);
+    message.warning("Phiên đăng nhập của bạn đã hết hạn");
+    if (history) {
+      history.push("/buyer/signin");
+    }
   }
 };
 
-export const createAxiosJWT = ({ tokenAuth, dispatch }) => {
+export const createAxiosJWT = ({ tokenAuth, history, dispatch }) => {
   let axiosJWT = axios.create();
   axios.defaults.withCredentials = true;
-  
+
   axiosJWT.interceptors.request.use(
     async (config) => {
       let date = new Date();
       if (tokenAuth) {
         const decodeToken = jwt_decode(tokenAuth);
         if (decodeToken.exp < date.getTime() / 1000) {
-          const data = await refreshToken();
+          const data = await refreshToken({ history });
           dispatch(signingSuccess(data));
           config.headers["Authorization"] = data.access_token;
         }
@@ -99,6 +100,7 @@ export const createAxiosJWT = ({ tokenAuth, dispatch }) => {
 };
 
 function App() {
+  const history = useHistory();
   const searchItem = useSelector(searchItemSelector);
   const loading = useSelector(loadingSelector);
   const auth = useSelector(authSelector);
@@ -110,8 +112,12 @@ function App() {
   const dispatch = useDispatch();
   const [confirmOpen, setConfirmOpen] = useState(true);
 
-  const axiosJWT = createAxiosJWT({ tokenAuth: auth.tokenAuth, dispatch });
-  
+  const axiosJWT = createAxiosJWT({
+    tokenAuth: auth.tokenAuth,
+    history,
+    dispatch,
+  });
+
   useEffect(() => {
     if (user && token) {
       setTimeout(() => {

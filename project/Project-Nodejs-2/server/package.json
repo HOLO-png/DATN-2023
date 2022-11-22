@@ -35,7 +35,7 @@
   "engines": {
     "node": "16.15.0"
   },
-  "proxy": "https://servernodeapp1901.herokuapp.com/api",
+  "proxy": "http://localhost:8800/api",
   "devDependencies": {
     "nodemon": "^2.0.16"
   }

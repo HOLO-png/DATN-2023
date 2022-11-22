@@ -1,0 +1,33 @@
+{
+  "files": {
+    "main.css": "/static/css/main.004452fa.chunk.css",
+    "main.js": "/static/js/main.ff4f10c8.chunk.js",
+    "main.js.map": "/static/js/main.ff4f10c8.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.8ecdf048.js",
+    "runtime-main.js.map": "/static/js/runtime-main.8ecdf048.js.map",
+    "static/css/2.63a74e0a.chunk.css": "/static/css/2.63a74e0a.chunk.css",
+    "static/js/2.3571b9b5.chunk.js": "/static/js/2.3571b9b5.chunk.js",
+    "static/js/2.3571b9b5.chunk.js.map": "/static/js/2.3571b9b5.chunk.js.map",
+    "static/js/3.f4408ffe.chunk.js": "/static/js/3.f4408ffe.chunk.js",
+    "static/js/3.f4408ffe.chunk.js.map": "/static/js/3.f4408ffe.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.63a74e0a.chunk.css.map": "/static/css/2.63a74e0a.chunk.css.map",
+    "static/css/main.004452fa.chunk.css.map": "/static/css/main.004452fa.chunk.css.map",
+    "static/js/2.3571b9b5.chunk.js.LICENSE.txt": "/static/js/2.3571b9b5.chunk.js.LICENSE.txt",
+    "static/media/Facebook-Avatar_3.png": "/static/media/Facebook-Avatar_3.8b39f276.png",
+    "static/media/headphones_PNG101976.png": "/static/media/headphones_PNG101976.8851ad4c.png",
+    "static/media/img-01.png": "/static/media/img-01.85ab8efe.png",
+    "static/media/img-04.jpg": "/static/media/img-04.acdf119a.jpg",
+    "static/media/img-05.jpg": "/static/media/img-05.4ee86e1c.jpg",
+    "static/media/iphone_11_PNG33.png": "/static/media/iphone_11_PNG33.128c09d9.png",
+    "static/media/macbook_PNG11.png": "/static/media/macbook_PNG11.527cadc0.png",
+    "static/media/slick-theme.css": "/static/media/slick.c94f7671.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8ecdf048.js",
+    "static/css/2.63a74e0a.chunk.css",
+    "static/js/2.3571b9b5.chunk.js",
+    "static/css/main.004452fa.chunk.css",
+    "static/js/main.ff4f10c8.chunk.js"
+  ]
+}

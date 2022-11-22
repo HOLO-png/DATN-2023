@@ -38,11 +38,11 @@
     "styled-components": "^5.3.0",
     "use-places-autocomplete": "^1.9.4",
     "web-vitals": "^1.1.2",
-    "web3": "^1.8.0"
+    "web3": "^1.7.5"
   },
   "scripts": {
     "start": "set PORT=1901 && react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && cp _redirects build/_redirects",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "stop": "lsof -t -i :5001 -i:5002 | xargs kill -9",

@@ -481,13 +481,13 @@ const validateEmail = (email) => {
 
 const createActivationToken = (payload) => {
   return jwt.sign(payload.toJSON(), process.env.ACTIVATION_TOKEN_SECRET, {
-    expiresIn: "5m",
+    expiresIn: "1d",
   });
 };
 
 const createAccessToken = (payload) => {
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "15s",
+    expiresIn: "1d",
   });
 };
 

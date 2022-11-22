@@ -53,8 +53,6 @@ app.use(
   cors({
     origin: true,
     credentials: true,
-    allowedHeaders: ["Content-Type", "x-auth-token"],
-    methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
   })
 );
 app.use(helmet());

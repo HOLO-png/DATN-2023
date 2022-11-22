@@ -27,7 +27,7 @@ const sendEMail = (to, url, username, txt) => {
         service: 'gmail',
         host: 'smtp.gmail.com',
         auth: {
-            user: 'long47004@donga.edu.vn',
+            user: 'phamcongtuanz2001@gmail.com',
             pass: process.env.PASS_EMAIL,
             clientId: 'CLIENT_ID_HERE',
             clientSecret: 'CLIENT_SECRET_HERE',

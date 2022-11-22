@@ -34,7 +34,7 @@ function QuickViewModal(props) {
   const cart = useSelector(cartSelector);
   const auth = useSelector(authSelector);
 
-  const axiosJWT = createAxiosJWT({ tokenAuth: auth.tokenAuth, dispatch });
+  const axiosJWT = createAxiosJWT({ tokenAuth: auth.tokenAuth, history, dispatch });
 
   const handleProductToCart = (obj) => {
     if (user.user && user.tokenAuth) {
